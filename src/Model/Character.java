@@ -2,8 +2,9 @@ package Model;
 
 import javax.swing.*;
 
-public class Character {
+abstract public class Character {
 
+    boolean unlocked;
     private int defaultSpeed = 40; //edit this when you want to know how much speed is enough //TODO
     private ImageIcon phaseOneTexture;
     private ImageIcon phaseTwoTexture;
@@ -21,6 +22,18 @@ public class Character {
     private int coinCollectRange;
     private double reloadDelay;
     private String characterName;
+
+    public boolean isUnlocked() {
+        return unlocked;
+    }
+
+    public void setUnlocked(boolean unlocked) {
+        this.unlocked = unlocked;
+    }
+
+    public void setDefaultSpeed(int defaultSpeed) {
+        this.defaultSpeed = defaultSpeed;
+    }
 
     public int getDefaultSpeed() {
         return defaultSpeed;

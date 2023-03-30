@@ -12,15 +12,17 @@ public class Cario extends Character{
         setCoinCollectRange(8);
         setJumpRange(100);
         setSpeed((int)((double)getDefaultSpeed() * 1));
+        setUnlocked(false);
         setReloadDelay(1);  //based on seconds
     }
 
-    public Cario(int currentPhase, int coinCollectRange, int jumpRange, int speed, double reloadDelay){
+    public Cario(int coinCollectRange, int jumpRange, int speed, double reloadDelay,boolean unlocked){
+        setUnlocked(unlocked);
         setCharacterName("Cario");
         setPhaseOneTexture(new ImageIcon("CarioPhaseOne.png"));
         setPhaseTwoTexture(new ImageIcon("CarioPhaseTwo.png"));
         setPhaseOneTexture(new ImageIcon("CarioPhaseThree.png"));
-        setCurrentPhase(currentPhase);
+        setCurrentPhase(1);
         setCoinCollectRange(coinCollectRange);
         setJumpRange(jumpRange);
         setSpeed(speed);

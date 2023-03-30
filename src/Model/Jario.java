@@ -12,15 +12,17 @@ public class Jario extends Character{
         setCoinCollectRange(4);
         setJumpRange(200);
         setSpeed((int)((double)getDefaultSpeed() * 1));
+        setUnlocked(false);
         setReloadDelay(1);  //based on seconds
     }
 
-    public Jario(int currentPhase, int coinCollectRange, int jumpRange, int speed, double reloadDelay){
+    public Jario(int coinCollectRange, int jumpRange, int speed, double reloadDelay,boolean unlocked){
+        setUnlocked(unlocked);
         setCharacterName("Jario");
         setPhaseOneTexture(new ImageIcon("JarioPhaseOne.png"));
         setPhaseTwoTexture(new ImageIcon("JarioPhaseTwo.png"));
         setPhaseOneTexture(new ImageIcon("JarioPhaseThree.png"));
-        setCurrentPhase(currentPhase);
+        setCurrentPhase(1);
         setCoinCollectRange(coinCollectRange);
         setJumpRange(jumpRange);
         setSpeed(speed);
