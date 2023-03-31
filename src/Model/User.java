@@ -11,7 +11,9 @@ public class User {
     private SavedGame[] currentSavedGames;
     private int totalCoins;
 
-    ArrayList<Character> characters;
+    private int selectedSavedGameIndex = 0;
+
+    ArrayList<Character> characters = new ArrayList<>();
     private String currentCharacterName;
 
     public User(int id, String username, String password, ArrayList<SavedGame> allSavedGames, SavedGame[] currentSavedGames, int totalCoins, ArrayList<Character> characters, String currentCharacterName) {
@@ -123,5 +125,13 @@ public class User {
 
     public void setCurrentCharacterName(String currentCharacterName) {
         this.currentCharacterName = currentCharacterName;
+    }
+
+    public int getSelectedSavedGameIndex() {
+        return selectedSavedGameIndex;
+    }
+
+    public void setSelectedSavedGameIndex(int selectedSavedGameIndex) {
+        this.selectedSavedGameIndex = selectedSavedGameIndex;
     }
 }
