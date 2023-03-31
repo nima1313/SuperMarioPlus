@@ -5,23 +5,54 @@ import javax.swing.*;
 abstract public class Character {
 
     boolean unlocked;
-    private int defaultSpeed = 40; //edit this when you want to know how much speed is enough //TODO
+
+    private int gravity;
+    protected final int speedConstant = 4; //edit this when you want to know how much speed is enough //TODO
+    //this is the speed only for the x access;
+    protected final int jumpConstant = 16;
+    private int characterSpeed;
+    private int characterJumpSpeed;
     private ImageIcon phaseOneTexture;
     private ImageIcon phaseTwoTexture;
     private ImageIcon phaseThreeTexture;
+
+    private ImageIcon texture;
     private int phaseOneHeight = 40;
     private int phaseTwoHeight = 80;
     private int phaseThreeHeight = 80;
     private int phaseOneLength = 40;
     private int phaseTwoLength = 40;
     private int phaseThreeLength = 40;
-    private int currentPhase;
-    private int upperLeftX,upperLeftY;
-    private int jumpRange;
-    private int speed;
+    private int length;
+    private int height;
+    private int currentPhase = 1;
+    private int upperLeftX=500,upperLeftY=0;
+    private int currentSpeed_x = 0;
+    private int currentSpeed_y = 0;
     private int coinCollectRange;
     private double reloadDelay;
     private String characterName;
+
+
+    public int getLength() {
+        if (getCurrentPhase() == 1) return getPhaseOneLength();
+        else if (getCurrentPhase() == 2) return getPhaseTwoLength();
+        else return getPhaseThreeLength();
+    }
+
+    public int getHeight() {
+        if (getCurrentPhase() == 1) return getPhaseOneHeight();
+        else if (getCurrentPhase() == 2) return getPhaseTwoHeight();
+        else return getPhaseThreeHeight();
+    }
+
+    public ImageIcon getTexture() {
+        if (getCurrentPhase() == 1){
+            return getPhaseOneTexture();
+        }
+        else if (getCurrentPhase() == 2) return getPhaseTwoTexture();
+        else return getPhaseThreeTexture();
+    }
 
     public boolean isUnlocked() {
         return unlocked;
@@ -31,12 +62,9 @@ abstract public class Character {
         this.unlocked = unlocked;
     }
 
-    public void setDefaultSpeed(int defaultSpeed) {
-        this.defaultSpeed = defaultSpeed;
-    }
 
-    public int getDefaultSpeed() {
-        return defaultSpeed;
+    protected int getSpeedConstant() {
+        return speedConstant;
     }
 
     public ImageIcon getPhaseOneTexture() {
@@ -143,20 +171,40 @@ abstract public class Character {
         this.upperLeftY = upperLeftY;
     }
 
-    public int getJumpRange() {
-        return jumpRange;
+    public int getJumpConstant() {
+        return jumpConstant;
     }
 
-    public void setJumpRange(int jumpRange) {
-        this.jumpRange = jumpRange;
+    public int getCharacterSpeed() {
+        return characterSpeed;
     }
 
-    public int getSpeed() {
-        return speed;
+    public void setCharacterSpeed(int characterSpeed) {
+        this.characterSpeed = characterSpeed;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    public int getCharacterJumpSpeed() {
+        return characterJumpSpeed;
+    }
+
+    public void setCharacterJumpSpeed(int characterJumpSpeed) {
+        this.characterJumpSpeed = characterJumpSpeed;
+    }
+
+    public int getCurrentSpeed_x() {
+        return currentSpeed_x;
+    }
+
+    public void setCurrentSpeed_x(int currentSpeed_x) {
+        this.currentSpeed_x = currentSpeed_x;
+    }
+
+    public int getCurrentSpeed_y() {
+        return currentSpeed_y;
+    }
+
+    public void setCurrentSpeed_y(int currentSpeed_y) {
+        this.currentSpeed_y = currentSpeed_y;
     }
 
     public int getCoinCollectRange() {
@@ -173,5 +221,13 @@ abstract public class Character {
 
     public void setReloadDelay(double reloadDelay) {
         this.reloadDelay = reloadDelay;
+    }
+
+    public int getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(int gravity) {
+        this.gravity = gravity;
     }
 }

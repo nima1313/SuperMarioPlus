@@ -1,31 +1,34 @@
 package Model;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
-public class Jario extends Character{
+public class Jario extends Hero{
     public Jario(){
+        super();
         setCharacterName("Jario");
         setPhaseOneTexture(new ImageIcon("JarioPhaseOne.png"));
         setPhaseTwoTexture(new ImageIcon("JarioPhaseTwo.png"));
-        setPhaseOneTexture(new ImageIcon("JarioPhaseThree.png"));
+        setPhaseThreeTexture(new ImageIcon("JarioPhaseThree.png"));
         setCurrentPhase(1);
         setCoinCollectRange(4);
-        setJumpRange(200);
-        setSpeed((int)((double)getDefaultSpeed() * 1));
+        setCharacterJumpSpeed((int)(getJumpConstant() * 1.25));
+        setCharacterSpeed((int)((double)getSpeedConstant() * 1));
         setUnlocked(false);
         setReloadDelay(1);  //based on seconds
     }
 
-    public Jario(int coinCollectRange, int jumpRange, int speed, double reloadDelay,boolean unlocked){
+    public Jario(int coinCollectRange, int jumpSpeed, int speed, double reloadDelay,boolean unlocked){
+        super();
         setUnlocked(unlocked);
         setCharacterName("Jario");
         setPhaseOneTexture(new ImageIcon("JarioPhaseOne.png"));
         setPhaseTwoTexture(new ImageIcon("JarioPhaseTwo.png"));
-        setPhaseOneTexture(new ImageIcon("JarioPhaseThree.png"));
+        setPhaseThreeTexture(new ImageIcon("JarioPhaseThree.png"));
         setCurrentPhase(1);
         setCoinCollectRange(coinCollectRange);
-        setJumpRange(jumpRange);
-        setSpeed(speed);
+        setCharacterJumpSpeed(jumpSpeed);
+        setCharacterSpeed(speed);
         setReloadDelay(reloadDelay);
     }
 

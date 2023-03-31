@@ -6,33 +6,30 @@ import java.util.ArrayList;
 abstract public class Level {
 
     //a level contains the information of the world in the level + the information of the things that our player has done.
-
-    private int collectedCoins = 0; //the amount of coins that the player has collected so far
+    private int levelNumber;
     private int remainingTime; // this is the time that our player has in order to finish the section. this time will decrease as our player plays the section
-    private int remainingHearts; //this is a field related to the level not the character, since a character can have different amount of hearts left in different game saves;
-    private int totalScore = 0;
+    private int currentSection;
+    private int characterInitialX;
+    private int characterInitialY;
+    private int numberOfSections;
 
     //we will display collectedCoins, remainingTime, remainingHearts and total score //TODO (in the game Engine)
 
     //PhysicalObjects//
-    private ArrayList<Floor> floors;
-    private ArrayList<NormalBlock> normalBlocks;
-    private ArrayList<PowerUpBlock> powerUpBlocks;
+    private ArrayList<Floor>[] floors;
+    private ArrayList<NormalBlock>[] normalBlocks;
+    private ArrayList<PowerUpBlock>[] powerUpBlocks;
+    private ArrayList<CoinBlock>[] coinBlocks;
+    private EndWall[] endWalls;
+
+    private ArrayList<Pipe>[] pipes;
 
     //Enemies//
-    private ArrayList<Enemy> enemies;
-
+    private ArrayList<Flower>[] flowers;
+    private ArrayList<Coin>[] coins;
 
     private ImageIcon backGroundPicture;
 
-
-    public int getCollectedCoins() {
-        return collectedCoins;
-    }
-
-    public void setCollectedCoins(int collectedCoins) {
-        this.collectedCoins = collectedCoins;
-    }
 
     public int getRemainingTime() {
         return remainingTime;
@@ -42,52 +39,84 @@ abstract public class Level {
         this.remainingTime = remainingTime;
     }
 
-    public int getRemainingHearts() {
-        return remainingHearts;
+    public int getCurrentSection() {
+        return currentSection;
     }
 
-    public void setRemainingHearts(int remainingHearts) {
-        this.remainingHearts = remainingHearts;
+    public void setCurrentSection(int currentSection) {
+        this.currentSection = currentSection;
     }
 
-    public int getTotalScore() {
-        return totalScore;
-    }
-
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
-    }
-
-    public ArrayList<Floor> getFloors() {
+    public ArrayList<Floor>[] getFloors() {
         return floors;
     }
 
-    public void setFloors(ArrayList<Floor> floors) {
+    public void setFloors(ArrayList<Floor>[] floors) {
         this.floors = floors;
     }
 
-    public ArrayList<NormalBlock> getNormalBlocks() {
+    public ArrayList<NormalBlock>[] getNormalBlocks() {
         return normalBlocks;
     }
 
-    public void setNormalBlocks(ArrayList<NormalBlock> normalBlocks) {
+    public void setNormalBlocks(ArrayList<NormalBlock>[] normalBlocks) {
         this.normalBlocks = normalBlocks;
     }
 
-    public ArrayList<PowerUpBlock> getPowerUpBlocks() {
+    public ArrayList<PowerUpBlock>[] getPowerUpBlocks() {
         return powerUpBlocks;
     }
 
-    public void setPowerUpBlocks(ArrayList<PowerUpBlock> powerUpBlocks) {
+    public void setPowerUpBlocks(ArrayList<PowerUpBlock>[] powerUpBlocks) {
         this.powerUpBlocks = powerUpBlocks;
     }
 
-    public ArrayList<Enemy> getEnemies() {
-        return enemies;
+    public ArrayList<CoinBlock>[] getCoinBlocks() {
+        return coinBlocks;
     }
 
-    public void setEnemies(ArrayList<Enemy> enemies) {
-        this.enemies = enemies;
+    public void setCoinBlocks(ArrayList<CoinBlock>[] coinBlocks) {
+        this.coinBlocks = coinBlocks;
+    }
+
+    public ArrayList<Pipe>[] getPipes() {
+        return pipes;
+    }
+
+    public void setPipes(ArrayList<Pipe>[] pipes) {
+        this.pipes = pipes;
+    }
+
+    public ArrayList<Flower>[] getFlowers() {
+        return flowers;
+    }
+
+    public void setFlowers(ArrayList<Flower>[] flowers) {
+        this.flowers = flowers;
+    }
+
+    public ArrayList<Coin>[] getCoins() {
+        return coins;
+    }
+
+    public void setCoins(ArrayList<Coin>[] coins) {
+        this.coins = coins;
+    }
+
+    public int getCharacterInitialX() {
+        return characterInitialX;
+    }
+
+    public void setCharacterInitialX(int characterInitialX) {
+        this.characterInitialX = characterInitialX;
+    }
+
+    public int getCharacterInitialY() {
+        return characterInitialY;
+    }
+
+    public void setCharacterInitialY(int characterInitialY) {
+        this.characterInitialY = characterInitialY;
     }
 
     public ImageIcon getBackGroundPicture() {
@@ -96,5 +125,29 @@ abstract public class Level {
 
     public void setBackGroundPicture(ImageIcon backGroundPicture) {
         this.backGroundPicture = backGroundPicture;
+    }
+
+    public EndWall[] getEndWalls() {
+        return endWalls;
+    }
+
+    public void setEndWalls(EndWall[] endWalls) {
+        this.endWalls = endWalls;
+    }
+
+    public int getNumberOfSections() {
+        return numberOfSections;
+    }
+
+    public void setNumberOfSections(int numberOfSections) {
+        this.numberOfSections = numberOfSections;
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
     }
 }

@@ -3,8 +3,8 @@ package Model;
 import javax.swing.*;
 
 abstract public class Block extends PhysicalObject{
-    private final int WIDTH = 40;
     private final int LENGTH = 40;
+    private final int HEIGHT = 40;
 
     private int upperLeftX, upperLeftY;
 
@@ -23,12 +23,12 @@ abstract public class Block extends PhysicalObject{
         this.texture = texture;
     }
 
-    public int getWIDTH() {
-        return WIDTH;
-    }
-
     public int getLENGTH() {
         return LENGTH;
+    }
+
+    public int getHEIGHT() {
+        return HEIGHT;
     }
 
     public int getUpperLeftX() {

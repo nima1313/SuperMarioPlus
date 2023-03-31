@@ -3,7 +3,7 @@ package Model;
 import javax.swing.*;
 
 public class Pipe extends PhysicalObject{
-    private final int WIDTH = 60;
+    private final int LENGTH = 60;
     private final int HEIGHT = 100; //MAXJUMP
     private ImageIcon texture;
 
@@ -38,8 +38,8 @@ public class Pipe extends PhysicalObject{
         this.texture = texture;
     }
 
-    public int getWIDTH() {
-        return WIDTH;
+    public int getLENGTH() {
+        return LENGTH;
     }
 
     public int getHEIGHT() {

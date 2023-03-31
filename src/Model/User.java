@@ -7,18 +7,20 @@ import java.util.Random;
 public class User {
     private int id;
     private String username,password;
-    private ArrayList<SavedGame> allSavedGames;
     private SavedGame[] currentSavedGames;
     private int totalCoins;
 
-    ArrayList<Character> characters;
+    private int highScore = 0;
+
+    private int selectedSavedGameIndex = 0;
+
+    ArrayList<Character> characters = new ArrayList<>();
     private String currentCharacterName;
 
-    public User(int id, String username, String password, ArrayList<SavedGame> allSavedGames, SavedGame[] currentSavedGames, int totalCoins, ArrayList<Character> characters, String currentCharacterName) {
+    public User(int id, String username, String password, SavedGame[] currentSavedGames, int totalCoins, ArrayList<Character> characters, String currentCharacterName) {
         setId(id);
         setUsername(username);
         setPassword(password);
-        setAllSavedGames(allSavedGames);
         setCurrentSavedGames(currentSavedGames);
         setTotalCoins(totalCoins);
         setCharacters(characters);
@@ -30,7 +32,6 @@ public class User {
         setId(Memory.allUsers.size());
         setUsername(username);
         setPassword(password);
-        setAllSavedGames(new ArrayList<>());
         setCurrentSavedGames(new SavedGame[3]);
         setTotalCoins(0);
         makeNewCharacters();
@@ -53,7 +54,6 @@ public class User {
     public Character getCurrentCharacter(){
         for (int i = 0 ; i < getCharacters().size();i++){
             if (getCurrentCharacterName().equals(getCharacters().get(i).getCharacterName())){
-                getCharacters().get(i).setCurrentPhase(1); //we always make the phase 1 before starting or continuing a new level
                 return getCharacters().get(i);
             }
         }
@@ -93,14 +93,6 @@ public class User {
         this.password = password;
     }
 
-    public ArrayList<SavedGame> getAllSavedGames() {
-        return allSavedGames;
-    }
-
-    public void setAllSavedGames(ArrayList<SavedGame> allSavedGames) {
-        this.allSavedGames = allSavedGames;
-    }
-
     public SavedGame[] getCurrentSavedGames() {
         return currentSavedGames;
     }
@@ -123,5 +115,21 @@ public class User {
 
     public void setCurrentCharacterName(String currentCharacterName) {
         this.currentCharacterName = currentCharacterName;
+    }
+
+    public int getSelectedSavedGameIndex() {
+        return selectedSavedGameIndex;
+    }
+
+    public void setSelectedSavedGameIndex(int selectedSavedGameIndex) {
+        this.selectedSavedGameIndex = selectedSavedGameIndex;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 }
