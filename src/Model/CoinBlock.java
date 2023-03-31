@@ -2,11 +2,11 @@ package Model;
 
 import javax.swing.*;
 
-public class PowerUpBlock extends Block{
+public class CoinBlock extends Block{
     boolean collected = false;
-    PowerUpBlock(int upperLeftX, int upperLeftY){
+    CoinBlock(int upperLeftX, int upperLeftY){
         super(upperLeftX,upperLeftY);
-        setTexture(new ImageIcon("PowerUpBlock.png"));
+        setTexture(new ImageIcon("CoinBlock.png"));
     }
 
     @Override
@@ -14,7 +14,7 @@ public class PowerUpBlock extends Block{
         if (collected){
             return new ImageIcon("EmptyBlock.png");
         }
-        else return new ImageIcon("PowerUpBlock.png");
+        else return new ImageIcon("CoinBlock.png");
     }
 
     public boolean isCollected() {
