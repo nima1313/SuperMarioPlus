@@ -1,33 +1,35 @@
 package View;
 
+import Model.GameEngine;
+import Model.SavedGame;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class TimerPanel extends JPanel {
-    int length;
-    int height;
-    int time; //is by seconds
-    public TimerPanel(int length, int height,int time){
+    int length,height;
+    GameEngine gameEngine;
+    public TimerPanel(int length, int height, GameEngine gameEngine){
         this.length = length;
         this.height = height;
-        this.time = time;
+        this.gameEngine = gameEngine;
     }
 
-    public void draw(Graphics g, double passedTime){
-
-        int displayTime = time - (int)Math.floor(passedTime);
-        //System.out.println(passedTime);
-        g.setColor(Color.white);
-        g.setFont(new Font("Arial", Font.BOLD, 60));
-        int minutes = displayTime/60;
-        int second = displayTime%60;
-        g.drawString(String.valueOf(minutes/10)+String.valueOf(minutes%10),length - 50,height-30  );
-        g.drawString(":",length, height-30);
-        g.drawString(String.valueOf(second/10)+String.valueOf(second%10),length + 20,height-30 );
-
+    public void draw(Graphics g){
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.ITALIC, 30));
+        g.drawString("Time",length - 200,height-50  );
+        g.drawString(":",length - 120, height-50);
+        g.drawString(String.valueOf(gameEngine.getRemainingTime()),length -100 ,height-50 );
     }
-    public boolean checkIfEnded(double passedTime){
-        if (passedTime >= time) return true;
-        else return false;
+    public void paint(Graphics g){
+
+        Image image = createImage(getWidth(),getHeight());
+        Graphics graphics = image.getGraphics();
+
+        draw(graphics);
+        g.drawImage(image,0,0,this);
+
+        Graphics2D g2D = (Graphics2D) g;
     }
 }

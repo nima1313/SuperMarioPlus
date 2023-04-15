@@ -94,7 +94,6 @@ public class GamePanel extends JPanel {
             g.setColor(thisEndWall.getColor());
             g.fillRect(thisEndWall.getUpperLeftX()- theHolyIllusion,thisEndWall.getUpperLeftY(),thisEndWall.getLength(),thisEndWall.getHeight());
         }
-
     }
     public void paint(Graphics g){
 

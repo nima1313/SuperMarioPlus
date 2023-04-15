@@ -11,14 +11,14 @@ public class Jario extends Hero{
         setPhaseTwoTexture(new ImageIcon("JarioPhaseTwo.png"));
         setPhaseThreeTexture(new ImageIcon("JarioPhaseThree.png"));
         setCurrentPhase(1);
-        setCoinCollectRange(4);
+        setCoinCollectCoefficient(1);
         setCharacterJumpSpeed((int)(getJumpConstant() * 1.25));
         setCharacterSpeed((int)((double)getSpeedConstant() * 1));
         setUnlocked(false);
         setReloadDelay(1);  //based on seconds
     }
 
-    public Jario(int coinCollectRange, int jumpSpeed, int speed, double reloadDelay,boolean unlocked){
+    public Jario(int coinCollectCoefficient, int jumpSpeed, int speed, double reloadDelay,boolean unlocked){
         super();
         setUnlocked(unlocked);
         setCharacterName("Jario");
@@ -26,7 +26,7 @@ public class Jario extends Hero{
         setPhaseTwoTexture(new ImageIcon("JarioPhaseTwo.png"));
         setPhaseThreeTexture(new ImageIcon("JarioPhaseThree.png"));
         setCurrentPhase(1);
-        setCoinCollectRange(coinCollectRange);
+        setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpSpeed);
         setCharacterSpeed(speed);
         setReloadDelay(reloadDelay);

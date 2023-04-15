@@ -10,14 +10,14 @@ public class Sario extends Hero{
         setPhaseTwoTexture(new ImageIcon("SarioPhaseTwo.png"));
         setPhaseThreeTexture(new ImageIcon("SarioPhaseThree.png"));
         setCurrentPhase(1);
-        setCoinCollectRange(4);
+        setCoinCollectCoefficient(1);
         setCharacterJumpSpeed(getJumpConstant());
         setCharacterSpeed((int)((double)getSpeedConstant() * 2));
         setUnlocked(false);
         setReloadDelay(1);  //based on seconds
     }
 
-    public Sario(int coinCollectRange, int jumpRange, int speed, double reloadDelay,boolean unlocked){
+    public Sario(int coinCollectCoefficient, int jumpRange, int speed, double reloadDelay,boolean unlocked){
         super();
         setUnlocked(unlocked);
         setCharacterName("Sario");
@@ -25,7 +25,7 @@ public class Sario extends Hero{
         setPhaseTwoTexture(new ImageIcon("SarioPhaseTwo.png"));
         setPhaseThreeTexture(new ImageIcon("SarioPhaseThree.png"));
         setCurrentPhase(1);
-        setCoinCollectRange(coinCollectRange);
+        setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpRange);
         setCharacterSpeed(speed);
         setReloadDelay(reloadDelay);

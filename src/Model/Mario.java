@@ -10,14 +10,14 @@ public class Mario extends Hero{
         setPhaseTwoTexture(new ImageIcon("MarioPhaseTwo.png"));
         setPhaseThreeTexture(new ImageIcon("MarioPhaseThree.png"));
         setCurrentPhase(1);
-        setCoinCollectRange(5);
+        setCoinCollectCoefficient(1);
         setCharacterJumpSpeed(getJumpConstant());
         setCharacterSpeed((int)((double)getSpeedConstant() * 1.25));
         setUnlocked(true);
         setReloadDelay(0.8);  //based on seconds
     }
 
-    public Mario(int coinCollectRange, int jumpRange, int speed, double reloadDelay,boolean unlocked){
+    public Mario(int coinCollectCoefficient, int jumpRange, int speed, double reloadDelay,boolean unlocked){
         super();
         setCharacterName("Mario");
         setUnlocked(unlocked);
@@ -25,7 +25,7 @@ public class Mario extends Hero{
         setPhaseTwoTexture(new ImageIcon("MarioPhaseTwo.png"));
         setPhaseThreeTexture(new ImageIcon("MarioPhaseThree.png"));
         setCurrentPhase(1);
-        setCoinCollectRange(coinCollectRange);
+        setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpRange);
         setCharacterSpeed(speed);
         setReloadDelay(reloadDelay);

@@ -2,6 +2,7 @@ package Model;
 import View.GameFrame;
 import View.MainMenuPage;
 
+import javax.print.DocFlavor;
 import java.util.ArrayList;
 
 public class GameEngine implements Runnable {
@@ -645,13 +646,24 @@ public class GameEngine implements Runnable {
         }
     }
     public void updateCurrentLevelCoins(int amount){
-
+        thisSave.setCurrentLevelCoins(thisSave.getCurrentLevelCoins() + amount * character.getCoinCollectCoefficient());
+        updateCurrentSectionScores(15 * amount * character.getCurrentPhase());
+    }
+    public void updateCurrentSectionScores(int amount){
+        // this is for coins and enemies cuz it depends on the character phase in that moment
+        thisSave.setCurrentLevelScore(thisSave.getCurrentLevelScore() + amount);
     }
     public void updateCurrentLevelScores(){
-
+        int totalScore = 0;
+        totalScore += thisSave.getRemainingHearts()*20;
+        //TODO : enemies death for the next phase (do it with updateCurrentSectionScores)
+        totalScore += getRemainingTime();
+        totalScore *= character.getCurrentPhase();
+        thisSave.setCurrentLevelScore(thisSave.getCurrentLevelScore() + totalScore);
     }
     public void death(){
         //if hearts == 0, reset the save
+        totalPassedTime = 0;
         stopChecking = true;
         level = new Level1(level.getCurrentSection()); //TODO : update this to work for every level in phase 2
         character.setUpperLeftX(level.getCharacterInitialX());
@@ -703,6 +715,10 @@ public class GameEngine implements Runnable {
         newSavedGames[user.getSelectedSavedGameIndex()] = thisSave;
         user.setCurrentSavedGames(newSavedGames);
     }
+
+    public int getRemainingTime(){
+        return level.getSectiosTime()[level.getCurrentSection()] - (int)totalPassedTime;
+    }
     public User getUser() {
         return user;
     }
@@ -744,18 +760,42 @@ public class GameEngine implements Runnable {
             if (delta >= 1){
                 stopChecking = false;
                 delta--;
-                flowersMove();
-                character.setCurrentSpeed_y(character.getCurrentSpeed_y() + character.getGravity());
-                moveY();
-                resolveCollusionY();
+                if (getRemainingTime() <= 0) death();
+                if (stopChecking == false)flowersMove();
+                if (stopChecking == false)character.setCurrentSpeed_y(character.getCurrentSpeed_y() + character.getGravity());
+                if (stopChecking == false)moveY();
+                if (stopChecking == false)resolveCollusionY();
                 if (stopChecking == false) moveX();
                 if (stopChecking == false) resolveCollusionX();
                 if (stopChecking == false) checkFallDeath();
                 if (stopChecking == false) theHolyIllusion = character.getUpperLeftX() - 500;
                 if (stopChecking == false) gameFrame.getGamePanel().repaint();
+                if (stopChecking == false) gameFrame.getScorePanel().repaint();
+                if (stopChecking == false) gameFrame.getHeartsPanel().repaint();
+                if (stopChecking == false) gameFrame.getTimerPanel().repaint();
+                if (stopChecking == false) gameFrame.getCoinPanel().repaint();
+                if (stopChecking == false) gameFrame.getLevelNamePanel().repaint();
             }
         }
     }
 
+    public SavedGame getThisSave() {
+        return thisSave;
+    }
 
+    public boolean isGameEngineIsOn() {
+        return gameEngineIsOn;
+    }
+
+    public void setGameEngineIsOn(boolean gameEngineIsOn) {
+        this.gameEngineIsOn = gameEngineIsOn;
+    }
+
+    public boolean isStopChecking() {
+        return stopChecking;
+    }
+
+    public void setStopChecking(boolean stopChecking) {
+        this.stopChecking = stopChecking;
+    }
 }

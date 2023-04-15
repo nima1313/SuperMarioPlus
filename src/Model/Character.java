@@ -29,7 +29,7 @@ abstract public class Character {
     private int upperLeftX=500,upperLeftY=0;
     private int currentSpeed_x = 0;
     private int currentSpeed_y = 0;
-    private int coinCollectRange;
+    private int coinCollectCoefficient;
     private double reloadDelay;
     private String characterName;
 
@@ -207,12 +207,12 @@ abstract public class Character {
         this.currentSpeed_y = currentSpeed_y;
     }
 
-    public int getCoinCollectRange() {
-        return coinCollectRange;
+    public int getCoinCollectCoefficient() {
+        return coinCollectCoefficient;
     }
 
-    public void setCoinCollectRange(int coinCollectRange) {
-        this.coinCollectRange = coinCollectRange;
+    public void setCoinCollectCoefficient(int coinCollectCoefficient) {
+        this.coinCollectCoefficient = coinCollectCoefficient;
     }
 
     public double getReloadDelay() {

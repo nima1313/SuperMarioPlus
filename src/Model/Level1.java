@@ -58,7 +58,11 @@ public class Level1 extends Level{
         endWalls[0] = new EndWall(1000,0,1000,1000);
         endWalls[1] = new EndWall(1000,0,1000,1000);
         setEndWalls(endWalls);
-        setRemainingTime(100);
+
+        int[] sectiosTime = new int[getNumberOfSections()];
+        sectiosTime[0] = 30;
+        sectiosTime[1] = 30;
+        setSectiosTime(sectiosTime);
 
     }
 

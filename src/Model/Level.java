@@ -7,7 +7,7 @@ abstract public class Level {
 
     //a level contains the information of the world in the level + the information of the things that our player has done.
     private int levelNumber;
-    private int remainingTime; // this is the time that our player has in order to finish the section. this time will decrease as our player plays the section
+    private int sectiosTime[]; //times for each section
     private int currentSection;
     private int characterInitialX;
     private int characterInitialY;
@@ -31,12 +31,12 @@ abstract public class Level {
     private ImageIcon backGroundPicture;
 
 
-    public int getRemainingTime() {
-        return remainingTime;
+    public int[] getSectiosTime() {
+        return sectiosTime;
     }
 
-    public void setRemainingTime(int remainingTime) {
-        this.remainingTime = remainingTime;
+    public void setSectiosTime(int[] sectiosTime) {
+        this.sectiosTime = sectiosTime;
     }
 
     public int getCurrentSection() {
