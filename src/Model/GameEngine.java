@@ -306,7 +306,7 @@ public class GameEngine implements Runnable {
             collusion.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
-            int minHeight = 1200;
+            int minHeight = 100000;
             for (int i = 0; i < collusionIndex.size(); i++) {
                 if (floors.get(collusionIndex.get(i)).getUpperLeftY() + floors.get(collusionIndex.get(i)).getHeight()<= minHeight) minHeight = floors.get(collusionIndex.get(i)).getUpperLeftY() + floors.get(collusionIndex.get(i)).getHeight();
 
@@ -337,7 +337,7 @@ public class GameEngine implements Runnable {
             collusion.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
-            int minHeight = 1200;
+            int minHeight = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 if (normalBlocks.get(collusionIndex.get(i)).getUpperLeftY() + normalBlocks.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = normalBlocks.get(collusionIndex.get(i)).getUpperLeftY() + normalBlocks.get(collusionIndex.get(i)).getHEIGHT();
             }
@@ -365,7 +365,7 @@ public class GameEngine implements Runnable {
             collusion.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
-            int minHeight = 1200;
+            int minHeight = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 if (coinBlocks.get(collusionIndex.get(i)).getUpperLeftY() + coinBlocks.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = coinBlocks.get(collusionIndex.get(i)).getUpperLeftY() + coinBlocks.get(collusionIndex.get(i)).getHEIGHT();
             }
@@ -404,7 +404,7 @@ public class GameEngine implements Runnable {
             collusion.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
-            int minHeight = 1200;
+            int minHeight = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 if (powerUpBlocks.get(collusionIndex.get(i)).getUpperLeftY() + powerUpBlocks.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = powerUpBlocks.get(collusionIndex.get(i)).getUpperLeftY() + powerUpBlocks.get(collusionIndex.get(i)).getHEIGHT();
             }
@@ -433,7 +433,7 @@ public class GameEngine implements Runnable {
             collusion.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
-            int minHeight = 1200;
+            int minHeight = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 if (pipes.get(collusionIndex.get(i)).getUpperLeftY() + pipes.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = pipes.get(collusionIndex.get(i)).getUpperLeftY() + pipes.get(collusionIndex.get(i)).getHEIGHT();
             }
@@ -496,7 +496,7 @@ public class GameEngine implements Runnable {
             }
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
-            int min = 1200;
+            int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 int left = collusion.getLeftSide(floors.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
@@ -527,7 +527,7 @@ public class GameEngine implements Runnable {
             if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
-            int min = 1200;
+            int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 int left = collusion.getLeftSide(normalBlocks.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
@@ -557,7 +557,7 @@ public class GameEngine implements Runnable {
             if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
-            int min = 1200;
+            int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 int left = collusion.getLeftSide(coinBlocks.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
@@ -587,7 +587,7 @@ public class GameEngine implements Runnable {
             if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
-            int min = 1200;
+            int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 int left = collusion.getLeftSide(powerUpBlocks.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
@@ -617,7 +617,7 @@ public class GameEngine implements Runnable {
             if (collusion.CheckCollusion(character,thisPipe)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
-            int min = 1200;
+            int min = 10000;
             for (int i = 0 ; i < collusionIndex.size();i++){
                 int left = collusion.getLeftSide(pipes.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
