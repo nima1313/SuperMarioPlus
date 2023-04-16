@@ -41,8 +41,8 @@ public class Level1 extends Level{
         normalBlocks[1].add(new NormalBlock(1100,400));
         normalBlocks[1].add(new NormalBlock(1300,400));
         normalBlocks[1].add(new NormalBlock(1500,400));
-        normalBlocks[1].add(new NormalBlock(1700,250));
-        normalBlocks[1].add(new NormalBlock(1900,300));
+        normalBlocks[1].add(new NormalBlock(1650,250));
+        normalBlocks[1].add(new NormalBlock(1850,300));
         normalBlocks[1].add(new NormalBlock(2500 - 20,300));
 
         normalBlocks[1].add(new NormalBlock(3480 - 40,400-40));

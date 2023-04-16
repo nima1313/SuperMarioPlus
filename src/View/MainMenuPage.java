@@ -15,7 +15,7 @@ public class MainMenuPage extends JFrame {
         this.user = user;
         setTitle("Main Menu");
 
-        setSize(500, 200);
+        setSize(1000, 200);
 
         getContentPane().setLayout(new BorderLayout());
 
@@ -42,7 +42,7 @@ public class MainMenuPage extends JFrame {
         leaderboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new LeaderboardPage();
+                new LeaderBoardPage(user);
                 dispose();
             }
         });
@@ -54,12 +54,20 @@ public class MainMenuPage extends JFrame {
                 dispose();
             }
         });
-
+        JButton profileButton = new JButton("Profile");
+        profileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ProfilePage(user);
+                dispose();
+            }
+        });
 
         buttonPanel.add(newGameButton);
         buttonPanel.add(continueButton);
         buttonPanel.add(leaderboardButton);
         buttonPanel.add(storeButton);
+        buttonPanel.add(profileButton);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
 

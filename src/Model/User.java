@@ -25,7 +25,6 @@ public class User {
         setTotalCoins(totalCoins);
         setCharacters(characters);
         setCurrentCharacterName(currentCharacterName);
-        Memory.allUsers.add(this);
     }
 
     public User(String username, String password){
@@ -36,7 +35,6 @@ public class User {
         setTotalCoins(0);
         makeNewCharacters();
         setCurrentCharacterName("Mario");
-        Memory.allUsers.add(this);
     }
 
     public void makeNewCharacters(){
@@ -132,4 +130,5 @@ public class User {
     public void setHighScore(int highScore) {
         this.highScore = highScore;
     }
+
 }

@@ -20,7 +20,7 @@ public class CoinPanel extends JPanel {
         g.setFont(new Font("Arial", Font.ITALIC, 30));
         g.drawString("Coins",length - 140,height-50  );
         g.drawString(":",length - 60, height-50);
-        g.drawString(String.valueOf(thisSave.getCurrentLevelCoins()),length -50 ,height-50 );
+        g.drawString(String.valueOf(thisSave.getCurrentSectionCoins()),length -50 ,height-50 );
     }
     public void paint(Graphics g){
 

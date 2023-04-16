@@ -6,22 +6,29 @@ public class SavedGame {
     private int totalScore;
     private int remainingHearts = 3;
     private int currentLevelScore;
-    private int currentLevelCoins;
+    private int currentSectionCoins;
+    Character character;
 
-    public SavedGame(int lastLevel,int lastSection, int totalScore, int remainingHearts,int currentLevelScore, int currentLevelCoins) {
+    public SavedGame(int lastLevel,int lastSection, int totalScore, int remainingHearts,int currentLevelScore, int currentSectionCoins, String characterName) {
         setLastLevel(levelMaker(lastLevel,lastSection));
         setTotalScore(totalScore);
         setRemainingHearts(remainingHearts);
-        setCurrentLevelCoins(currentLevelCoins);
+        setCurrentSectionCoins(currentSectionCoins);
         setCurrentLevelScore(currentLevelScore);
+        if (characterName.equals("Mario")) setCharacter(new Mario());
+        if (characterName.equals("Rario")) setCharacter(new Rario());
+        if (characterName.equals("Jario")) setCharacter(new Jario());
+        if (characterName.equals("Cario")) setCharacter(new Cario());
+        if (characterName.equals("Sario")) setCharacter(new Sario());
     }
 
-    public SavedGame(){
+    public SavedGame(User user){
         setLastLevel(new Level1(0));
         setTotalScore(0);
         setRemainingHearts(3);
-        setCurrentLevelCoins(0);
+        setCurrentSectionCoins(0);
         setCurrentLevelScore(0);
+        setCharacter(user.getCurrentCharacter());
     }
     public Level levelMaker(int lastLevel, int lastSection){
         if (lastLevel == 1){
@@ -62,12 +69,12 @@ public class SavedGame {
         this.currentLevelScore = currentLevelScore;
     }
 
-    public int getCurrentLevelCoins() {
-        return currentLevelCoins;
+    public int getCurrentSectionCoins() {
+        return currentSectionCoins;
     }
 
-    public void setCurrentLevelCoins(int currentLevelCoins) {
-        this.currentLevelCoins = currentLevelCoins;
+    public void setCurrentSectionCoins(int currentSectionCoins) {
+        this.currentSectionCoins = currentSectionCoins;
     }
 
     public boolean isSaveEnded() {
@@ -76,5 +83,13 @@ public class SavedGame {
 
     public void setSaveEnded(boolean saveEnded) {
         this.saveEnded = saveEnded;
+    }
+
+    public Character getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 }

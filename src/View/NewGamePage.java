@@ -13,7 +13,7 @@ public class NewGamePage extends JFrame {
 
     public NewGamePage(User user){
         this.user = user;
-        setSize(400, 300);
+        setSize(500, 300);
         JPanel row1;
         if (user.getCurrentSavedGames()[0] == null){
             row1 = createRow("Save disk is empty",0);
@@ -22,7 +22,7 @@ public class NewGamePage extends JFrame {
             row1 = createRow("Save is finished",0);
         }
         else{
-            row1 = createRow("Level : (" + user.getCurrentSavedGames()[0].getLastLevel().getLevelNumber() + ") section : ("+ (user.getCurrentSavedGames()[0].getLastLevel().getCurrentSection() + 1) + "), total Score : (" + user.getCurrentSavedGames()[0].getTotalScore()+") ",0);
+            row1 = createRow("Level : (" + user.getCurrentSavedGames()[0].getLastLevel().getLevelNumber() + ") section : ("+ (user.getCurrentSavedGames()[0].getLastLevel().getCurrentSection() + 1) + "), character : (" + user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getCharacter().getCharacterName() + "), total Score : (" + user.getCurrentSavedGames()[0].getTotalScore()+") ",0);
         }
         JPanel row2;
         if (user.getCurrentSavedGames()[1] == null){
@@ -32,7 +32,7 @@ public class NewGamePage extends JFrame {
             row2 = createRow("Save is finished",1);
         }
         else{
-            row2 = createRow("Level : (" + user.getCurrentSavedGames()[1].getLastLevel().getLevelNumber() + ") section : ("+ (user.getCurrentSavedGames()[1].getLastLevel().getCurrentSection() + 1) + "), total Score : (" + user.getCurrentSavedGames()[1].getTotalScore()+") ",1);
+            row2 = createRow("Level : (" + user.getCurrentSavedGames()[1].getLastLevel().getLevelNumber() + ") section : ("+ (user.getCurrentSavedGames()[1].getLastLevel().getCurrentSection() + 1) + "), character : (" + user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getCharacter().getCharacterName() + "), total Score : (" + user.getCurrentSavedGames()[1].getTotalScore()+") ",1);
         }
         JPanel row3;
         if (user.getCurrentSavedGames()[2] == null){
@@ -42,7 +42,7 @@ public class NewGamePage extends JFrame {
             row3 = createRow("Save is finished",2);
         }
         else{
-            row3 = createRow("Level : (" + user.getCurrentSavedGames()[2].getLastLevel().getLevelNumber() + ") section : ("+ (user.getCurrentSavedGames()[2].getLastLevel().getCurrentSection() + 1) + "), total Score : (" + user.getCurrentSavedGames()[2].getTotalScore()+") ",2);
+            row3 = createRow("Level : (" + user.getCurrentSavedGames()[2].getLastLevel().getLevelNumber() + ") section : ("+ (user.getCurrentSavedGames()[2].getLastLevel().getCurrentSection() + 1) + "), character : (" + user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getCharacter().getCharacterName() + "), total Score : (" + user.getCurrentSavedGames()[2].getTotalScore()+") ",2);
 
         }
         JPanel contentPane = new JPanel();
@@ -79,7 +79,7 @@ public class NewGamePage extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SavedGame newSavedGame = new SavedGame();
+                SavedGame newSavedGame = new SavedGame(user);
                 SavedGame[] allCurrentSavedGames = user.getCurrentSavedGames();
                 allCurrentSavedGames[index] = newSavedGame;
                 user.setCurrentSavedGames(allCurrentSavedGames);

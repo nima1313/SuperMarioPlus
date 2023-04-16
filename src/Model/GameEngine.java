@@ -25,8 +25,8 @@ public class GameEngine implements Runnable {
         this.gameFrame = gameFrame;
         gameThread = new Thread(this);
         gameThread.start();
-        this.character = user.getCurrentCharacter();
         this.thisSave = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()];
+        this.character = thisSave.getCharacter();
         this.level = thisSave.getLastLevel();
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
@@ -259,7 +259,33 @@ public class GameEngine implements Runnable {
             sectionEnds();
             return;
         }
-
+        //Pipes
+        ArrayList<Pipe> pipes = level.getPipes()[level.getCurrentSection()];
+        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        for (int i = 0 ; i < pipes.size();i++){
+            Pipe thisPipe = pipes.get(i);
+            if (collusion.CheckCollusion(character,thisPipe)) collusionIndex.add(i);
+        }
+        if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
+            int maxHeight = - 1;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                if (pipes.get(collusionIndex.get(i)).getUpperLeftY() >= maxHeight) maxHeight = pipes.get(collusionIndex.get(i)).getUpperLeftY();
+            }
+            character.setCurrentSpeed_y(0);
+            character.setUpperLeftY(maxHeight - character.getHeight());
+            collusion.setDownCollusion(true);
+            collusion.setUpCollusion(false);
+        }
+        else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
+            int minHeight = 100000;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                if (pipes.get(collusionIndex.get(i)).getUpperLeftY() + pipes.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = pipes.get(collusionIndex.get(i)).getUpperLeftY() + pipes.get(collusionIndex.get(i)).getHEIGHT();
+            }
+            character.setUpperLeftY(minHeight);
+            character.setCurrentSpeed_y(0);
+            collusion.setDownCollusion(false);
+            collusion.setUpCollusion(true);
+        }
         //checking enemies collusion//
             //flowers
         ArrayList<Flower> flowers = level.getFlowers()[level.getCurrentSection()];
@@ -278,7 +304,7 @@ public class GameEngine implements Runnable {
             Coin thisCoin = coins.get(i);
             if (collusion.CheckCollusion(character,thisCoin) && thisCoin.isCollected() == false){
                 thisCoin.setCollected(true);
-                updateCurrentLevelCoins(1);
+                updateCurrentSectionCoins(1);
                 coins.set(i, thisCoin);
             }
         }
@@ -288,7 +314,7 @@ public class GameEngine implements Runnable {
 
         //checking floors collusion//
         ArrayList<Floor> floors = level.getFloors()[level.getCurrentSection()];
-        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < floors.size();i++){
             Floor thisFloor = floors.get(i);
             if (collusion.CheckCollusion(character,thisFloor)){
@@ -379,7 +405,7 @@ public class GameEngine implements Runnable {
             CoinBlock thisBlock = coinBlocks.get(index);
             if (thisBlock.collected == false && character.getUpperLeftY() == thisBlock.getUpperLeftY() + thisBlock.getHEIGHT()) {
                 thisBlock.setCollected(true);
-                updateCurrentLevelCoins(1);
+                updateCurrentSectionCoins(1);
                 coinBlocks.set(index, thisBlock);
             }
         }
@@ -415,33 +441,7 @@ public class GameEngine implements Runnable {
         }
         //TODO Activation logic of the powerUpBlocks
 
-        //Pipes
-        ArrayList<Pipe> pipes = level.getPipes()[level.getCurrentSection()];
-        collusionIndex = new ArrayList<>();
-        for (int i = 0 ; i < pipes.size();i++){
-            Pipe thisPipe = pipes.get(i);
-            if (collusion.CheckCollusion(character,thisPipe)) collusionIndex.add(i);
-        }
-        if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
-            int maxHeight = - 1;
-            for (int i = 0 ; i < collusionIndex.size();i++){
-                if (pipes.get(collusionIndex.get(i)).getUpperLeftY() >= maxHeight) maxHeight = pipes.get(collusionIndex.get(i)).getUpperLeftY();
-            }
-            character.setCurrentSpeed_y(0);
-            character.setUpperLeftY(maxHeight - character.getHeight());
-            collusion.setDownCollusion(true);
-            collusion.setUpCollusion(false);
-        }
-        else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
-            int minHeight = 100000;
-            for (int i = 0 ; i < collusionIndex.size();i++){
-                if (pipes.get(collusionIndex.get(i)).getUpperLeftY() + pipes.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = pipes.get(collusionIndex.get(i)).getUpperLeftY() + pipes.get(collusionIndex.get(i)).getHEIGHT();
-            }
-            character.setUpperLeftY(minHeight);
-            character.setCurrentSpeed_y(0);
-            collusion.setDownCollusion(false);
-            collusion.setUpCollusion(true);
-        }
+
 
     }
     public void resolveCollusionX(){
@@ -478,7 +478,7 @@ public class GameEngine implements Runnable {
             Coin thisCoin = coins.get(i);
             if (collusion.CheckCollusion(character,thisCoin) && thisCoin.isCollected() == false){
                 thisCoin.setCollected(true);
-                updateCurrentLevelCoins(1);
+                updateCurrentSectionCoins(1);
                 coins.set(i, thisCoin);
             }
         }
@@ -645,8 +645,8 @@ public class GameEngine implements Runnable {
             death();
         }
     }
-    public void updateCurrentLevelCoins(int amount){
-        thisSave.setCurrentLevelCoins(thisSave.getCurrentLevelCoins() + amount * character.getCoinCollectCoefficient());
+    public void updateCurrentSectionCoins(int amount){
+        thisSave.setCurrentSectionCoins(thisSave.getCurrentSectionCoins() + amount * character.getCoinCollectCoefficient());
         updateCurrentSectionScores(15 * amount * character.getCurrentPhase());
     }
     public void updateCurrentSectionScores(int amount){
@@ -675,7 +675,7 @@ public class GameEngine implements Runnable {
         thisSave.setRemainingHearts(thisSave.getRemainingHearts() - 1);
         if (thisSave.getRemainingHearts() == 0){
             SavedGame[] newSavedGames = user.getCurrentSavedGames();
-            newSavedGames[user.getSelectedSavedGameIndex()] = new SavedGame();
+            newSavedGames[user.getSelectedSavedGameIndex()] = new SavedGame(user);
             user.setCurrentSavedGames(newSavedGames);
             gameFrame.dispose();
             gameEngineIsOn = false;
@@ -684,17 +684,17 @@ public class GameEngine implements Runnable {
     }
     public void sectionEnds(){
         stopChecking = true;
-        updateCurrentLevelScores();
+        updateCurrentLevelScores();//don't forget that this exists :))
         System.out.println(level.getCurrentSection());
         if (level.getNumberOfSections() - 1 == level.getCurrentSection()){
             //TODO : add more levels in the next Section
             thisSave.setSaveEnded(true);
             thisSave.setTotalScore(thisSave.getTotalScore()+thisSave.getCurrentLevelScore());
-            user.setTotalCoins(user.getTotalCoins()+thisSave.getCurrentLevelCoins());
             if (user.getHighScore() < thisSave.getTotalScore()){
                 user.setHighScore(thisSave.getTotalScore());
             }
-            thisSave.setCurrentLevelCoins(0);
+            user.setTotalCoins(user.getTotalCoins() + thisSave.getCurrentSectionCoins());
+            thisSave.setCurrentSectionCoins(0);
             thisSave.setCurrentLevelScore(0);
             saveThisSave();
             gameEngineIsOn = false;
@@ -703,6 +703,8 @@ public class GameEngine implements Runnable {
         }
         else {
             thisSave.setLastLevel(thisSave.levelMaker(level.getLevelNumber(), level.getCurrentSection()+1));
+            user.setTotalCoins(user.getTotalCoins() + thisSave.getCurrentSectionCoins());
+            thisSave.setCurrentSectionCoins(0);
             saveThisSave();
             gameEngineIsOn = false;
             gameFrame.dispose();
@@ -714,33 +716,6 @@ public class GameEngine implements Runnable {
         SavedGame[] newSavedGames = user.getCurrentSavedGames();
         newSavedGames[user.getSelectedSavedGameIndex()] = thisSave;
         user.setCurrentSavedGames(newSavedGames);
-    }
-
-    public int getRemainingTime(){
-        return level.getSectiosTime()[level.getCurrentSection()] - (int)totalPassedTime;
-    }
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public int getTheHolyIllusion() {
-        return theHolyIllusion;
-    }
-
-    public Character getCharacter() {
-        return character;
     }
 
     @Override
@@ -797,5 +772,31 @@ public class GameEngine implements Runnable {
 
     public void setStopChecking(boolean stopChecking) {
         this.stopChecking = stopChecking;
+    }
+    public int getRemainingTime(){
+        return level.getSectiosTime()[level.getCurrentSection()] - (int)totalPassedTime;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public int getTheHolyIllusion() {
+        return theHolyIllusion;
+    }
+
+    public Character getCharacter() {
+        return character;
     }
 }

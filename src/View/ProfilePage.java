@@ -8,11 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-public class StorePage extends JFrame {
+public class ProfilePage extends JFrame {
     User user;
-    JLabel name;
+    JLabel username;
+    JLabel highScore;
     JLabel coins;
     ImageIcon MarioImage;
     ImageIcon CarioImage;
@@ -24,17 +24,20 @@ public class StorePage extends JFrame {
     CustomButton JarioSelectButton;
     CustomButton RarioSelectButton;
     CustomButton SarioSelectButton;
-    public StorePage(User user){
+    public ProfilePage(User user){
         this.user = user;
-        setTitle("Store Page");
-        setSize(1000,900);
+        setTitle("Profile Page");
+        setSize(1000,800);
         setResizable(false);
-        name = new JLabel("Store");
-        name.setBounds(450,-50,200,200);
-        name.setFont(new Font("Arial", Font.PLAIN, 50));
-        add(name);
-        updateCoins();
-
+        username = new JLabel("username : " + user.getUsername());
+        username.setBounds(50,20,200,40);
+        add(username);
+        highScore = new JLabel("highScore : " + user.getHighScore());
+        highScore.setBounds(50,70,200,40);
+        add(highScore);
+        coins = new JLabel("coins : " + user.getTotalCoins());
+        coins.setBounds(50,120,200,40);
+        add(coins);
         for (int i = 0 ; i < user.getCharacters().size();i++){
             Character thisCharacter = user.getCharacters().get(i);
             if (thisCharacter.getCharacterName().equals("Mario")){
@@ -45,17 +48,21 @@ public class StorePage extends JFrame {
                 MarioSelectButton = new CustomButton("",30+200,200,140,40);
                 MarioSelectButton.setFont(new Font("Arial", Font.PLAIN, 14));
                 if (!thisCharacter.isUnlocked()){
+                    MarioSelectButton.setEnabled(false);
+                    MarioSelectButton.setText("Not purchased");
+                }
+                else if (!user.getCurrentCharacter().equals(thisCharacter)) {
                     MarioSelectButton.setEnabled(true);
-                    MarioSelectButton.setText("Buy");
+                    MarioSelectButton.setText("Select");
                 }
                 else {
                     MarioSelectButton.setEnabled(false);
-                    MarioSelectButton.setText("Acquired");
+                    MarioSelectButton.setText("Selected");
                 }
                 MarioSelectButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        buyCharacter(thisCharacter);
+                        selectCharacter(thisCharacter.getCharacterName());
                     }
                 });
                 add(MarioSelectButton);
@@ -68,17 +75,21 @@ public class StorePage extends JFrame {
                 CarioSelectButton = new CustomButton("",180+200,200,140,40);
                 CarioSelectButton.setFont(new Font("Arial", Font.PLAIN, 14));
                 if (!thisCharacter.isUnlocked()){
+                    CarioSelectButton.setEnabled(false);
+                    CarioSelectButton.setText("Not purchased");
+                }
+                else if (!user.getCurrentCharacter().equals(thisCharacter)) {
                     CarioSelectButton.setEnabled(true);
-                    CarioSelectButton.setText("Buy");
+                    CarioSelectButton.setText("Select");
                 }
                 else {
                     CarioSelectButton.setEnabled(false);
-                    CarioSelectButton.setText("Acquired");
+                    CarioSelectButton.setText("Selected");
                 }
                 CarioSelectButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        buyCharacter(thisCharacter);
+                        selectCharacter(thisCharacter.getCharacterName());
                     }
                 });
                 add(CarioSelectButton);
@@ -91,17 +102,21 @@ public class StorePage extends JFrame {
                 JarioSelectButton = new CustomButton("",330+200,200,140,40);
                 JarioSelectButton.setFont(new Font("Arial", Font.PLAIN, 14));
                 if (!thisCharacter.isUnlocked()){
+                    JarioSelectButton.setEnabled(false);
+                    JarioSelectButton.setText("Not purchased");
+                }
+                else if (!user.getCurrentCharacter().equals(thisCharacter)) {
                     JarioSelectButton.setEnabled(true);
-                    JarioSelectButton.setText("Buy");
+                    JarioSelectButton.setText("Select");
                 }
                 else {
                     JarioSelectButton.setEnabled(false);
-                    JarioSelectButton.setText("Acquired");
+                    JarioSelectButton.setText("Selected");
                 }
                 JarioSelectButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        buyCharacter(thisCharacter);
+                        selectCharacter(thisCharacter.getCharacterName());
                     }
                 });
                 add(JarioSelectButton);
@@ -114,17 +129,21 @@ public class StorePage extends JFrame {
                 RarioSelectButton = new CustomButton("",480+200,200,140,40);
                 RarioSelectButton.setFont(new Font("Arial", Font.PLAIN, 14));
                 if (!thisCharacter.isUnlocked()){
+                    RarioSelectButton.setEnabled(false);
+                    RarioSelectButton.setText("Not purchased");
+                }
+                else if (!user.getCurrentCharacter().equals(thisCharacter)) {
                     RarioSelectButton.setEnabled(true);
-                    RarioSelectButton.setText("Buy");
+                    RarioSelectButton.setText("Select");
                 }
                 else {
                     RarioSelectButton.setEnabled(false);
-                    RarioSelectButton.setText("Acquired");
+                    RarioSelectButton.setText("Selected");
                 }
                 RarioSelectButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        buyCharacter(thisCharacter);
+                        selectCharacter(thisCharacter.getCharacterName());
                     }
                 });
                 add(RarioSelectButton);
@@ -137,17 +156,21 @@ public class StorePage extends JFrame {
                 SarioSelectButton = new CustomButton("",630+200,200,140,40);
                 SarioSelectButton.setFont(new Font("Arial", Font.PLAIN, 14));
                 if (!thisCharacter.isUnlocked()){
+                    SarioSelectButton.setEnabled(false);
+                    SarioSelectButton.setText("Not purchased");
+                }
+                else if (!user.getCurrentCharacter().equals(thisCharacter)) {
                     SarioSelectButton.setEnabled(true);
-                    SarioSelectButton.setText("Buy");
+                    SarioSelectButton.setText("Select");
                 }
                 else {
                     SarioSelectButton.setEnabled(false);
-                    SarioSelectButton.setText("Acquired");
+                    SarioSelectButton.setText("Selected");
                 }
                 SarioSelectButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        buyCharacter(thisCharacter);
+                        selectCharacter(thisCharacter.getCharacterName());
                     }
                 });
                 add(SarioSelectButton);
@@ -157,7 +180,7 @@ public class StorePage extends JFrame {
 
         }
         JButton backButton = new JButton("Back");
-        backButton.setBounds(10,800,100,30);
+        backButton.setBounds(10,700,100,30);
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,9 +208,6 @@ public class StorePage extends JFrame {
         JLabel jLabel1_5 = new JLabel("Reload time: ");
         jLabel1_5.setBounds(20,650,100,50);
         add(jLabel1_5);
-        JLabel jLabel1_6 = new JLabel("Price: ");
-        jLabel1_6.setBounds(20,750,100,50);
-        add(jLabel1_6);
 
         JLabel jLabel2_1 = new JLabel("Mario");
         jLabel2_1.setBounds(20+260,250,50,50);
@@ -204,9 +224,6 @@ public class StorePage extends JFrame {
         JLabel jLabel2_5 = new JLabel("0.8s");
         jLabel2_5.setBounds(20+260,650,50,50);
         add(jLabel2_5);
-        JLabel jLabel2_6 = new JLabel("----");
-        jLabel2_6.setBounds(20+260,750,50,50);
-        add(jLabel2_6);
 
         JLabel jLabel3_1 = new JLabel("Cario");
         jLabel3_1.setBounds(20+260+150,250,50,50);
@@ -223,9 +240,6 @@ public class StorePage extends JFrame {
         JLabel jLabel3_5 = new JLabel("1.0s");
         jLabel3_5.setBounds(20+260+150,650,50,50);
         add(jLabel3_5);
-        JLabel jLabel3_6 = new JLabel("40 coins");
-        jLabel3_6.setBounds(10+260+150,750,50,50);
-        add(jLabel3_6);
 
         JLabel jLabel4_1 = new JLabel("Jario");
         jLabel4_1.setBounds(20+260+150+150,250,50,50);
@@ -242,9 +256,6 @@ public class StorePage extends JFrame {
         JLabel jLabel4_5 = new JLabel("1.0s");
         jLabel4_5.setBounds(20+260+150+150,650,50,50);
         add(jLabel4_5);
-        JLabel jLabel4_6 = new JLabel("35 coins");
-        jLabel4_6.setBounds(10+260+150+150,750,50,50);
-        add(jLabel4_6);
 
         JLabel jLabel5_1 = new JLabel("Rario");
         jLabel5_1.setBounds(20+260+150+150+150,250,50,50);
@@ -261,9 +272,6 @@ public class StorePage extends JFrame {
         JLabel jLabel5_5 = new JLabel("0.5s");
         jLabel5_5.setBounds(20+260+150+150+150,650,50,50);
         add(jLabel5_5);
-        JLabel jLabel5_6 = new JLabel("30 coins");
-        jLabel5_6.setBounds(10+260+150+150+150,750,50,50);
-        add(jLabel5_6);
 
         JLabel jLabel6_1 = new JLabel("Sario");
         jLabel6_1.setBounds(20+260+150+150+150+150,250,50,50);
@@ -280,82 +288,50 @@ public class StorePage extends JFrame {
         JLabel jLabel6_5 = new JLabel("1.0s");
         jLabel6_5.setBounds(20+260+150+150+150+150,650,50,50);
         add(jLabel6_5);
-        JLabel jLabel6_6 = new JLabel("35 coins");
-        jLabel6_6.setBounds(10+260+150+150+150+150,750,50,50);
-        add(jLabel6_6);
 
 
     }
-    private void buyCharacter(Character character){
-        String name = character.getCharacterName();
+    private void selectCharacter(String name){
+        user.setCurrentCharacterName(name);
+        if (JarioSelectButton.getText().equals("Selected")){
+            JarioSelectButton.setEnabled(true);
+            JarioSelectButton.setText("Select");
+        }
+        if (CarioSelectButton.getText().equals("Selected")){
+            CarioSelectButton.setEnabled(true);
+            CarioSelectButton.setText("Select");
+        }
+        if (SarioSelectButton.getText().equals("Selected")){
+            SarioSelectButton.setEnabled(true);
+            SarioSelectButton.setText("Select");
+        }
+        if (RarioSelectButton.getText().equals("Selected")){
+            RarioSelectButton.setEnabled(true);
+            RarioSelectButton.setText("Select");
+        }
+        if (MarioSelectButton.getText().equals("Selected")){
+            MarioSelectButton.setEnabled(true);
+            MarioSelectButton.setText("Select");
+        }
+        if (name.equals("Mario")){
+            MarioSelectButton.setEnabled(false);
+            MarioSelectButton.setText("Selected");
+        }
         if (name.equals("Jario")){
-            if (user.getTotalCoins() >= 35){
-                JarioSelectButton.setEnabled(false);
-                JarioSelectButton.setText("Acquired");
-                user.setTotalCoins(user.getTotalCoins() - 35);
-                unlockCharacter(character);
-                updateCoins();
-            }
-            else{
-                StorePage tof = this;
-                JOptionPane.showMessageDialog(tof,"You have don't have enough coins");
-            }
-
+            JarioSelectButton.setEnabled(false);
+            JarioSelectButton.setText("Selected");
         }
         if (name.equals("Rario")){
-            if (user.getTotalCoins() >= 35){
-                RarioSelectButton.setEnabled(false);
-                RarioSelectButton.setText("Acquired");
-                user.setTotalCoins(user.getTotalCoins() - 30);
-                unlockCharacter(character);
-                updateCoins();
-            }
-            else {
-                StorePage tof = this;
-                JOptionPane.showMessageDialog(tof,"You have don't have enough coins");
-            }
+            RarioSelectButton.setEnabled(false);
+            RarioSelectButton.setText("Selected");
         }
         if (name.equals("Cario")){
-            if (user.getTotalCoins() >= 40) {
-                CarioSelectButton.setEnabled(false);
-                CarioSelectButton.setText("Acquired");
-                user.setTotalCoins(user.getTotalCoins() - 40);
-                unlockCharacter(character);
-                updateCoins();
-            }
-            else{
-                StorePage tof = this;
-                JOptionPane.showMessageDialog(tof,"You have don't have enough coins");
-            }
+            CarioSelectButton.setEnabled(false);
+            CarioSelectButton.setText("Selected");
         }
         if (name.equals("Sario")){
-            if (user.getTotalCoins() >= 35) {
-                SarioSelectButton.setEnabled(false);
-                SarioSelectButton.setText("Acquired");
-                user.setTotalCoins(user.getTotalCoins() - 35);
-                unlockCharacter(character);
-                updateCoins();
-            }
-            else{
-                StorePage tof = this;
-                JOptionPane.showMessageDialog(tof,"You have don't have enough coins");
-            }
-        }
-    }
-    private void updateCoins(){
-        JPanel jPanel = new JPanel();
-        coins = new JLabel("coins : " + user.getTotalCoins());
-        coins.setFont(new Font("Arial", Font.PLAIN, 20));
-        jPanel.setBounds(50,100,300,40);
-        jPanel.add(coins);
-        add(jPanel);
-    }
-    private void unlockCharacter(Character character){
-        ArrayList<Character> characters = user.getCharacters();
-        for (int i = 0 ; i < characters.size() ;i++){
-            if (characters.get(i).equals(character)){
-                characters.get(i).setUnlocked(true);
-            }
+            SarioSelectButton.setEnabled(false);
+            SarioSelectButton.setText("Selected");
         }
     }
 }
