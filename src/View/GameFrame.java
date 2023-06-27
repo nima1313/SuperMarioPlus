@@ -1,7 +1,7 @@
 package View;
 
 import Controller.Controller;
-import Model.GameEngine;
+import Controller.GameEngine;
 import Model.Levels.Level;
 import Model.User;
 

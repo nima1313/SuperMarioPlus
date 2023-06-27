@@ -1,6 +1,6 @@
 package View;
 
-import Model.GameEngine;
+import Controller.GameEngine;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

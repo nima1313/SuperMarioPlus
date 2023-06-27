@@ -39,12 +39,8 @@ public class SavedGame {
         setLastLevel(lastLevel);
         setLastSection(lastSection);
     }
-    public Level levelMaker(){
-        if (lastLevel == 1){
-            return new Level1(lastSection);
-        }
-        else return null;
-        //TODO : Update this for the next phases
+    public Level levelMaker(int level, int section){
+        return null;
     }
 
     public int getTotalScore() {
