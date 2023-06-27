@@ -3,7 +3,6 @@ package Model;
 import Model.Characters.*;
 import Model.Characters.Character;
 import Model.Levels.Level;
-import Model.Levels.Level1;
 
 public class SavedGame {
     boolean saveEnded = false;

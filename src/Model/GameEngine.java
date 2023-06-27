@@ -6,7 +6,6 @@ import Model.Enemies.Flower;
 import Model.Items.Coin;
 import Model.Items.Item;
 import Model.Levels.Level;
-import Model.Levels.Level1;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
 import Model.PhysicalObjects.PhysicalObject;
