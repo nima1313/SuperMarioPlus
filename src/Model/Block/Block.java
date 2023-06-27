@@ -1,14 +1,19 @@
-package Model;
+package Model.Block;
+
+import Model.PhysicalObjects.PhysicalObject;
 
 import javax.swing.*;
 
-abstract public class Block extends PhysicalObject{
+public class Block extends PhysicalObject {
     private final int LENGTH = 40;
     private final int HEIGHT = 40;
+
+    private String type;
 
     private int upperLeftX, upperLeftY;
 
     private ImageIcon texture;
+
 
     Block(int upperLeftX, int upperLeftY){
         setUpperLeftX(upperLeftX);
@@ -45,5 +50,18 @@ abstract public class Block extends PhysicalObject{
 
     public void setUpperLeftY(int upperLeftY) {
         this.upperLeftY = upperLeftY;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void disappear(){
+        setUpperLeftX(-1000);
+        setUpperLeftY(-1000);
     }
 }

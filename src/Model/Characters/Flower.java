@@ -1,4 +1,6 @@
-package Model;
+package Model.Characters;
+
+import Model.Characters.Enemy;
 
 import javax.swing.*;
 

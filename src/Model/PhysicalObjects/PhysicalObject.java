@@ -1,4 +1,4 @@
-package Model;
+package Model.PhysicalObjects;
 
 import java.awt.*;
 

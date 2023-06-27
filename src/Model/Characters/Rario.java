@@ -1,8 +1,10 @@
-package Model;
+package Model.Characters;
+
+import Model.Characters.Hero;
 
 import javax.swing.*;
 
-public class Rario extends Hero{
+public class Rario extends Hero {
     public Rario(){
         super();
         setCharacterName("Rario");

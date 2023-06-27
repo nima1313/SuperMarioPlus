@@ -1,4 +1,4 @@
-package Model;
+package Model.Characters;
 
 import javax.swing.*;
 

@@ -1,22 +1,22 @@
-package Model;
+package Model.Characters;
 
 import javax.swing.*;
 
-abstract public class Character {
+public class Character {
 
     boolean unlocked;
 
     private int gravity;
-    protected final int speedConstant = 4; //edit this when you want to know how much speed is enough //TODO
+    protected final int speedConstant = 4; //edit this when you want to know how much speed is enough
     //this is the speed only for the x access;
     protected final int jumpConstant = 16;
     private int characterSpeed;
     private int characterJumpSpeed;
-    private ImageIcon phaseOneTexture;
-    private ImageIcon phaseTwoTexture;
-    private ImageIcon phaseThreeTexture;
+    private transient ImageIcon phaseOneTexture;
+    private transient ImageIcon phaseTwoTexture;
+    private transient ImageIcon phaseThreeTexture;
 
-    private ImageIcon texture;
+    private transient ImageIcon texture;
     private int phaseOneHeight = 40;
     private int phaseTwoHeight = 80;
     private int phaseThreeHeight = 80;

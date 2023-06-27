@@ -1,8 +1,18 @@
-package Model;
+package Model.Levels;
+
+import Model.Block.CoinBlock;
+import Model.Block.EmptyBlock;
+import Model.Block.NormalBlock;
+import Model.Block.PowerUpBlock;
+import Model.Characters.Flower;
+import Model.PhysicalObjects.EndWall;
+import Model.PhysicalObjects.Floor;
+import Model.Items.Coin;
+import Model.PhysicalObjects.Pipe;
 
 import java.util.ArrayList;
 
-public class Level1 extends Level{
+public class Level1 extends Level {
     public Level1(int currentSection) {
         setLevelNumber(1);
         setNumberOfSections(2);
@@ -54,13 +64,6 @@ public class Level1 extends Level{
         normalBlocks[1].add(new NormalBlock(3480 + 40,400 - 80));
 
         setNormalBlocks(normalBlocks);
-        ArrayList<PowerUpBlock>[] powerUpBlocks = new ArrayList[getNumberOfSections()];
-        for (int i = 0; i < getNumberOfSections(); i++) {
-            powerUpBlocks[i] = new ArrayList<PowerUpBlock>();
-        }
-        powerUpBlocks[0].add(new PowerUpBlock(800,300));
-        powerUpBlocks[1].add(new PowerUpBlock(100,300));
-        setPowerUpBlocks(powerUpBlocks);
         ArrayList<CoinBlock>[] coinBlocks = new ArrayList[getNumberOfSections()];
         for (int i = 0; i < getNumberOfSections(); i++) {
             coinBlocks[i] = new ArrayList<CoinBlock>();
@@ -70,6 +73,16 @@ public class Level1 extends Level{
         coinBlocks[1].add(new CoinBlock(2500 - (20+40),300));
         coinBlocks[1].add(new CoinBlock(2500 + (20),300));
         setCoinBlocks(coinBlocks);
+
+        ArrayList<EmptyBlock>[] emptyBlocks = new ArrayList[getNumberOfSections()];
+        for (int i = 0 ; i < getNumberOfSections() ; i++){
+            emptyBlocks[i] = new ArrayList<EmptyBlock>();
+        }
+        emptyBlocks[0].add(new EmptyBlock(800,300));
+        emptyBlocks[1].add(new EmptyBlock(100,300));
+
+        setEmptyBlocks(emptyBlocks);
+
         ArrayList<Pipe>[] pipes = new ArrayList[getNumberOfSections()];
         for (int i = 0; i < getNumberOfSections(); i++) {
             pipes[i] = new ArrayList<Pipe>();

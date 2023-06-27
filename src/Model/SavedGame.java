@@ -1,20 +1,27 @@
 package Model;
 
+import Model.Characters.*;
+import Model.Characters.Character;
+import Model.Levels.Level;
+import Model.Levels.Level1;
+
 public class SavedGame {
     boolean saveEnded = false;
-    private Level lastLevel;
     private int totalScore;
     private int remainingHearts = 3;
     private int currentLevelScore;
     private int currentSectionCoins;
+    private int lastLevel;
+    private int lastSection;
     Character character;
 
     public SavedGame(int lastLevel,int lastSection, int totalScore, int remainingHearts,int currentLevelScore, int currentSectionCoins, String characterName) {
-        setLastLevel(levelMaker(lastLevel,lastSection));
         setTotalScore(totalScore);
         setRemainingHearts(remainingHearts);
         setCurrentSectionCoins(currentSectionCoins);
         setCurrentLevelScore(currentLevelScore);
+        setLastLevel(lastLevel);
+        setLastSection(lastSection);
         if (characterName.equals("Mario")) setCharacter(new Mario());
         if (characterName.equals("Rario")) setCharacter(new Rario());
         if (characterName.equals("Jario")) setCharacter(new Jario());
@@ -23,26 +30,22 @@ public class SavedGame {
     }
 
     public SavedGame(User user){
-        setLastLevel(new Level1(0));
+        setLastLevel(1);
+        setLastSection(0);
         setTotalScore(0);
         setRemainingHearts(3);
         setCurrentSectionCoins(0);
         setCurrentLevelScore(0);
         setCharacter(user.getCurrentCharacter());
+        setLastLevel(lastLevel);
+        setLastSection(lastSection);
     }
-    public Level levelMaker(int lastLevel, int lastSection){
+    public Level levelMaker(){
         if (lastLevel == 1){
             return new Level1(lastSection);
         }
         else return null;
         //TODO : Update this for the next phases
-    }
-    public Level getLastLevel() {
-        return lastLevel;
-    }
-
-    public void setLastLevel(Level lastLevel) {
-        this.lastLevel = lastLevel;
     }
 
     public int getTotalScore() {
@@ -91,5 +94,21 @@ public class SavedGame {
 
     public void setCharacter(Character character) {
         this.character = character;
+    }
+
+    public int getLastSection() {
+        return lastSection;
+    }
+
+    public void setLastSection(int lastSection) {
+        this.lastSection = lastSection;
+    }
+
+    public void setLastLevel(int lastLevel) {
+        this.lastLevel = lastLevel;
+    }
+
+    public int getLastLevel() {
+        return lastLevel;
     }
 }

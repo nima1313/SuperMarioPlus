@@ -17,7 +17,7 @@ public class LevelNamePanel extends JPanel{
     public void draw(Graphics g){
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.ITALIC, 30));
-        g.drawString("Level " + String.valueOf(gameEngine.getThisSave().getLastLevel().getLevelNumber()) + " - " + String.valueOf(gameEngine.getThisSave().getLastLevel().getCurrentSection() + 1),length -190 ,height-50 );
+        g.drawString("Level " + String.valueOf(gameEngine.getThisSave().getLastLevel()) + " - " + String.valueOf(gameEngine.getThisSave().getLastSection() + 1),length -190 ,height-50 );
     }
     public void paint(Graphics g){
 

@@ -1,6 +1,7 @@
 package View;
 
 import Model.User;
+import Model.WriteData;
 
 import javax.swing.*;
 
@@ -14,6 +15,7 @@ public class MainMenuPage extends JFrame {
     public MainMenuPage(User user) {
         this.user = user;
         setTitle("Main Menu");
+        WriteData.writeData();
 
         setSize(1000, 200);
 

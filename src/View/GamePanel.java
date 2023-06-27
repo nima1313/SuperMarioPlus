@@ -1,12 +1,19 @@
 package View;
 
-import Model.*;
-import Model.Character;
+import Model.Block.CoinBlock;
+import Model.Block.EmptyBlock;
+import Model.Block.NormalBlock;
+import Model.Block.PowerUpBlock;
+import Model.Characters.Character;
+import Model.Characters.Flower;
+import Model.Items.Coin;
+import Model.PhysicalObjects.EndWall;
+import Model.PhysicalObjects.Floor;
+import Model.PhysicalObjects.Pipe;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.Flow;
 
 public class GamePanel extends JPanel {
 
@@ -26,15 +33,7 @@ public class GamePanel extends JPanel {
         if (normalBlocks[currentSection] != null) {
             for (int i = 0; i < normalBlocks[currentSection].size(); i++) {
                 NormalBlock thisBlock = normalBlocks[currentSection].get(i);
-                g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(), this);
-            }
-        }
-
-        ArrayList<PowerUpBlock>[] powerUpBlocks = gameFrame.gameEngine.getLevel().getPowerUpBlocks();
-        if (powerUpBlocks[currentSection] != null) {
-            for (int i = 0; i < powerUpBlocks[currentSection].size(); i++) {
-                PowerUpBlock thisBlock = powerUpBlocks[currentSection].get(i);
-                g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(), this);
+                g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(),40,40, this);
             }
         }
 
@@ -42,9 +41,18 @@ public class GamePanel extends JPanel {
         if (coinBlocks[currentSection] != null) {
             for (int i = 0; i < coinBlocks[currentSection].size(); i++) {
                 CoinBlock thisBlock = coinBlocks[currentSection].get(i);
-                g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(), this);
+                g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(),40,40, this);
             }
         }
+
+        ArrayList<EmptyBlock>[] emptyBlocks = gameFrame.gameEngine.getLevel().getEmptyBlocks();
+        if (emptyBlocks[currentSection] != null) {
+            for (int i = 0; i < emptyBlocks[currentSection].size(); i++) {
+                EmptyBlock thisBlock = emptyBlocks[currentSection].get(i);
+                g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(),40,40, this);
+            }
+        }
+
 
         //drawing floors
         ArrayList<Floor>[] floors = gameFrame.gameEngine.getLevel().getFloors();

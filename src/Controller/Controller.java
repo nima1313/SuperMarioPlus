@@ -9,12 +9,15 @@ public class Controller {
         goingUp = false;
         goingLeft = false;
         goingRight = false;
+        goingDown = false;
     }
     public void keyPressed(KeyEvent e){
 
-
         if (e.getKeyCode() == KeyEvent.VK_UP){
             goingUp = true;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN){
+            goingDown = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
             goingRight = true;
@@ -22,12 +25,19 @@ public class Controller {
         if (e.getKeyCode() == KeyEvent.VK_LEFT){
             goingLeft = true;
         }
+        if (goingUp == true && goingDown == true){
+            goingUp = false;
+            goingDown = false;
+        }
 
     }
     public void keyReleased(KeyEvent e){
 
         if (e.getKeyCode() == KeyEvent.VK_UP){
             goingUp = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN){
+            goingDown = false;
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
             goingRight = false;

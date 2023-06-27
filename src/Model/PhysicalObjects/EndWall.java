@@ -1,8 +1,8 @@
-package Model;
+package Model.PhysicalObjects;
 
 import java.awt.*;
 
-public class EndWall extends PhysicalObject{
+public class EndWall extends PhysicalObject {
 
     public EndWall(int upperLeftX, int upperLeftY, int length, int height){
         setUpperLeftX(upperLeftX);

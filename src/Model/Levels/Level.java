@@ -1,8 +1,17 @@
-package Model;
+package Model.Levels;
+
+import Model.Block.CoinBlock;
+import Model.Block.EmptyBlock;
+import Model.Block.NormalBlock;
+import Model.Block.PowerUpBlock;
+import Model.Characters.Flower;
+import Model.PhysicalObjects.EndWall;
+import Model.PhysicalObjects.Floor;
+import Model.Items.Coin;
+import Model.PhysicalObjects.Pipe;
 
 import javax.swing.*;
 import java.util.ArrayList;
-
 abstract public class Level {
 
     //a level contains the information of the world in the level + the information of the things that our player has done.
@@ -18,8 +27,10 @@ abstract public class Level {
     //PhysicalObjects//
     private ArrayList<Floor>[] floors;
     private ArrayList<NormalBlock>[] normalBlocks;
-    private ArrayList<PowerUpBlock>[] powerUpBlocks;
+
     private ArrayList<CoinBlock>[] coinBlocks;
+
+    private ArrayList<EmptyBlock>[] emptyBlocks;
     private EndWall[] endWalls;
 
     private ArrayList<Pipe>[] pipes;
@@ -61,14 +72,6 @@ abstract public class Level {
 
     public void setNormalBlocks(ArrayList<NormalBlock>[] normalBlocks) {
         this.normalBlocks = normalBlocks;
-    }
-
-    public ArrayList<PowerUpBlock>[] getPowerUpBlocks() {
-        return powerUpBlocks;
-    }
-
-    public void setPowerUpBlocks(ArrayList<PowerUpBlock>[] powerUpBlocks) {
-        this.powerUpBlocks = powerUpBlocks;
     }
 
     public ArrayList<CoinBlock>[] getCoinBlocks() {
@@ -149,5 +152,13 @@ abstract public class Level {
 
     public void setLevelNumber(int levelNumber) {
         this.levelNumber = levelNumber;
+    }
+
+    public ArrayList<EmptyBlock>[] getEmptyBlocks() {
+        return emptyBlocks;
+    }
+
+    public void setEmptyBlocks(ArrayList<EmptyBlock>[] emptyBlocks) {
+        this.emptyBlocks = emptyBlocks;
     }
 }

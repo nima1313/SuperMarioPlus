@@ -1,7 +1,6 @@
 package View;
 
-import Model.Character;
-import Model.Mario;
+import Model.Characters.Character;
 import Model.User;
 
 import javax.swing.*;

@@ -1,8 +1,8 @@
-package Model;
+package Model.Items;
 
 import javax.swing.*;
 
-public class Coin extends Item{
+public class Coin extends Item {
     boolean collected = false;
     public Coin(int upperLeftX,int upperLeftY){
         super(32,32,new ImageIcon("Coin.png"));

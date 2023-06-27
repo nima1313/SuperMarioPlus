@@ -1,14 +1,16 @@
-package Model;
+package Model.PhysicalObjects;
+
+import Model.PhysicalObjects.PhysicalObject;
 
 import javax.swing.*;
 
-public class Pipe extends PhysicalObject{
+public class Pipe extends PhysicalObject {
     private final int LENGTH = 60;
     private final int HEIGHT = 100; //MAXJUMP
     private ImageIcon texture;
 
     private int upperLeftX,upperLeftY;
-    Pipe(int upperLeftX, int upperLeftY){
+    public Pipe(int upperLeftX, int upperLeftY){
         setUpperLeftX(upperLeftX);
         setUpperLeftY(upperLeftY);
         setTexture(new ImageIcon("Pipe.png"));

@@ -1,9 +1,8 @@
 package View;
 
 import Controller.Controller;
-import Model.Coin;
 import Model.GameEngine;
-import Model.Level;
+import Model.Levels.Level;
 import Model.User;
 
 import javax.swing.*;
@@ -29,7 +28,6 @@ public class GameFrame extends JFrame {
         setSize(1000,1000);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.user = user;
-        this.level = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastLevel();
         this.controller = new Controller();
         addKeyListener(new ActionListener());
         gameEngine = new GameEngine(user,this);

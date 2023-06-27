@@ -1,8 +1,9 @@
 package Model;
 
+import Model.Characters.*;
+import Model.Characters.Character;
+
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 
 public class User {
     private int id;

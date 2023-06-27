@@ -1,11 +1,11 @@
-package Model;
+package Model.PhysicalObjects;
 
 import java.awt.*;
 
 public class Floor extends PhysicalObject {
 
 
-    Floor(int upperLeftX, int upperLeftY, int length, int height) {
+    public Floor(int upperLeftX, int upperLeftY, int length, int height) {
         setUpperLeftX(upperLeftX);
         setUpperLeftY(upperLeftY);
         setLength(length);

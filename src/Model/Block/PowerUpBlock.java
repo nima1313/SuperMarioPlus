@@ -1,10 +1,12 @@
-package Model;
+package Model.Block;
+
+import Model.Block.Block;
 
 import javax.swing.*;
 
-public class PowerUpBlock extends Block{
+public class PowerUpBlock extends Block {
     boolean collected = false;
-    PowerUpBlock(int upperLeftX, int upperLeftY){
+    public PowerUpBlock(int upperLeftX, int upperLeftY){
         super(upperLeftX,upperLeftY);
         setTexture(new ImageIcon("PowerUpBlock.png"));
     }
