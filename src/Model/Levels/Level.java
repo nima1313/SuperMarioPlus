@@ -8,7 +8,7 @@ import Model.Enemies.Spiny;
 import Model.Items.*;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
-import Model.PhysicalObjects.Pipe;
+import Model.Pipes.Pipe;
 import View.MainMenuPage;
 
 import javax.swing.*;
@@ -17,9 +17,13 @@ public class Level {
 
     //a level contains the information of the world in the level + the information of the things that our player has done.
     private int time;
+    private int hearts;
+    private int marioState;
     private int characterInitialX;
     private int characterInitialY;
     private int levelNumber,sectionNumber;
+
+    private int length;
 
     //we will display collectedCoins, remainingTime, remainingHearts and total score //TODO (in the game Engine)
 
@@ -237,5 +241,29 @@ public class Level {
 
     public void setSectionNumber(int sectionNumber) {
         this.sectionNumber = sectionNumber;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public int getHearts() {
+        return hearts;
+    }
+
+    public void setHearts(int hearts) {
+        this.hearts = hearts;
+    }
+
+    public int getMarioState() {
+        return marioState;
+    }
+
+    public void setMarioState(int marioState) {
+        this.marioState = marioState;
     }
 }

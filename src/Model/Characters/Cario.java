@@ -6,9 +6,6 @@ public class Cario extends Hero {
     public Cario(){
         super();
         setCharacterName("Cario");
-        setPhaseOneTexture(new ImageIcon("CarioPhaseOne.png"));
-        setPhaseTwoTexture(new ImageIcon("CarioPhaseTwo.png"));
-        setPhaseThreeTexture(new ImageIcon("CarioPhaseThree.png"));
         setCurrentPhase(1);
         setCoinCollectCoefficient(2);
         setCharacterJumpSpeed(getJumpConstant());
@@ -21,13 +18,39 @@ public class Cario extends Hero {
         super();
         setUnlocked(unlocked);
         setCharacterName("Cario");
-        setPhaseOneTexture(new ImageIcon("CarioPhaseOne.png"));
-        setPhaseTwoTexture(new ImageIcon("CarioPhaseTwo.png"));
-        setPhaseThreeTexture(new ImageIcon("CarioPhaseThree.png"));
         setCurrentPhase(1);
         setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpRange);
         setCharacterSpeed(speed);
         setReloadDelay(reloadDelay);
+    }
+
+    @Override
+    public ImageIcon getTexture(){
+        if (getDirection().equals("Right")){
+            if (isSeating()) {
+                if (getCurrentPhase() == 0) return new ImageIcon("CarioPhaseOneRight.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("CarioPhaseTwoRightSeated.png");
+                else return new ImageIcon("CarioPhaseThreeRightSeated.png");
+            }
+            else {
+                if (getCurrentPhase() == 0) return new ImageIcon("CarioPhaseOneRight.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("CarioPhaseTwoRight.png");
+                else return new ImageIcon("CarioPhaseThreeRight.png");
+            }
+        }
+        else {
+            if (isSeating()) {
+                if (getCurrentPhase() == 0) return new ImageIcon("CarioPhaseOneLeft.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("CarioPhaseTwoLeftSeated.png");
+                else return new ImageIcon("CarioPhaseThreeLeftSeated.png");
+            }
+            else {
+                if (getCurrentPhase() == 0) return new ImageIcon("CarioPhaseOneLeft.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("CarioPhaseTwoLeft.png");
+                else return new ImageIcon("CarioPhaseThreeLeft.png");
+            }
+        }
+
     }
 }

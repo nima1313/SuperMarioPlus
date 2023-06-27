@@ -12,11 +12,9 @@ public class Character {
     protected final int jumpConstant = 16;
     private int characterSpeed;
     private int characterJumpSpeed;
-    private transient ImageIcon phaseOneTexture;
-    private transient ImageIcon phaseTwoTexture;
-    private transient ImageIcon phaseThreeTexture;
 
-    private transient ImageIcon texture;
+    private boolean isSeating = false;
+    private String direction = "Right";
     private int phaseOneHeight = 40;
     private int phaseTwoHeight = 80;
     private int phaseThreeHeight = 80;
@@ -25,7 +23,7 @@ public class Character {
     private int phaseThreeLength = 40;
     private int length;
     private int height;
-    private int currentPhase = 1;
+    private int currentPhase = 0;
     private int upperLeftX=500,upperLeftY=0;
     private int currentSpeed_x = 0;
     private int currentSpeed_y = 0;
@@ -35,23 +33,19 @@ public class Character {
 
 
     public int getLength() {
-        if (getCurrentPhase() == 1) return getPhaseOneLength();
-        else if (getCurrentPhase() == 2) return getPhaseTwoLength();
+        if (getCurrentPhase() == 0) return getPhaseOneLength();
+        else if (getCurrentPhase() == 1) return getPhaseTwoLength();
         else return getPhaseThreeLength();
     }
 
     public int getHeight() {
-        if (getCurrentPhase() == 1) return getPhaseOneHeight();
-        else if (getCurrentPhase() == 2) return getPhaseTwoHeight();
+        if (getCurrentPhase() == 0) return getPhaseOneHeight();
+        else if (getCurrentPhase() == 1) return getPhaseTwoHeight();
         else return getPhaseThreeHeight();
     }
 
     public ImageIcon getTexture() {
-        if (getCurrentPhase() == 1){
-            return getPhaseOneTexture();
-        }
-        else if (getCurrentPhase() == 2) return getPhaseTwoTexture();
-        else return getPhaseThreeTexture();
+        return null;
     }
 
     public boolean isUnlocked() {
@@ -67,29 +61,6 @@ public class Character {
         return speedConstant;
     }
 
-    public ImageIcon getPhaseOneTexture() {
-        return phaseOneTexture;
-    }
-
-    public void setPhaseOneTexture(ImageIcon phaseOneTexture) {
-        this.phaseOneTexture = phaseOneTexture;
-    }
-
-    public ImageIcon getPhaseTwoTexture() {
-        return phaseTwoTexture;
-    }
-
-    public void setPhaseTwoTexture(ImageIcon phaseTwoTexture) {
-        this.phaseTwoTexture = phaseTwoTexture;
-    }
-
-    public ImageIcon getPhaseThreeTexture() {
-        return phaseThreeTexture;
-    }
-
-    public void setPhaseThreeTexture(ImageIcon phaseThreeTexture) {
-        this.phaseThreeTexture = phaseThreeTexture;
-    }
 
     public int getPhaseOneHeight() {
         return phaseOneHeight;
@@ -229,5 +200,21 @@ public class Character {
 
     public void setGravity(int gravity) {
         this.gravity = gravity;
+    }
+
+    public boolean isSeating() {
+        return isSeating;
+    }
+
+    public void setSeating(boolean seating) {
+        isSeating = seating;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 }

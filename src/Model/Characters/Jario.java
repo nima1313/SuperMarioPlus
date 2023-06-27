@@ -8,9 +8,6 @@ public class Jario extends Hero {
     public Jario(){
         super();
         setCharacterName("Jario");
-        setPhaseOneTexture(new ImageIcon("JarioPhaseOne.png"));
-        setPhaseTwoTexture(new ImageIcon("JarioPhaseTwo.png"));
-        setPhaseThreeTexture(new ImageIcon("JarioPhaseThree.png"));
         setCurrentPhase(1);
         setCoinCollectCoefficient(1);
         setCharacterJumpSpeed((int)(getJumpConstant() * 1.25));
@@ -23,14 +20,38 @@ public class Jario extends Hero {
         super();
         setUnlocked(unlocked);
         setCharacterName("Jario");
-        setPhaseOneTexture(new ImageIcon("JarioPhaseOne.png"));
-        setPhaseTwoTexture(new ImageIcon("JarioPhaseTwo.png"));
-        setPhaseThreeTexture(new ImageIcon("JarioPhaseThree.png"));
         setCurrentPhase(1);
         setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpSpeed);
         setCharacterSpeed(speed);
         setReloadDelay(reloadDelay);
     }
+    @Override
+    public ImageIcon getTexture(){
+        if (getDirection().equals("Right")){
+            if (isSeating()) {
+                if (getCurrentPhase() == 0) return new ImageIcon("JarioPhaseOneRight.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("JarioPhaseTwoRightSeated.png");
+                else return new ImageIcon("JarioPhaseThreeRightSeated.png");
+            }
+            else {
+                if (getCurrentPhase() == 0) return new ImageIcon("JarioPhaseOneRight.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("JarioPhaseTwoRight.png");
+                else return new ImageIcon("JarioPhaseThreeRight.png");
+            }
+        }
+        else {
+            if (isSeating()) {
+                if (getCurrentPhase() == 0) return new ImageIcon("JarioPhaseOneLeft.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("JarioPhaseTwoLeftSeated.png");
+                else return new ImageIcon("JarioPhaseThreeLeftSeated.png");
+            }
+            else {
+                if (getCurrentPhase() == 0) return new ImageIcon("JarioPhaseOneLeft.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("JarioPhaseTwoLeft.png");
+                else return new ImageIcon("JarioPhaseThreeLeft.png");
+            }
+        }
 
+    }
 }

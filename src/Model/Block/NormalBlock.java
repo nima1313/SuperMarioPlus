@@ -7,11 +7,14 @@ import javax.swing.*;
 public class NormalBlock extends Block {
     public NormalBlock(int upperLeftX, int upperLeftY){
         super(upperLeftX,upperLeftY);
-        setTexture(new ImageIcon("Textures/Blocks/NormalBlock.png"));
         setType("NormalBlock");
     }
     public void gotHit(){
         this.disappear();
         //TODO:add one point
+    }
+    @Override
+    public ImageIcon getTexture(){
+        return new ImageIcon("Textures/Blocks/NormalBlock.png");
     }
 }

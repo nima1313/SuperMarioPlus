@@ -3,13 +3,12 @@ package View;
 import Model.Block.CoinBlock;
 import Model.Block.EmptyBlock;
 import Model.Block.NormalBlock;
-import Model.Block.PowerUpBlock;
 import Model.Characters.Character;
 import Model.Enemies.Flower;
 import Model.Items.Coin;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
-import Model.PhysicalObjects.Pipe;
+import Model.Pipes.Pipe;
 import Model.SavedGame;
 import Model.User;
 

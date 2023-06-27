@@ -37,7 +37,7 @@ public class StorePage extends JFrame {
         for (int i = 0 ; i < user.getCharacters().size();i++){
             Character thisCharacter = user.getCharacters().get(i);
             if (thisCharacter.getCharacterName().equals("Mario")){
-                MarioImage = thisCharacter.getPhaseOneTexture();
+                MarioImage = thisCharacter.getTexture();
                 JLabel image = new JLabel(MarioImage);
                 image.setBounds(50+200, 110, 100,100);
                 add(image);
@@ -60,7 +60,7 @@ public class StorePage extends JFrame {
                 add(MarioSelectButton);
             }
             if (thisCharacter.getCharacterName() == "Cario"){
-                CarioImage = thisCharacter.getPhaseOneTexture();
+                CarioImage = thisCharacter.getTexture();
                 JLabel image = new JLabel(CarioImage);
                 image.setBounds(200+200, 110, 100,100);
                 add(image);
@@ -83,7 +83,7 @@ public class StorePage extends JFrame {
                 add(CarioSelectButton);
             }
             if (thisCharacter.getCharacterName() == "Jario"){
-                JarioImage = thisCharacter.getPhaseOneTexture();
+                JarioImage = thisCharacter.getTexture();
                 JLabel image = new JLabel(JarioImage);
                 image.setBounds(350+200, 110, 100,100);
                 add(image);
@@ -106,7 +106,7 @@ public class StorePage extends JFrame {
                 add(JarioSelectButton);
             }
             if (thisCharacter.getCharacterName() == "Rario"){
-                RarioImage = thisCharacter.getPhaseOneTexture();
+                RarioImage = thisCharacter.getTexture();
                 JLabel image = new JLabel(RarioImage);
                 image.setBounds(500+200, 110, 100,100);
                 add(image);
@@ -129,7 +129,7 @@ public class StorePage extends JFrame {
                 add(RarioSelectButton);
             }
             if (thisCharacter.getCharacterName() == "Sario"){
-                SarioImage = thisCharacter.getPhaseOneTexture();
+                SarioImage = thisCharacter.getTexture();
                 JLabel image = new JLabel(SarioImage);
                 image.setBounds(650+200, 110, 100,100);
                 add(image);

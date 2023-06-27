@@ -9,7 +9,7 @@ import Model.Levels.Level;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
 import Model.PhysicalObjects.PhysicalObject;
-import Model.PhysicalObjects.Pipe;
+import Model.Pipes.Pipe;
 import Model.SavedGame;
 import Model.User;
 import View.GameFrame;
@@ -234,9 +234,7 @@ public class GameEngine implements Runnable {
                 normalBlocks.set(index, thisBlock);
             }
         }
-        ArrayList<NormalBlock> newNormalBlocks = level.getNormalBlocks();
-        newNormalBlocks = normalBlocks;
-        level.setNormalBlocks(newNormalBlocks);
+        level.setNormalBlocks(normalBlocks);
     }
     private void coinBlocksResolveCollusionY(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
@@ -270,16 +268,55 @@ public class GameEngine implements Runnable {
             int index = collusionIndex.get(i);
             CoinBlock thisBlock = coinBlocks.get(index);
             if (character.getUpperLeftY() == thisBlock.getUpperLeftY() + thisBlock.getHEIGHT()) {
-                thisBlock.gotHit();
-                //updateCurrentSectionCoins(1);
+                thisBlock.gotHit(level);
+                updateCurrentSectionScores(1);
                 coinBlocks.set(index, thisBlock);
             }
         }
-        ArrayList<CoinBlock> newCoinBlocks = level.getCoinBlocks();
-        newCoinBlocks = coinBlocks;
-        level.setCoinBlocks(newCoinBlocks);
+        level.setCoinBlocks(coinBlocks);
     }
-
+    private void MultiCoinBlocksResolveCollusionY(Level level, Collusion collusion){
+        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        ArrayList<MultiCoinBlock> multiCoinBlocks = level.getMultiCoinBlocks();
+        collusionIndex = new ArrayList<>();
+        for (int i = 0 ; i < multiCoinBlocks.size();i++){
+            MultiCoinBlock thisBlock = multiCoinBlocks.get(i);
+            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+        }
+        if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
+            int maxHeight = - 1;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                if (multiCoinBlocks.get(collusionIndex.get(i)).getUpperLeftY() >= maxHeight) maxHeight = multiCoinBlocks.get(collusionIndex.get(i)).getUpperLeftY();
+            }
+            character.setCurrentSpeed_y(0);
+            character.setUpperLeftY(maxHeight - character.getHeight());
+            collusion.setDownCollusion(true);
+            collusion.setUpCollusion(false);
+        }
+        else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
+            int minHeight = 100000;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                if (multiCoinBlocks.get(collusionIndex.get(i)).getUpperLeftY() + multiCoinBlocks.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = multiCoinBlocks.get(collusionIndex.get(i)).getUpperLeftY() + multiCoinBlocks.get(collusionIndex.get(i)).getHEIGHT();
+            }
+            character.setUpperLeftY(minHeight);
+            character.setCurrentSpeed_y(0);
+            collusion.setDownCollusion(false);
+            collusion.setUpCollusion(true);
+        }
+        for (int i = 0 ; i < collusionIndex.size();i++){
+            int index = collusionIndex.get(i);
+            MultiCoinBlock thisBlock = multiCoinBlocks.get(index);
+            if (character.getUpperLeftY() == thisBlock.getUpperLeftY() + thisBlock.getHEIGHT()) {
+                if (thisBlock.getCoins() > 0) {
+                    updateCurrentSectionScores(1);
+                    updateCurrentSectionCoins(1);
+                }
+                thisBlock.gotHit();
+                multiCoinBlocks.set(index, thisBlock);
+            }
+        }
+        level.setMultiCoinBlocks(multiCoinBlocks);
+    }
     private void emptyBlocksResolveCollusionY(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<EmptyBlock> emptyBlocks  = level.getEmptyBlocks();

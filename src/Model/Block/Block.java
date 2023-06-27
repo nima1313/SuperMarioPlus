@@ -13,20 +13,9 @@ public class Block extends PhysicalObject {
     private int upperLeftX, upperLeftY;
     private String item;
 
-    private ImageIcon texture;
-
-
     Block(int upperLeftX, int upperLeftY){
         setUpperLeftX(upperLeftX);
         setUpperLeftY(upperLeftY);
-    }
-
-    public ImageIcon getTexture() {
-        return texture;
-    }
-
-    public void setTexture(ImageIcon texture) {
-        this.texture = texture;
     }
 
     public int getLENGTH() {
@@ -72,5 +61,9 @@ public class Block extends PhysicalObject {
 
     public void setItem(String item) {
         this.item = item;
+    }
+
+    public ImageIcon getTexture(){
+        return null;
     }
 }

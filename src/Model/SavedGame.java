@@ -12,6 +12,7 @@ public class SavedGame {
     private int currentSectionCoins;
     private int lastLevel;
     private int lastSection;
+
     Character character;
 
     public SavedGame(int lastLevel,int lastSection, int totalScore, int remainingHearts,int currentLevelScore, int currentSectionCoins, String characterName) {
