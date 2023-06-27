@@ -1,4 +1,4 @@
-package Model.Characters;
+package Model.Enemies;
 
 import javax.swing.*;
 
@@ -7,6 +7,7 @@ public class Enemy {
     int length;
     int upperLeftX;
     int upperLeftY;
+    String type;
     private ImageIcon texture;
 
     public ImageIcon getTexture() {
@@ -47,5 +48,13 @@ public class Enemy {
 
     public void setUpperLeftY(int upperLeftY) {
         this.upperLeftY = upperLeftY;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String enemyType) {
+        this.type = enemyType;
     }
 }

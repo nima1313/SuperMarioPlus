@@ -4,7 +4,7 @@ import Model.Block.CoinBlock;
 import Model.Block.EmptyBlock;
 import Model.Block.NormalBlock;
 import Model.Block.PowerUpBlock;
-import Model.Characters.Flower;
+import Model.Enemies.Flower;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
 import Model.Items.Coin;

@@ -11,6 +11,7 @@ public class Block extends PhysicalObject {
     private String type;
 
     private int upperLeftX, upperLeftY;
+    private String item;
 
     private ImageIcon texture;
 
@@ -63,5 +64,13 @@ public class Block extends PhysicalObject {
     public void disappear(){
         setUpperLeftX(-1000);
         setUpperLeftY(-1000);
+    }
+
+    public String getItem() {
+        return item;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
     }
 }

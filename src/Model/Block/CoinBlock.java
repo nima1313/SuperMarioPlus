@@ -15,7 +15,8 @@ public class CoinBlock extends Block {
     public void gotHit(){
         if (collected == false){
             //it still has a coin
-            //TODO : make the cion appear in the collusion and add that one point
+            //TODO : make the coin appear in the collusion
+            // TODO : add one point
             collected = true;
         }
         else {

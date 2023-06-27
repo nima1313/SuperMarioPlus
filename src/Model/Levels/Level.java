@@ -4,7 +4,7 @@ import Model.Block.CoinBlock;
 import Model.Block.EmptyBlock;
 import Model.Block.NormalBlock;
 import Model.Block.PowerUpBlock;
-import Model.Characters.Flower;
+import Model.Enemies.Flower;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
 import Model.Items.Coin;
@@ -12,7 +12,7 @@ import Model.PhysicalObjects.Pipe;
 
 import javax.swing.*;
 import java.util.ArrayList;
-abstract public class Level {
+public class Level {
 
     //a level contains the information of the world in the level + the information of the things that our player has done.
     private int levelNumber;

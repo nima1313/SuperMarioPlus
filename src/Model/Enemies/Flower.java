@@ -1,6 +1,6 @@
-package Model.Characters;
+package Model.Enemies;
 
-import Model.Characters.Enemy;
+import Model.Enemies.Enemy;
 
 import javax.swing.*;
 
@@ -12,5 +12,6 @@ public class Flower extends Enemy {
         setLength(40);
         setHeight(60);
         setTexture(new ImageIcon("Flower.png"));
+        setType("Flower");
     }
 }

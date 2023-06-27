@@ -1,8 +1,8 @@
 package Model;
 import Model.Block.*;
 import Model.Characters.Character;
-import Model.Characters.Enemy;
-import Model.Characters.Flower;
+import Model.Enemies.Enemy;
+import Model.Enemies.Flower;
 import Model.Items.Coin;
 import Model.Items.Item;
 import Model.Levels.Level;
@@ -45,165 +45,7 @@ public class GameEngine implements Runnable {
         gameThread.start();
     }
 
-    public class Collusion{
 
-        boolean upCollusion = false; //THESE ARE IN RESPECT TO THE CHARACTER (down -> bottom of the character)
-        boolean downCollusion = false;
-        boolean leftCollusion = false;
-        boolean rightCollusion = false;
-
-
-        int getRightSide(Character character){
-            return character.getUpperLeftX() + character.getLength();
-        }
-        int getRightSide(Block block){
-            return block.getUpperLeftX() + block.getLENGTH();
-        }
-        int getRightSide(Pipe pipe){
-            return pipe.getUpperLeftX() + pipe.getLENGTH();
-        }
-        int getRightSide(PhysicalObject physicalObject){
-            return physicalObject.getUpperLeftX() + physicalObject.getLength();
-        }
-
-        int getRightSide(Enemy enemy){return enemy.getUpperLeftX() + enemy.getLength();}
-        int getRightSide(Item item){return item.getUpperLeftX() + item.getLength();}
-
-        int getLeftSide(Character character){
-            return character.getUpperLeftX();
-        }
-        int getLeftSide(Block block){
-            return block.getUpperLeftX();
-        }
-        int getLeftSide(Pipe pipe){
-            return pipe.getUpperLeftX();
-        }
-        int getLeftSide(PhysicalObject physicalObject){
-            return physicalObject.getUpperLeftX();
-        }
-        int getLeftSide(Enemy enemy){
-            return enemy.getUpperLeftX();
-        }
-        int getLeftSide(Item item){return item.getUpperLeftX();}
-
-        int getDownSide(Character character){
-            return character.getUpperLeftY() + character.getHeight();
-        }
-        int getDownSide(Block block){
-            return block.getUpperLeftY() + block.getHEIGHT();
-        }
-        int getDownSide(Pipe pipe){
-            return pipe.getUpperLeftY() + pipe.getHEIGHT();
-        }
-        int getDownSide(PhysicalObject physicalObject){
-            return physicalObject.getUpperLeftY() + physicalObject.getHeight();
-        }
-        int getDownSide(Enemy enemy){
-            return enemy.getUpperLeftY() + enemy.getHeight();
-        }
-        int getDownSide(Item item) {return item.getUpperLeftY()+item.getHeight();}
-
-        int getUpSide(Character character){
-            return character.getUpperLeftY();
-        }
-        int getUpSide(Block block){
-            return block.getUpperLeftY();
-        }
-        int getUpSide(Pipe pipe){
-            return pipe.getUpperLeftY();
-        }
-        int getUpSide(PhysicalObject physicalObject){
-            return physicalObject.getUpperLeftY();
-        }
-        int getUpSide(Enemy enemy){
-            return enemy.getUpperLeftY();
-        }
-        int getUpSide(Item item){ return item.getUpperLeftY();}
-
-
-
-
-        boolean CheckCollusion(Character character,Block block){
-            boolean yCollusion = false;
-            boolean xCollusion = false;
-            if (getLeftSide(character) < getRightSide(block) && getRightSide(character) > getLeftSide(block)) xCollusion = true;
-            if (getUpSide(character) < getDownSide(block) && getDownSide(character) > getUpSide(block)) yCollusion = true;
-            if (xCollusion && yCollusion) return true;
-            else return false;
-        }
-        boolean CheckCollusion(Character character, PhysicalObject physicalObject){
-            boolean yCollusion = false;
-            boolean xCollusion = false;
-            if (getLeftSide(character) < getRightSide(physicalObject) && getRightSide(character) > getLeftSide(physicalObject)) xCollusion = true;
-            if (getUpSide(character) < getDownSide(physicalObject) && getDownSide(character) > getUpSide(physicalObject)) yCollusion = true;
-            if (xCollusion && yCollusion) return true;
-            else return false;
-        }
-        boolean CheckCollusion(Character character, Pipe pipe){
-            boolean yCollusion = false;
-            boolean xCollusion = false;
-            if (getLeftSide(character) < getRightSide(pipe) && getRightSide(character) > getLeftSide(pipe)) xCollusion = true;
-            if (getUpSide(character) < getDownSide(pipe) && getDownSide(character) > getUpSide(pipe)) yCollusion = true;
-            if (xCollusion && yCollusion) return true;
-            else return false;
-        }
-        boolean CheckCollusion(Character player, Character enemy){
-            boolean yCollusion = false;
-            boolean xCollusion = false;
-            if (getLeftSide(player) < getRightSide(enemy) && getRightSide(player) > getLeftSide(enemy)) xCollusion = true;
-            if (getUpSide(player) < getDownSide(enemy) && getDownSide(player) >  getUpSide(enemy)) yCollusion = true;
-            if (xCollusion && yCollusion) return true;
-            else return false;
-        }
-        boolean CheckCollusion(Character character,Enemy enemy){
-            boolean yCollusion = false;
-            boolean xCollusion = false;
-            if (getLeftSide(character) < getRightSide(enemy) && getRightSide(character) > getLeftSide(enemy)) xCollusion = true;
-            if (getUpSide(character) < getDownSide(enemy) && getDownSide(character) > getUpSide(enemy)) yCollusion = true;
-            if (xCollusion && yCollusion) return true;
-            else return false;
-        }
-        boolean CheckCollusion(Character character,Item item){
-            boolean yCollusion = false;
-            boolean xCollusion = false;
-            if (getLeftSide(character) < getRightSide(item) && getRightSide(character) > getLeftSide(item)) xCollusion = true;
-            if (getUpSide(character) < getDownSide(item) && getDownSide(character) > getUpSide(item)) yCollusion = true;
-            if (xCollusion && yCollusion) return true;
-            else return false;
-        }
-
-        public boolean isUpCollusion() {
-            return upCollusion;
-        }
-
-        public void setUpCollusion(boolean upCollusion) {
-            this.upCollusion = upCollusion;
-        }
-
-        public boolean isDownCollusion() {
-            return downCollusion;
-        }
-
-        public void setDownCollusion(boolean downCollusion) {
-            this.downCollusion = downCollusion;
-        }
-
-        public boolean isLeftCollusion() {
-            return leftCollusion;
-        }
-
-        public void setLeftCollusion(boolean leftCollusion) {
-            this.leftCollusion = leftCollusion;
-        }
-
-        public boolean isRightCollusion() {
-            return rightCollusion;
-        }
-
-        public void setRightCollusion(boolean rightCollusion) {
-            this.rightCollusion = rightCollusion;
-        }
-    }
 
     public void moveX(){
         character.setCurrentSpeed_x(0);
@@ -834,6 +676,166 @@ public class GameEngine implements Runnable {
         }
     }
 
+
+    public class Collusion{
+
+        boolean upCollusion = false; //THESE ARE IN RESPECT TO THE CHARACTER (down -> bottom of the character)
+        boolean downCollusion = false;
+        boolean leftCollusion = false;
+        boolean rightCollusion = false;
+
+
+        int getRightSide(Character character){
+            return character.getUpperLeftX() + character.getLength();
+        }
+        int getRightSide(Block block){
+            return block.getUpperLeftX() + block.getLENGTH();
+        }
+        int getRightSide(Pipe pipe){
+            return pipe.getUpperLeftX() + pipe.getLENGTH();
+        }
+        int getRightSide(PhysicalObject physicalObject){
+            return physicalObject.getUpperLeftX() + physicalObject.getLength();
+        }
+
+        int getRightSide(Enemy enemy){return enemy.getUpperLeftX() + enemy.getLength();}
+        int getRightSide(Item item){return item.getUpperLeftX() + item.getLength();}
+
+        int getLeftSide(Character character){
+            return character.getUpperLeftX();
+        }
+        int getLeftSide(Block block){
+            return block.getUpperLeftX();
+        }
+        int getLeftSide(Pipe pipe){
+            return pipe.getUpperLeftX();
+        }
+        int getLeftSide(PhysicalObject physicalObject){
+            return physicalObject.getUpperLeftX();
+        }
+        int getLeftSide(Enemy enemy){
+            return enemy.getUpperLeftX();
+        }
+        int getLeftSide(Item item){return item.getUpperLeftX();}
+
+        int getDownSide(Character character){
+            return character.getUpperLeftY() + character.getHeight();
+        }
+        int getDownSide(Block block){
+            return block.getUpperLeftY() + block.getHEIGHT();
+        }
+        int getDownSide(Pipe pipe){
+            return pipe.getUpperLeftY() + pipe.getHEIGHT();
+        }
+        int getDownSide(PhysicalObject physicalObject){
+            return physicalObject.getUpperLeftY() + physicalObject.getHeight();
+        }
+        int getDownSide(Enemy enemy){
+            return enemy.getUpperLeftY() + enemy.getHeight();
+        }
+        int getDownSide(Item item) {return item.getUpperLeftY()+item.getHeight();}
+
+        int getUpSide(Character character){
+            return character.getUpperLeftY();
+        }
+        int getUpSide(Block block){
+            return block.getUpperLeftY();
+        }
+        int getUpSide(Pipe pipe){
+            return pipe.getUpperLeftY();
+        }
+        int getUpSide(PhysicalObject physicalObject){
+            return physicalObject.getUpperLeftY();
+        }
+        int getUpSide(Enemy enemy){
+            return enemy.getUpperLeftY();
+        }
+        int getUpSide(Item item){ return item.getUpperLeftY();}
+
+
+
+
+        boolean CheckCollusion(Character character,Block block){
+            boolean yCollusion = false;
+            boolean xCollusion = false;
+            if (getLeftSide(character) < getRightSide(block) && getRightSide(character) > getLeftSide(block)) xCollusion = true;
+            if (getUpSide(character) < getDownSide(block) && getDownSide(character) > getUpSide(block)) yCollusion = true;
+            if (xCollusion && yCollusion) return true;
+            else return false;
+        }
+        boolean CheckCollusion(Character character, PhysicalObject physicalObject){
+            boolean yCollusion = false;
+            boolean xCollusion = false;
+            if (getLeftSide(character) < getRightSide(physicalObject) && getRightSide(character) > getLeftSide(physicalObject)) xCollusion = true;
+            if (getUpSide(character) < getDownSide(physicalObject) && getDownSide(character) > getUpSide(physicalObject)) yCollusion = true;
+            if (xCollusion && yCollusion) return true;
+            else return false;
+        }
+        boolean CheckCollusion(Character character, Pipe pipe){
+            boolean yCollusion = false;
+            boolean xCollusion = false;
+            if (getLeftSide(character) < getRightSide(pipe) && getRightSide(character) > getLeftSide(pipe)) xCollusion = true;
+            if (getUpSide(character) < getDownSide(pipe) && getDownSide(character) > getUpSide(pipe)) yCollusion = true;
+            if (xCollusion && yCollusion) return true;
+            else return false;
+        }
+        boolean CheckCollusion(Character player, Character enemy){
+            boolean yCollusion = false;
+            boolean xCollusion = false;
+            if (getLeftSide(player) < getRightSide(enemy) && getRightSide(player) > getLeftSide(enemy)) xCollusion = true;
+            if (getUpSide(player) < getDownSide(enemy) && getDownSide(player) >  getUpSide(enemy)) yCollusion = true;
+            if (xCollusion && yCollusion) return true;
+            else return false;
+        }
+        boolean CheckCollusion(Character character,Enemy enemy){
+            boolean yCollusion = false;
+            boolean xCollusion = false;
+            if (getLeftSide(character) < getRightSide(enemy) && getRightSide(character) > getLeftSide(enemy)) xCollusion = true;
+            if (getUpSide(character) < getDownSide(enemy) && getDownSide(character) > getUpSide(enemy)) yCollusion = true;
+            if (xCollusion && yCollusion) return true;
+            else return false;
+        }
+        boolean CheckCollusion(Character character,Item item){
+            boolean yCollusion = false;
+            boolean xCollusion = false;
+            if (getLeftSide(character) < getRightSide(item) && getRightSide(character) > getLeftSide(item)) xCollusion = true;
+            if (getUpSide(character) < getDownSide(item) && getDownSide(character) > getUpSide(item)) yCollusion = true;
+            if (xCollusion && yCollusion) return true;
+            else return false;
+        }
+
+        public boolean isUpCollusion() {
+            return upCollusion;
+        }
+
+        public void setUpCollusion(boolean upCollusion) {
+            this.upCollusion = upCollusion;
+        }
+
+        public boolean isDownCollusion() {
+            return downCollusion;
+        }
+
+        public void setDownCollusion(boolean downCollusion) {
+            this.downCollusion = downCollusion;
+        }
+
+        public boolean isLeftCollusion() {
+            return leftCollusion;
+        }
+
+        public void setLeftCollusion(boolean leftCollusion) {
+            this.leftCollusion = leftCollusion;
+        }
+
+        public boolean isRightCollusion() {
+            return rightCollusion;
+        }
+
+        public void setRightCollusion(boolean rightCollusion) {
+            this.rightCollusion = rightCollusion;
+        }
+    }
     public SavedGame getThisSave() {
         return thisSave;
     }
@@ -879,4 +881,5 @@ public class GameEngine implements Runnable {
     public Character getCharacter() {
         return character;
     }
+
 }
