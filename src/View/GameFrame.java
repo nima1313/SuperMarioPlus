@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 
 public class GameFrame extends JFrame {
 
@@ -23,7 +24,7 @@ public class GameFrame extends JFrame {
     CoinPanel coinPanel;
     LevelNamePanel levelNamePanel;
     GameExitPanel gameExitPanel;
-    public GameFrame(User user){
+    public GameFrame(User user) throws FileNotFoundException {
         super("HI");
         setSize(1000,1000);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

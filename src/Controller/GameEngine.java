@@ -33,7 +33,7 @@ public class GameEngine implements Runnable {
 
     int theHolyIllusion; //the illusion of movement
 
-    public GameEngine(User user, GameFrame gameFrame){
+    public GameEngine(User user, GameFrame gameFrame) throws FileNotFoundException {
         setUser(user);
         this.gameFrame = gameFrame;
         gameThread = new Thread(this);
@@ -41,7 +41,7 @@ public class GameEngine implements Runnable {
         this.character = thisSave.getCharacter();
         int currentLevel = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastLevel();
         int currentSection = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastSection();
-        this.level = thisSave.levelMaker(currentLevel,currentSection);
+        this.level = LevelConstructor.construct(currentLevel,currentSection);
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
         collusion = new Collusion();
@@ -102,7 +102,7 @@ public class GameEngine implements Runnable {
 
     }
 
-    private void endWallResolveCollusionY(Level level, Collusion collusion){
+    private void endWallResolveCollusionY(Level level, Collusion collusion) throws FileNotFoundException {
         //checking EndWall collusion
         EndWall endWalls = level.getEndWalls();
         if (collusion.CheckCollusion(character,endWalls)){
@@ -139,7 +139,7 @@ public class GameEngine implements Runnable {
             collusion.setUpCollusion(true);
         }
     }
-    private void flowersResolveCollusionY(Level level, Collusion collusion){
+    private void flowersResolveCollusionY(Level level, Collusion collusion) throws FileNotFoundException {
         ArrayList<Flower> flowers = level.getFlowers();
         for (int i = 0 ; i < flowers.size();i++){
             Flower thisFlower = flowers.get(i);
@@ -309,7 +309,7 @@ public class GameEngine implements Runnable {
             collusion.setUpCollusion(true);
         }
     }
-    public void resolveCollusionY(){
+    public void resolveCollusionY() throws FileNotFoundException {
         //TODO : make it cleaner using collusion class functions. (like how it's implemented in resolveCollusionX. I fixed flowers collusion but no others)
 
         Collusion collusion = GameEngine.this.collusion;
@@ -340,14 +340,14 @@ public class GameEngine implements Runnable {
         emptyBlocksResolveCollusionY(level,collusion);
     }
 
-    private void endWallResolveCollusionX(Level level, Collusion collusion){
+    private void endWallResolveCollusionX(Level level, Collusion collusion) throws FileNotFoundException {
         EndWall endWalls = level.getEndWalls();
         if (collusion.CheckCollusion(character,endWalls)){
             sectionEnds();
             return;
         }
     }
-    private void flowersResolveCollusionX(Level level, Collusion collusion){
+    private void flowersResolveCollusionX(Level level, Collusion collusion) throws FileNotFoundException {
         ArrayList<Flower> flowers = level.getFlowers();
 
         for (int i = 0 ; i < flowers.size();i++){
@@ -531,7 +531,7 @@ public class GameEngine implements Runnable {
             collusion.setRightCollusion(true);
         }
     }
-    public void resolveCollusionX(){
+    public void resolveCollusionX() throws FileNotFoundException {
 
         Collusion collusion = GameEngine.this.collusion;
         Level level = GameEngine.this.level;
@@ -564,7 +564,7 @@ public class GameEngine implements Runnable {
         pipesResolveCollusionX(level,collusion);
 
     }
-    public void checkFallDeath(){
+    public void checkFallDeath() throws FileNotFoundException {
         if (character.getUpperLeftY() >= 600){
             death();
         }
@@ -585,7 +585,7 @@ public class GameEngine implements Runnable {
         totalScore *= character.getCurrentPhase();
         thisSave.setCurrentLevelScore(thisSave.getCurrentLevelScore() + totalScore);
     }
-    public void death() {
+    public void death() throws FileNotFoundException {
         //if hearts == 0, reset the save
         totalPassedTime = 0;
         stopChecking = true;
@@ -610,7 +610,7 @@ public class GameEngine implements Runnable {
             new GameFrame(user);
         }
     }
-    public void sectionEnds(){
+    public void sectionEnds() throws FileNotFoundException {
         stopChecking = true;
         updateCurrentLevelScores();//don't forget that this exists :))
         if (LevelConstructor.numberOfSections(level.getLevelNumber()) - 1 == level.getSectionNumber()){
@@ -639,7 +639,7 @@ public class GameEngine implements Runnable {
         }
         else {
             thisSave.setLastSection(thisSave.getLastSection()+1);
-            level = thisSave.levelMaker(level.getLevelNumber(),level.getSectionNumber()+1);
+            level = LevelConstructor.construct(level.getLevelNumber(),level.getSectionNumber()+1);
             user.setTotalCoins(user.getTotalCoins() + thisSave.getCurrentSectionCoins());
             thisSave.setCurrentSectionCoins(0);
             saveThisSave();
@@ -672,14 +672,38 @@ public class GameEngine implements Runnable {
             if (delta >= 1){
                 stopChecking = false;
                 delta--;
-                if (getRemainingTime() <= 0) death();
+                if (getRemainingTime() <= 0) {
+                    try {
+                        death();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if (stopChecking == false)flowersMove();
                 if (stopChecking == false)character.setCurrentSpeed_y(character.getCurrentSpeed_y() + character.getGravity());
                 if (stopChecking == false)moveY();
-                if (stopChecking == false)resolveCollusionY();
+                if (stopChecking == false) {
+                    try {
+                        resolveCollusionY();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if (stopChecking == false) moveX();
-                if (stopChecking == false) resolveCollusionX();
-                if (stopChecking == false) checkFallDeath();
+                if (stopChecking == false) {
+                    try {
+                        resolveCollusionX();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (stopChecking == false) {
+                    try {
+                        checkFallDeath();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if (stopChecking == false) theHolyIllusion = character.getUpperLeftX() - 500;
                 if (stopChecking == false) gameFrame.getGamePanel().repaint();
                 if (stopChecking == false) gameFrame.getScorePanel().repaint();

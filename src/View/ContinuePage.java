@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class ContinuePage extends JFrame {
     User user;
@@ -80,7 +81,11 @@ public class ContinuePage extends JFrame {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new GameFrame(user);
+                try {
+                    new GameFrame(user);
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 dispose();
             }
         });

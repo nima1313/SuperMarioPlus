@@ -23,6 +23,11 @@ public class Level {
 
     //we will display collectedCoins, remainingTime, remainingHearts and total score //TODO (in the game Engine)
 
+    public Level(int levelNumber, int sectionNumber) {
+        this.levelNumber = levelNumber;
+        this.sectionNumber = sectionNumber;
+    }
+
 
     //Blocks//
 

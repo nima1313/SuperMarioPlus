@@ -21,6 +21,6 @@ public class ReadData {
         }
         jsonReader = gson.newJsonReader(fileReader);
         TypeToken<ArrayList<User>> typeToken = new TypeToken<>(){};
-        Memory.allUsers = gson.fromJson(jsonReader, (Type) typeToken);
+        Memory.allUsers = gson.fromJson(jsonReader, typeToken);
     }
 }

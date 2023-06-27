@@ -1,6 +1,18 @@
 package Controller;
 
+import Model.Block.*;
+import Model.Enemies.Flower;
+import Model.Enemies.Goomba;
+import Model.Enemies.Koopa;
+import Model.Enemies.Spiny;
+import Model.Items.Coin;
+import Model.Items.MagicalFlower;
+import Model.Items.MagicalMushroom;
+import Model.Items.MagicalStar;
 import Model.Levels.Level;
+import Model.PhysicalObjects.EndWall;
+import Model.PhysicalObjects.Floor;
+import Model.PhysicalObjects.Pipe;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LevelConstructor
 {
@@ -38,7 +51,68 @@ public class LevelConstructor
             JSONArray items = (JSONArray) currentSection.get("items");
             JSONArray physicalObjects = (JSONArray) currentSection.get("physicalObjects");
             JSONObject spawnPipe = (JSONObject) currentSection.get("spawnPipe");
+            Level newLevel = new Level(_level,_section);
 
+            //Blocks//
+
+            ArrayList<CoinBlock> coinBlocks = new ArrayList<>();
+            ArrayList<EmptyBlock> emptyBlocks = new ArrayList<>();
+            ArrayList<GiftBlock> giftBlocks = new ArrayList<>();
+            ArrayList<MultiCoinBlock> multiCoinBlocks = new ArrayList<>();
+            ArrayList<NormalBlock> normalBlocks = new ArrayList<>();
+
+            for (Object block : blocks){
+                JSONObject ourBlock = (JSONObject) block;
+                String type = (String) ourBlock.get("type");
+                long upperLeftX = (long)ourBlock.get("x");
+                long upperLeftY = (long)ourBlock.get("y");
+                if (type.equals("CoinBlock")){
+                    coinBlocks.add(new CoinBlock((int)upperLeftX,(int)upperLeftY));
+                } else if (type.equals("EmptyBlock")) {
+                    emptyBlocks.add(new EmptyBlock((int)upperLeftX,(int)upperLeftY));
+                } else if (type.equals("GiftBlock")) {
+                    String item = (String) ourBlock.get("item");
+                    giftBlocks.add(new GiftBlock((int)upperLeftX,(int)upperLeftY,item));
+                } else if (type.equals("NormalBlock")) {
+                    normalBlocks.add(new NormalBlock((int)upperLeftX,(int)upperLeftY));
+                }
+                else {
+                    multiCoinBlocks.add(new MultiCoinBlock((int)upperLeftX,(int)upperLeftY));
+                }
+            }
+
+            //Enemies//
+            ArrayList<Flower> flowers = new ArrayList<>(); //TODO : FLOWERS IN PIPE
+            ArrayList<Goomba> goombas = new ArrayList<>();
+            ArrayList<Koopa> koopas = new ArrayList<>();
+            ArrayList<Spiny> spinies = new ArrayList<>();
+            for (Object enemy : enemies){
+                JSONObject ourEnemy = (JSONObject)enemy;
+                String type = (String) ourEnemy.get("type");
+                long upperLeftX = (long)ourEnemy.get("x");
+                long upperLeftY = (long)ourEnemy.get("y");
+                if (type.equals("Flower")){
+
+                } else if (type.equals("Goombas")) {
+
+                }
+            }
+
+
+            //Pipes//
+            ArrayList<Pipe> levelPipes = new ArrayList<>();
+
+
+            //Items//
+            ArrayList<Coin> coins = new ArrayList<>();
+            ArrayList<MagicalFlower> magicalFlowers = new ArrayList<>();
+            ArrayList<MagicalMushroom> magicalMushrooms = new ArrayList<>();
+            ArrayList<MagicalStar> magicalStars = new ArrayList<>();
+
+            //PhysicalObjects//
+
+            ArrayList<Floor> floors = new ArrayList<>();
+            EndWall endWalls;
         }
         catch (IOException | ParseException e)
         {
@@ -46,6 +120,11 @@ public class LevelConstructor
         }
         return null;
     }
+
+    public static void setBlocks(Level newLevel,JSONArray blocks){
+
+    }
+
     public static int numberOfSections( int _level){
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader(location)) {

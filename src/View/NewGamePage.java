@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class NewGamePage extends JFrame {
     User user;
@@ -84,7 +85,11 @@ public class NewGamePage extends JFrame {
                 allCurrentSavedGames[index] = newSavedGame;
                 user.setCurrentSavedGames(allCurrentSavedGames);
                 user.setSelectedSavedGameIndex(index);
-                new GameFrame(user);
+                try {
+                    new GameFrame(user);
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 dispose();
             }
         });

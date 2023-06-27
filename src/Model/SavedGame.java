@@ -28,7 +28,7 @@ public class SavedGame {
         if (characterName.equals("Sario")) setCharacter(new Sario());
     }
 
-    public SavedGame(User user){
+    public SavedGame(User user) {
         setLastLevel(1);
         setLastSection(0);
         setTotalScore(0);
@@ -38,9 +38,6 @@ public class SavedGame {
         setCharacter(user.getCurrentCharacter());
         setLastLevel(lastLevel);
         setLastSection(lastSection);
-    }
-    public Level levelMaker(int level, int section){
-        return null;
     }
 
     public int getTotalScore() {
