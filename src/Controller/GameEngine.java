@@ -15,6 +15,7 @@ import Model.User;
 import View.GameFrame;
 import View.MainMenuPage;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class GameEngine implements Runnable {
@@ -38,7 +39,9 @@ public class GameEngine implements Runnable {
         gameThread = new Thread(this);
         this.thisSave = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()];
         this.character = thisSave.getCharacter();
-        this.level = thisSave.levelMaker();
+        int currentLevel = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastLevel();
+        int currentSection = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastSection();
+        this.level = thisSave.levelMaker(currentLevel,currentSection);
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
         collusion = new Collusion();
@@ -582,13 +585,15 @@ public class GameEngine implements Runnable {
         totalScore *= character.getCurrentPhase();
         thisSave.setCurrentLevelScore(thisSave.getCurrentLevelScore() + totalScore);
     }
-    public void death(){
+    public void death() {
         //if hearts == 0, reset the save
         totalPassedTime = 0;
         stopChecking = true;
-        int currentSection = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastSection();
-        int currentLevel = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastLevel();
-        level = LevelConstructor.construct(currentLevel,currentSection);
+        try {
+            level = LevelConstructor.construct(level.getLevelNumber(),level.getSectionNumber());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
         character.setCurrentSpeed_x(0);
@@ -608,7 +613,7 @@ public class GameEngine implements Runnable {
     public void sectionEnds(){
         stopChecking = true;
         updateCurrentLevelScores();//don't forget that this exists :))
-        if (level.getNumberOfSections() - 1 == level.getCurrentSection()){
+        if (LevelConstructor.numberOfSections(level.getLevelNumber()) - 1 == level.getSectionNumber()){
             //TODO : add more levels in the next Section
             thisSave.setSaveEnded(true);
             thisSave.setTotalScore(thisSave.getTotalScore()+thisSave.getCurrentLevelScore());
@@ -857,7 +862,7 @@ public class GameEngine implements Runnable {
         this.stopChecking = stopChecking;
     }
     public int getRemainingTime(){
-        return this.level.getSectiosTime()[this.level.getCurrentSection()] - (int)totalPassedTime;
+        return this.level.getTime() - (int)totalPassedTime;
     }
     public User getUser() {
         return user;

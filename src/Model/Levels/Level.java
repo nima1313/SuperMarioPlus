@@ -19,6 +19,7 @@ public class Level {
     private int time;
     private int characterInitialX;
     private int characterInitialY;
+    private int levelNumber,sectionNumber;
 
     //we will display collectedCoins, remainingTime, remainingHearts and total score //TODO (in the game Engine)
 
@@ -215,5 +216,21 @@ public class Level {
 
     public void setBackGroundPicture(ImageIcon backGroundPicture) {
         this.backGroundPicture = backGroundPicture;
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
+    }
+
+    public int getSectionNumber() {
+        return sectionNumber;
+    }
+
+    public void setSectionNumber(int sectionNumber) {
+        this.sectionNumber = sectionNumber;
     }
 }

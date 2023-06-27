@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Levels.Level;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,7 +14,7 @@ import java.io.IOException;
 public class LevelConstructor
 {
     public static String location = "src/main/java/org.example/Game.json";
-    public static void construct(int _level, int _section) throws FileNotFoundException
+    public static Level construct(int _level, int _section) throws FileNotFoundException
     {
         long hearts;
         long marioState;
@@ -40,6 +41,23 @@ public class LevelConstructor
         catch (IOException | ParseException e)
         {
             e.printStackTrace();
+        }
+        return null;
+    }
+    public static int numberOfSections( int _level){
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader(location)) {
+            Object obj = jsonParser.parse(reader);
+            JSONObject data = (JSONObject) obj;
+            JSONArray levels = (JSONArray) data.get("levels");
+            JSONArray sections = (JSONArray) levels.get(_level);
+            return sections.size();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 }
