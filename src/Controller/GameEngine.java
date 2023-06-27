@@ -1,4 +1,4 @@
-package Model;
+package Controller;
 import Model.Block.*;
 import Model.Characters.Character;
 import Model.Enemies.Enemy;
@@ -10,6 +10,8 @@ import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
 import Model.PhysicalObjects.PhysicalObject;
 import Model.PhysicalObjects.Pipe;
+import Model.SavedGame;
+import Model.User;
 import View.GameFrame;
 import View.MainMenuPage;
 
@@ -37,7 +39,6 @@ public class GameEngine implements Runnable {
         this.thisSave = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()];
         this.character = thisSave.getCharacter();
         this.level = thisSave.levelMaker();
-        System.out.println(this.level.getCurrentSection());
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
         collusion = new Collusion();
@@ -75,22 +76,22 @@ public class GameEngine implements Runnable {
         // 1 pixel movement in every frame (a.k.a if frame count was even, move;
         //12 second * 40 frames each = 480 frame.
         // 0-159 coming up. 160 - 239 stop. 240 - 399 going down. 400 - 479 stop.
-        ArrayList<Flower>[] flowers = level.getFlowers();
+        ArrayList<Flower> flowers = level.getFlowers();
         if (flowersFrameCount <= 159){
             if (flowersFrameCount%2 == 0) {
-                for (int i = 0 ; i < flowers[level.getCurrentSection()].size();i++){
-                    Flower thisFlower = flowers[level.getCurrentSection()].get(i);
+                for (int i = 0 ; i < flowers.size();i++){
+                    Flower thisFlower = flowers.get(i);
                     thisFlower.setUpperLeftY(thisFlower.getUpperLeftY() - 1);
-                    flowers[level.getCurrentSection()].set(i,thisFlower);
+                    flowers.set(i,thisFlower);
                 }
             }
         }
         if (flowersFrameCount >= 240 && flowersFrameCount <= 399){
             if (flowersFrameCount%2 == 0) {
-                for (int i = 0 ; i < flowers[level.getCurrentSection()].size();i++){
-                    Flower thisFlower = flowers[level.getCurrentSection()].get(i);
+                for (int i = 0 ; i < flowers.size();i++){
+                    Flower thisFlower = flowers.get(i);
                     thisFlower.setUpperLeftY(thisFlower.getUpperLeftY() + 1);
-                    flowers[level.getCurrentSection()].set(i,thisFlower);
+                    flowers.set(i,thisFlower);
                 }
             }
         }
@@ -100,15 +101,15 @@ public class GameEngine implements Runnable {
 
     private void endWallResolveCollusionY(Level level, Collusion collusion){
         //checking EndWall collusion
-        EndWall[] endWalls = level.getEndWalls();
-        if (collusion.CheckCollusion(character,endWalls[level.getCurrentSection()])){
+        EndWall endWalls = level.getEndWalls();
+        if (collusion.CheckCollusion(character,endWalls)){
             sectionEnds();
             return;
         }
     }
     private void pipesResolveCollusionY(Level level, Collusion collusion){
         //Pipes
-        ArrayList<Pipe> pipes = level.getPipes()[level.getCurrentSection()];
+        ArrayList<Pipe> pipes = level.getPipes();
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < pipes.size();i++){
             Pipe thisPipe = pipes.get(i);
@@ -136,7 +137,7 @@ public class GameEngine implements Runnable {
         }
     }
     private void flowersResolveCollusionY(Level level, Collusion collusion){
-        ArrayList<Flower> flowers = level.getFlowers()[level.getCurrentSection()];
+        ArrayList<Flower> flowers = level.getFlowers();
         for (int i = 0 ; i < flowers.size();i++){
             Flower thisFlower = flowers.get(i);
             if (collusion.CheckCollusion(character,thisFlower)){
@@ -146,7 +147,7 @@ public class GameEngine implements Runnable {
         }
     }
     private void coinsResolveCollusionY(Level level, Collusion collusion){
-        ArrayList<Coin> coins = level.getCoins()[level.getCurrentSection()];
+        ArrayList<Coin> coins = level.getCoins();
 
         for (int i = 0 ; i < coins.size();i++){
             Coin thisCoin = coins.get(i);
@@ -156,13 +157,13 @@ public class GameEngine implements Runnable {
                 coins.set(i, thisCoin);
             }
         }
-        ArrayList<Coin>[] newCoins = level.getCoins();
-        newCoins[level.getCurrentSection()] = coins;
+        ArrayList<Coin> newCoins = level.getCoins();
+        newCoins = coins;
         level.setCoins(newCoins);
     }
     private void floorsResolveCollusionY(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
-        ArrayList<Floor> floors = level.getFloors()[level.getCurrentSection()];
+        ArrayList<Floor> floors = level.getFloors();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < floors.size();i++){
             Floor thisFloor = floors.get(i);
@@ -196,7 +197,7 @@ public class GameEngine implements Runnable {
 
     private void normalBlocksResolveCollusionY(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
-        ArrayList<NormalBlock> normalBlocks = level.getNormalBlocks()[level.getCurrentSection()];
+        ArrayList<NormalBlock> normalBlocks = level.getNormalBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < normalBlocks.size();i++){
             NormalBlock thisBlock = normalBlocks.get(i);
@@ -230,13 +231,13 @@ public class GameEngine implements Runnable {
                 normalBlocks.set(index, thisBlock);
             }
         }
-        ArrayList<NormalBlock>[] newNormalBlocks = level.getNormalBlocks();
-        newNormalBlocks[level.getCurrentSection()] = normalBlocks;
+        ArrayList<NormalBlock> newNormalBlocks = level.getNormalBlocks();
+        newNormalBlocks = normalBlocks;
         level.setNormalBlocks(newNormalBlocks);
     }
     private void coinBlocksResolveCollusionY(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
-        ArrayList<CoinBlock> coinBlocks = level.getCoinBlocks()[level.getCurrentSection()];
+        ArrayList<CoinBlock> coinBlocks = level.getCoinBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < coinBlocks.size();i++){
             CoinBlock thisBlock = coinBlocks.get(i);
@@ -271,14 +272,14 @@ public class GameEngine implements Runnable {
                 coinBlocks.set(index, thisBlock);
             }
         }
-        ArrayList<CoinBlock>[] newCoinBlocks = level.getCoinBlocks();
-        newCoinBlocks[level.getCurrentSection()] = coinBlocks;
+        ArrayList<CoinBlock> newCoinBlocks = level.getCoinBlocks();
+        newCoinBlocks = coinBlocks;
         level.setCoinBlocks(newCoinBlocks);
     }
 
     private void emptyBlocksResolveCollusionY(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
-        ArrayList<EmptyBlock> emptyBlocks  = level.getEmptyBlocks()[level.getCurrentSection()];
+        ArrayList<EmptyBlock> emptyBlocks  = level.getEmptyBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < emptyBlocks.size();i++){
             EmptyBlock thisBlock = emptyBlocks.get(i);
@@ -316,8 +317,8 @@ public class GameEngine implements Runnable {
         endWallResolveCollusionY(level,collusion);
         pipesResolveCollusionY(level,collusion);
         //checking enemies collusion//
-            //flowers
-            flowersResolveCollusionY(level,collusion);
+        //flowers
+        flowersResolveCollusionY(level,collusion);
 
         //checking coin collusion//
         coinsResolveCollusionY(level,collusion);
@@ -326,25 +327,25 @@ public class GameEngine implements Runnable {
         floorsResolveCollusionY(level,collusion);
 
         //checking blocks collusion
-            //normal blocks//
-            normalBlocksResolveCollusionY(level,collusion);
+        //normal blocks//
+        normalBlocksResolveCollusionY(level,collusion);
 
-            //coinBlocks
-            coinBlocksResolveCollusionY(level,collusion);
+        //coinBlocks
+        coinBlocksResolveCollusionY(level,collusion);
 
-            //EmptyBlocks
-            emptyBlocksResolveCollusionY(level,collusion);
+        //EmptyBlocks
+        emptyBlocksResolveCollusionY(level,collusion);
     }
 
     private void endWallResolveCollusionX(Level level, Collusion collusion){
-        EndWall[] endWalls = level.getEndWalls();
-        if (collusion.CheckCollusion(character,endWalls[level.getCurrentSection()])){
+        EndWall endWalls = level.getEndWalls();
+        if (collusion.CheckCollusion(character,endWalls)){
             sectionEnds();
             return;
         }
     }
     private void flowersResolveCollusionX(Level level, Collusion collusion){
-        ArrayList<Flower> flowers = level.getFlowers()[level.getCurrentSection()];
+        ArrayList<Flower> flowers = level.getFlowers();
 
         for (int i = 0 ; i < flowers.size();i++){
             Flower thisFlower = flowers.get(i);
@@ -355,7 +356,7 @@ public class GameEngine implements Runnable {
         }
     }
     private void coinResolveCollusionX(Level level, Collusion collusion){
-        ArrayList<Coin> coins = level.getCoins()[level.getCurrentSection()];
+        ArrayList<Coin> coins = level.getCoins();
 
         for (int i = 0 ; i < coins.size();i++){
             Coin thisCoin = coins.get(i);
@@ -365,12 +366,12 @@ public class GameEngine implements Runnable {
                 coins.set(i, thisCoin);
             }
         }
-        ArrayList<Coin>[] newCoins = level.getCoins();
-        newCoins[level.getCurrentSection()] = coins;
+        ArrayList<Coin> newCoins = level.getCoins();
+        newCoins = coins;
         level.setCoins(newCoins);
     }
     private void floorsResolveCollusionX(Level level, Collusion collusion){
-        ArrayList<Floor> floors = level.getFloors()[level.getCurrentSection()];
+        ArrayList<Floor> floors = level.getFloors();
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < floors.size();i++){
             Floor thisFloor = floors.get(i);
@@ -404,7 +405,7 @@ public class GameEngine implements Runnable {
 
     private void normalBlocksResolveCollusionX(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
-        ArrayList<NormalBlock> normalBlocks = level.getNormalBlocks()[level.getCurrentSection()];
+        ArrayList<NormalBlock> normalBlocks = level.getNormalBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < normalBlocks.size();i++){
             NormalBlock thisBlock = normalBlocks.get(i);
@@ -436,7 +437,7 @@ public class GameEngine implements Runnable {
 
     private void coinBlocksResolveCollusionX(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
-        ArrayList<CoinBlock> coinBlocks = level.getCoinBlocks()[level.getCurrentSection()];
+        ArrayList<CoinBlock> coinBlocks = level.getCoinBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < coinBlocks.size();i++){
             CoinBlock thisBlock = coinBlocks.get(i);
@@ -467,7 +468,7 @@ public class GameEngine implements Runnable {
     }
     private void pipesResolveCollusionX(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
-        ArrayList<Pipe> pipes = level.getPipes()[level.getCurrentSection()];
+        ArrayList<Pipe> pipes = level.getPipes();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < pipes.size();i++){
             Pipe thisPipe = pipes.get(i);
@@ -498,7 +499,7 @@ public class GameEngine implements Runnable {
     }
     private void emptyBlocksResolveCollusionX(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
-        ArrayList<EmptyBlock> emptyBlocks = level.getEmptyBlocks()[level.getCurrentSection()];
+        ArrayList<EmptyBlock> emptyBlocks = level.getEmptyBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < emptyBlocks.size();i++){
             EmptyBlock thisBlock = emptyBlocks.get(i);
@@ -539,8 +540,8 @@ public class GameEngine implements Runnable {
         endWallResolveCollusionX(level,collusion);
 
         //checking enemies collusion//
-            //flowers
-            flowersResolveCollusionX(level,collusion);
+        //flowers
+        flowersResolveCollusionX(level,collusion);
         //checking coin collusion//
         coinResolveCollusionX(level,collusion);
 
@@ -548,14 +549,14 @@ public class GameEngine implements Runnable {
         floorsResolveCollusionX(level,collusion);
 
         //checking blocks collusion
-            //normal blocks//
-            normalBlocksResolveCollusionX(level,collusion);
+        //normal blocks//
+        normalBlocksResolveCollusionX(level,collusion);
 
-            //coinBlocks
-            coinBlocksResolveCollusionX(level,collusion);
+        //coinBlocks
+        coinBlocksResolveCollusionX(level,collusion);
 
-            //emptyBlocks
-            emptyBlocksResolveCollusionX(level,collusion);
+        //emptyBlocks
+        emptyBlocksResolveCollusionX(level,collusion);
         //Pipes
         pipesResolveCollusionX(level,collusion);
 
@@ -585,7 +586,9 @@ public class GameEngine implements Runnable {
         //if hearts == 0, reset the save
         totalPassedTime = 0;
         stopChecking = true;
-        level = new Level1(level.getCurrentSection()); //TODO : update this to work for every level in phase 2
+        int currentSection = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastSection();
+        int currentLevel = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastLevel();
+        level = LevelConstructor.construct(currentLevel,currentSection);
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
         character.setCurrentSpeed_x(0);
@@ -605,7 +608,6 @@ public class GameEngine implements Runnable {
     public void sectionEnds(){
         stopChecking = true;
         updateCurrentLevelScores();//don't forget that this exists :))
-        System.out.println(level.getCurrentSection());
         if (level.getNumberOfSections() - 1 == level.getCurrentSection()){
             //TODO : add more levels in the next Section
             thisSave.setSaveEnded(true);
