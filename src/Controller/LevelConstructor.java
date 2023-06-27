@@ -82,7 +82,7 @@ public class LevelConstructor
             }
 
             //Enemies//
-            ArrayList<Flower> flowers = new ArrayList<>(); //TODO : FLOWERS IN PIPE
+            ArrayList<Flower> flowers = new ArrayList<>();
             ArrayList<Goomba> goombas = new ArrayList<>();
             ArrayList<Koopa> koopas = new ArrayList<>();
             ArrayList<Spiny> spinies = new ArrayList<>();
@@ -92,16 +92,27 @@ public class LevelConstructor
                 long upperLeftX = (long)ourEnemy.get("x");
                 long upperLeftY = (long)ourEnemy.get("y");
                 if (type.equals("Flower")){
-
-                } else if (type.equals("Goombas")) {
-
+                    flowers.add(new Flower((int)upperLeftX,(int)upperLeftY));
+                } else if (type.equals("Goomba")) {
+                    goombas.add(new Goomba((int)upperLeftX,(int)upperLeftY));
+                } else if (type.equals("Koopa")) {
+                    koopas.add(new Koopa((int) upperLeftX,(int) upperLeftY));
+                }
+                else {
+                    spinies.add(new Spiny((int)upperLeftX,(int)upperLeftY));
                 }
             }
 
 
             //Pipes//
             ArrayList<Pipe> levelPipes = new ArrayList<>();
-
+            for (Object pipe : pipes){
+                JSONObject ourPipe = (JSONObject)pipe;
+                String type = (String) ourPipe.get("type");
+                long upperLeftX = (long)ourPipe.get("x");
+                long upperLeftY = (long)ourPipe.get("y");
+                //if (type.equals(""))
+            }
 
             //Items//
             ArrayList<Coin> coins = new ArrayList<>();
