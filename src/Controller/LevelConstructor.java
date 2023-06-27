@@ -16,6 +16,8 @@ public class LevelConstructor
     public static String location = "src/main/java/org.example/Game.json";
     public static Level construct(int _level, int _section) throws FileNotFoundException
     {
+        _level--;
+        _section--; //making level and section not 0 based
         long hearts;
         long marioState;
         JSONParser jsonParser = new JSONParser();

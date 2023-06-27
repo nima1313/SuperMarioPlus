@@ -614,8 +614,6 @@ public class GameEngine implements Runnable {
         stopChecking = true;
         updateCurrentLevelScores();//don't forget that this exists :))
         if (LevelConstructor.numberOfSections(level.getLevelNumber()) - 1 == level.getSectionNumber()){
-            //TODO : add more levels in the next Section
-            thisSave.setSaveEnded(true);
             thisSave.setTotalScore(thisSave.getTotalScore()+thisSave.getCurrentLevelScore());
             if (user.getHighScore() < thisSave.getTotalScore()){
                 user.setHighScore(thisSave.getTotalScore());
@@ -623,14 +621,25 @@ public class GameEngine implements Runnable {
             user.setTotalCoins(user.getTotalCoins() + thisSave.getCurrentSectionCoins());
             thisSave.setCurrentSectionCoins(0);
             thisSave.setCurrentLevelScore(0);
-            saveThisSave();
             gameEngineIsOn = false;
             gameFrame.dispose();
-            new MainMenuPage(user);
+            if(level.getLevelNumber() == 3){
+                thisSave.setSaveEnded(true);
+                saveThisSave();
+                new MainMenuPage(user);
+            }
+            else{
+                thisSave.setLastLevel(thisSave.getLastLevel()+1);
+                thisSave.setLastSection(1);
+                saveThisSave();
+                new GameFrame(user);
+            }
+
+
         }
         else {
             thisSave.setLastSection(thisSave.getLastSection()+1);
-            level = thisSave.levelMaker();
+            level = thisSave.levelMaker(level.getLevelNumber(),level.getSectionNumber()+1);
             user.setTotalCoins(user.getTotalCoins() + thisSave.getCurrentSectionCoins());
             thisSave.setCurrentSectionCoins(0);
             saveThisSave();

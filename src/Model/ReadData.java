@@ -6,6 +6,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ReadData {
@@ -20,6 +21,6 @@ public class ReadData {
         }
         jsonReader = gson.newJsonReader(fileReader);
         TypeToken<ArrayList<User>> typeToken = new TypeToken<>(){};
-        Memory.allUsers = gson.fromJson(jsonReader, typeToken);
+        Memory.allUsers = gson.fromJson(jsonReader, (Type) typeToken);
     }
 }
