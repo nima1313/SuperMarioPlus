@@ -3,7 +3,9 @@ package Model.Items;
 import javax.swing.*;
 
 public class MagicalMushroom extends Item{
-    public MagicalMushroom(int length, int height, ImageIcon texture) {
-        super(length, height, texture);
+    public MagicalMushroom(int upperLeftX,int upperLeftY){
+        super(32,32,new ImageIcon("Coin.png"));
+        setUpperLeftX(upperLeftX);
+        setUpperLeftY(upperLeftY);
     }
 }
