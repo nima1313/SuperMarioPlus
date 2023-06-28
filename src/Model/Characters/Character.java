@@ -6,7 +6,7 @@ public class Character {
 
     boolean unlocked;
 
-    private int gravity;
+
     protected final int speedConstant = 4; //edit this when you want to know how much speed is enough
     //this is the speed only for the x access;
     protected final int jumpConstant = 16;
@@ -31,6 +31,20 @@ public class Character {
     private double reloadDelay;
     private String characterName;
 
+    boolean upCollusion = false;
+    boolean downCollusion = false;
+    boolean leftCollusion = false;
+    boolean rightCollusion = false;
+
+    public void levelUp(){
+        if (currentPhase < 2) currentPhase++;
+        if (currentPhase == 1){
+            setUpperLeftY(getUpperLeftY() - 40);
+        }
+    }
+    public void levelDown(){
+        if (currentPhase > 0) currentPhase--;
+    }
 
     public int getLength() {
         if (getCurrentPhase() == 0) return getPhaseOneLength();
@@ -194,13 +208,6 @@ public class Character {
         this.reloadDelay = reloadDelay;
     }
 
-    public int getGravity() {
-        return gravity;
-    }
-
-    public void setGravity(int gravity) {
-        this.gravity = gravity;
-    }
 
     public boolean isSeating() {
         return isSeating;
@@ -216,5 +223,37 @@ public class Character {
 
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public boolean isUpCollusion() {
+        return upCollusion;
+    }
+
+    public void setUpCollusion(boolean upCollusion) {
+        this.upCollusion = upCollusion;
+    }
+
+    public boolean isDownCollusion() {
+        return downCollusion;
+    }
+
+    public void setDownCollusion(boolean downCollusion) {
+        this.downCollusion = downCollusion;
+    }
+
+    public boolean isLeftCollusion() {
+        return leftCollusion;
+    }
+
+    public void setLeftCollusion(boolean leftCollusion) {
+        this.leftCollusion = leftCollusion;
+    }
+
+    public boolean isRightCollusion() {
+        return rightCollusion;
+    }
+
+    public void setRightCollusion(boolean rightCollusion) {
+        this.rightCollusion = rightCollusion;
     }
 }

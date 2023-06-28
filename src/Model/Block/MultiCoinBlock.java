@@ -4,11 +4,12 @@ import javax.swing.*;
 import java.util.Random;
 
 public class MultiCoinBlock extends Block{
-    private Random random = new Random();
-    private int coins = 1 + random.nextInt(5);
-    String item;
+    private int coins;
+    String myItem;
     public MultiCoinBlock(int upperLeftX, int upperLeftY,String item) {
         super(upperLeftX, upperLeftY);
+        Random random = new Random();
+        coins = 1 + random.nextInt(5);
         setType("MultiCoinBlock");
     }
 
@@ -16,7 +17,7 @@ public class MultiCoinBlock extends Block{
         if (coins != 0){
             coins--;
             if (coins == 0){
-                item = "";
+                myItem = "";
             }
         }
     }
@@ -25,9 +26,8 @@ public class MultiCoinBlock extends Block{
         return coins;
     }
 
-    @Override
     public String getItem() {
-        return item;
+        return myItem;
     }
 
     @Override

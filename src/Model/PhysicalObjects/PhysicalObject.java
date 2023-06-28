@@ -3,25 +3,24 @@ package Model.PhysicalObjects;
 import java.awt.*;
 
 abstract public class PhysicalObject {
-    private int upperLeftX, upperLeftY;
+    private int x, y;
     private int height, length;
 
-    private Color color;
 
     public int getUpperLeftX() {
-        return upperLeftX;
+        return x;
     }
 
     public void setUpperLeftX(int upperLeftX) {
-        this.upperLeftX = upperLeftX;
+        this.x = upperLeftX;
     }
 
     public int getUpperLeftY() {
-        return upperLeftY;
+        return y;
     }
 
     public void setUpperLeftY(int upperLeftY) {
-        this.upperLeftY = upperLeftY;
+        this.y = upperLeftY;
     }
 
     public int getHeight() {
@@ -41,10 +40,6 @@ abstract public class PhysicalObject {
     }
 
     public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+        return null;
     }
 }

@@ -10,6 +10,10 @@ public class Floor extends PhysicalObject {
         setUpperLeftY(upperLeftY);
         setLength(length);
         setHeight(height);
-        setColor(new Color(144, 222, 167));
+    }
+
+    @Override
+    public Color getColor() {
+        return new Color(144, 222, 167);
     }
 }

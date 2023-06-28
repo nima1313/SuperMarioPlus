@@ -8,15 +8,11 @@ public class Enemy {
     int upperLeftX;
     int upperLeftY;
     String type;
-    private ImageIcon texture;
 
     public ImageIcon getTexture() {
-        return texture;
+        return null;
     }
 
-    public void setTexture(ImageIcon texture) {
-        this.texture = texture;
-    }
 
     public int getHeight() {
         return height;

@@ -4,13 +4,12 @@ import javax.swing.*;
 
 public class Item {
     private int height,length;
-
-    private ImageIcon texture;
     private int upperLeftX,upperLeftY;
-    public Item(int length,int height, ImageIcon texture){
+    private int currentSpeed_x = 0;
+    private int currentSpeed_y = 0;
+    public Item(int length,int height){
         setLength(length);
         setHeight(height);
-        setTexture(texture);
     }
 
     public int getUpperLeftX() {
@@ -30,12 +29,9 @@ public class Item {
     }
 
     public ImageIcon getTexture() {
-        return texture;
+        return null;
     }
 
-    public void setTexture(ImageIcon texture) {
-        this.texture = texture;
-    }
 
     public int getHeight() {
         return height;
@@ -51,5 +47,20 @@ public class Item {
 
     public void setLength(int length) {
         this.length = length;
+    }
+    public int getCurrentSpeed_x() {
+        return currentSpeed_x;
+    }
+
+    public void setCurrentSpeed_x(int currentSpeed_x) {
+        this.currentSpeed_x = currentSpeed_x;
+    }
+
+    public int getCurrentSpeed_y() {
+        return currentSpeed_y;
+    }
+
+    public void setCurrentSpeed_y(int currentSpeed_y) {
+        this.currentSpeed_y = currentSpeed_y;
     }
 }

@@ -9,7 +9,11 @@ public class EndWall extends PhysicalObject {
         setUpperLeftY(upperLeftY);
         setLength(length);
         setHeight(height);
-        setColor(Color.RED);
+    }
+
+    @Override
+    public Color getColor() {
+        return (Color.RED);
     }
 
 }

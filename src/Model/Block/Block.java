@@ -10,8 +10,6 @@ public class Block extends PhysicalObject {
 
     private String type;
 
-    private int upperLeftX, upperLeftY;
-    private String item;
 
     Block(int upperLeftX, int upperLeftY){
         setUpperLeftX(upperLeftX);
@@ -26,22 +24,6 @@ public class Block extends PhysicalObject {
         return HEIGHT;
     }
 
-    public int getUpperLeftX() {
-        return upperLeftX;
-    }
-
-    public void setUpperLeftX(int upperLeftX) {
-        this.upperLeftX = upperLeftX;
-    }
-
-    public int getUpperLeftY() {
-        return upperLeftY;
-    }
-
-    public void setUpperLeftY(int upperLeftY) {
-        this.upperLeftY = upperLeftY;
-    }
-
     public String getType() {
         return type;
     }
@@ -53,14 +35,6 @@ public class Block extends PhysicalObject {
     public void disappear(){
         setUpperLeftX(-1000);
         setUpperLeftY(-1000);
-    }
-
-    public String getItem() {
-        return item;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
     }
 
     public ImageIcon getTexture(){

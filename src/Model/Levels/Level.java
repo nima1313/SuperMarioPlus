@@ -63,10 +63,6 @@ public class Level {
     private EndWall endWalls;
 
 
-
-    private ImageIcon backGroundPicture;
-
-
     public int getTime() {
         return time;
     }
@@ -217,14 +213,6 @@ public class Level {
 
     public void setEndWalls(EndWall endWalls) {
         this.endWalls = endWalls;
-    }
-
-    public ImageIcon getBackGroundPicture() {
-        return backGroundPicture;
-    }
-
-    public void setBackGroundPicture(ImageIcon backGroundPicture) {
-        this.backGroundPicture = backGroundPicture;
     }
 
     public int getLevelNumber() {

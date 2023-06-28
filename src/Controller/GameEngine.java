@@ -5,6 +5,7 @@ import Model.Enemies.Enemy;
 import Model.Enemies.Flower;
 import Model.Items.Coin;
 import Model.Items.Item;
+import Model.Items.MagicalMushroom;
 import Model.Levels.Level;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
@@ -15,10 +16,13 @@ import Model.User;
 import View.GameFrame;
 import View.MainMenuPage;
 
+import java.awt.font.FontRenderContext;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameEngine implements Runnable {
+    private int gravity = 1;
     private User user;
     private Level level;
     Character character;
@@ -44,13 +48,22 @@ public class GameEngine implements Runnable {
         this.level = LevelConstructor.construct(currentLevel,currentSection);
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
+        character.setCurrentPhase(level.getMarioState());
         collusion = new Collusion(level,character,this);
         gameThread.start();
     }
 
-
-
     public void moveX(){
+        characterMoveX();
+        magicalMushroomMoveX();
+    }
+    public void moveY(){
+        characterMoveY();
+        magicalMushroomMoveY();
+        flowersMove();
+    }
+
+    public void characterMoveX(){
         character.setCurrentSpeed_x(0);
         if (gameFrame.getController().isGoingRight()){
             character.setCurrentSpeed_x(character.getCharacterSpeed());
@@ -64,12 +77,34 @@ public class GameEngine implements Runnable {
         character.setUpperLeftX(character.getUpperLeftX() + character.getCurrentSpeed_x());
 
     }
-    public void moveY(){
-        if (gameFrame.getController().isGoingUp() && collusion.downCollusion == true){
+    public void characterMoveY(){
+        if (gameFrame.getController().isGoingUp() && character.isDownCollusion() == true){
             character.setCurrentSpeed_y(-character.getCharacterJumpSpeed() + character.getCurrentSpeed_y());
         }
         character.setUpperLeftY(character.getUpperLeftY() + character.getCurrentSpeed_y());
 
+    }
+    public void magicalMushroomMoveX(){
+
+        ArrayList<MagicalMushroom> magicalMushrooms = level.getMagicalMushrooms();
+        for (MagicalMushroom mushroom : magicalMushrooms){
+            mushroom.setFrameCount(mushroom.getFrameCount()+1);
+            //we only do this in x to not count each frame twice and the mushrooms won't move in Y until they move in X;
+        }
+        for (MagicalMushroom mushroom : magicalMushrooms){
+            if (mushroom.getFrameCount() == 40 * 3){
+                mushroom.setCurrentSpeed_x(2);
+            }
+        }
+        for (MagicalMushroom mushroom : magicalMushrooms){
+            mushroom.setUpperLeftX(mushroom.getUpperLeftX() + mushroom.getCurrentSpeed_x());
+        }
+    }
+    public void magicalMushroomMoveY(){
+        ArrayList<MagicalMushroom> magicalMushrooms = level.getMagicalMushrooms();
+        for (MagicalMushroom mushroom : magicalMushrooms){
+            mushroom.setUpperLeftY(mushroom.getUpperLeftY() + mushroom.getCurrentSpeed_y());
+        }
     }
     public void flowersMove(){
         flowersFrameCount++;
@@ -103,7 +138,7 @@ public class GameEngine implements Runnable {
     }
 
 
-    public void checkFallDeath() throws FileNotFoundException {
+    public void checkFallDeath() throws IOException {
         if (character.getUpperLeftY() >= 600){
             death();
         }
@@ -124,20 +159,22 @@ public class GameEngine implements Runnable {
         totalScore *= character.getCurrentPhase();
         thisSave.setCurrentLevelScore(thisSave.getCurrentLevelScore() + totalScore);
     }
-    public void death() throws FileNotFoundException {
+    public void death() throws IOException {
         //if hearts == 0, reset the save
         totalPassedTime = 0;
         stopChecking = true;
-        try {
-            level = LevelConstructor.construct(level.getLevelNumber(),level.getSectionNumber());
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            level = LevelConstructor.construct(level.getLevelNumber(),level.getSectionNumber());
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
         character.setCurrentSpeed_x(0);
         character.setCurrentSpeed_y(0);
-        flowersFrameCount = 0;
+        character.setCurrentPhase(0);
+        //collusion = new Collusion(level,character,this);
+        //flowersFrameCount = 0;
         //decreasing hearts
         thisSave.setRemainingHearts(thisSave.getRemainingHearts() - 1);
         if (thisSave.getRemainingHearts() == 0){
@@ -194,6 +231,13 @@ public class GameEngine implements Runnable {
         user.setCurrentSavedGames(newSavedGames);
     }
 
+    public void gravity(){
+        character.setCurrentSpeed_y(character.getCurrentSpeed_y() + gravity);
+        ArrayList<MagicalMushroom> magicalMushrooms = level.getMagicalMushrooms();
+        for (MagicalMushroom mushroom : magicalMushrooms){
+            mushroom.setCurrentSpeed_y(mushroom.getCurrentSpeed_y() + gravity);
+        }
+    }
     @Override
     public void run() {
         long lastTime = System.nanoTime();
@@ -216,15 +260,20 @@ public class GameEngine implements Runnable {
                         death();
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
-                if (stopChecking == false)flowersMove();
-                if (stopChecking == false)character.setCurrentSpeed_y(character.getCurrentSpeed_y() + character.getGravity());
+                if (stopChecking == false){
+                    gravity();
+                }
                 if (stopChecking == false)moveY();
                 if (stopChecking == false) {
                     try {
                         collusion.resolveCollusionY();
                     } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }
@@ -234,12 +283,16 @@ public class GameEngine implements Runnable {
                         collusion.resolveCollusionX();
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
                 if (stopChecking == false) {
                     try {
                         checkFallDeath();
                     } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 }

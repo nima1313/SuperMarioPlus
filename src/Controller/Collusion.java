@@ -6,6 +6,7 @@ import Model.Enemies.Enemy;
 import Model.Enemies.Flower;
 import Model.Items.Coin;
 import Model.Items.Item;
+import Model.Items.MagicalFlower;
 import Model.Levels.Level;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
@@ -14,6 +15,7 @@ import Model.Pipes.Pipe;
 import View.GameFrame;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Collusion{
@@ -26,10 +28,7 @@ public class Collusion{
         this.gameEngine = gameEngine;
     }
 
-    boolean upCollusion = false; //THESE ARE IN RESPECT TO THE CHARACTER (down -> bottom of the character)
-    boolean downCollusion = false;
-    boolean leftCollusion = false;
-    boolean rightCollusion = false;
+
 
 
     int getRightSide(Character character){
@@ -151,52 +150,21 @@ public class Collusion{
         else return false;
     }
 
-    public boolean isUpCollusion() {
-        return upCollusion;
-    }
 
-    public void setUpCollusion(boolean upCollusion) {
-        this.upCollusion = upCollusion;
-    }
-
-    public boolean isDownCollusion() {
-        return downCollusion;
-    }
-
-    public void setDownCollusion(boolean downCollusion) {
-        this.downCollusion = downCollusion;
-    }
-
-    public boolean isLeftCollusion() {
-        return leftCollusion;
-    }
-
-    public void setLeftCollusion(boolean leftCollusion) {
-        this.leftCollusion = leftCollusion;
-    }
-
-    public boolean isRightCollusion() {
-        return rightCollusion;
-    }
-
-    public void setRightCollusion(boolean rightCollusion) {
-        this.rightCollusion = rightCollusion;
-    }
-    private void endWallResolveCollusionY(Level level, Collusion collusion) throws FileNotFoundException {
+    private void endWallResolveCollusionY() throws FileNotFoundException {
         //checking EndWall collusion
         EndWall endWalls = level.getEndWalls();
-        if (collusion.CheckCollusion(character,endWalls)){
+        if (CheckCollusion(character,endWalls)){
             gameEngine.sectionEnds();
-            return;
         }
     }
-    private void pipesResolveCollusionY(Level level, Collusion collusion){
+    private void pipesResolveCollusionY(){
         //Pipes
         ArrayList<Pipe> pipes = level.getPipes();
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < pipes.size();i++){
             Pipe thisPipe = pipes.get(i);
-            if (collusion.CheckCollusion(character,thisPipe)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisPipe)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -205,8 +173,8 @@ public class Collusion{
             }
             character.setCurrentSpeed_y(0);
             character.setUpperLeftY(maxHeight - character.getHeight());
-            collusion.setDownCollusion(true);
-            collusion.setUpCollusion(false);
+            character.setDownCollusion(true);
+            character.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
             int minHeight = 100000;
@@ -215,28 +183,38 @@ public class Collusion{
             }
             character.setUpperLeftY(minHeight);
             character.setCurrentSpeed_y(0);
-            collusion.setDownCollusion(false);
-            collusion.setUpCollusion(true);
+            character.setDownCollusion(false);
+            character.setUpCollusion(true);
         }
     }
-    private void flowersResolveCollusionY(Level level, Collusion collusion) throws FileNotFoundException {
+    private void flowersResolveCollusionY() throws IOException {
         ArrayList<Flower> flowers = level.getFlowers();
         for (int i = 0 ; i < flowers.size();i++){
             Flower thisFlower = flowers.get(i);
-            if (collusion.CheckCollusion(character,thisFlower)){
+            if (CheckCollusion(character,thisFlower)){
                 gameEngine.death();
-                return;
             }
         }
     }
-    private void coinsResolveCollusionY(Level level, Collusion collusion){
+    private void itemResolveCollusionY(Item item){
+        ArrayList<NormalBlock>normalBlocks = level.getNormalBlocks();
+        ArrayList<CoinBlock>coinBlocks = level.getCoinBlocks();
+        ArrayList<EmptyBlock>emptyBlocks = level.getEmptyBlocks();
+        ArrayList<GiftBlock>giftBlocks = level.getGiftBlocks();
+        ArrayList<MultiCoinBlock> multiCoinBlocks = level.getMultiCoinBlocks();
+
+        ArrayList<Pipe> pipes = level.getPipes();
+        ArrayList<Floor> floors = level.getFloors();
+    }
+    private void coinsResolveCollusionY(){
         ArrayList<Coin> coins = level.getCoins();
 
         for (int i = 0 ; i < coins.size();i++){
             Coin thisCoin = coins.get(i);
-            if (collusion.CheckCollusion(character,thisCoin) && thisCoin.isCollected() == false){
+            if (CheckCollusion(character,thisCoin) && thisCoin.isCollected() == false){
                 thisCoin.setCollected(true);
                 gameEngine.updateCurrentSectionCoins(1);
+                gameEngine.updateCurrentSectionScores(10);
                 coins.set(i, thisCoin);
             }
         }
@@ -244,13 +222,28 @@ public class Collusion{
         newCoins = coins;
         level.setCoins(newCoins);
     }
-    private void floorsResolveCollusionY(Level level, Collusion collusion){
+
+    private void magicalFlowersResolveCollusionY(){
+        ArrayList<MagicalFlower> magicalFlowers = level.getMagicalFlowers();
+
+        for (int i = 0 ; i < magicalFlowers.size();i++){
+            MagicalFlower thisMagicalFlower = magicalFlowers.get(i);
+            if (CheckCollusion(character,thisMagicalFlower)){
+                thisMagicalFlower.gotHit();
+                gameEngine.updateCurrentSectionScores(20);
+                character.levelUp();
+                magicalFlowers.set(i, thisMagicalFlower);
+            }
+        }
+        level.setMagicalFlowers(magicalFlowers);
+    }
+    private void floorsResolveCollusionY(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<Floor> floors = level.getFloors();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < floors.size();i++){
             Floor thisFloor = floors.get(i);
-            if (collusion.CheckCollusion(character,thisFloor)){
+            if (CheckCollusion(character,thisFloor)){
                 collusionIndex.add(i);
             }
         }
@@ -261,8 +254,8 @@ public class Collusion{
             }
             character.setCurrentSpeed_y(0);
             character.setUpperLeftY(maxHeight - character.getHeight());
-            collusion.setDownCollusion(true);
-            collusion.setUpCollusion(false);
+            character.setDownCollusion(true);
+            character.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
             int minHeight = 100000;
@@ -272,19 +265,19 @@ public class Collusion{
             }
             character.setUpperLeftY(minHeight);
             character.setCurrentSpeed_y(0);
-            collusion.setDownCollusion(false);
-            collusion.setUpCollusion(true);
+            character.setDownCollusion(false);
+            character.setUpCollusion(true);
 
         }
     }
 
-    private void normalBlocksResolveCollusionY(Level level, Collusion collusion){
+    private void normalBlocksResolveCollusionY(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<NormalBlock> normalBlocks = level.getNormalBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < normalBlocks.size();i++){
             NormalBlock thisBlock = normalBlocks.get(i);
-            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -293,8 +286,8 @@ public class Collusion{
             }
             character.setCurrentSpeed_y(0);
             character.setUpperLeftY(maxHeight - character.getHeight());
-            collusion.setDownCollusion(true);
-            collusion.setUpCollusion(false);
+            character.setDownCollusion(true);
+            character.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
             int minHeight = 100000;
@@ -303,8 +296,8 @@ public class Collusion{
             }
             character.setUpperLeftY(minHeight);
             character.setCurrentSpeed_y(0);
-            collusion.setDownCollusion(false);
-            collusion.setUpCollusion(true);
+            character.setDownCollusion(false);
+            character.setUpCollusion(true);
         }
         for (int i = 0 ; i < collusionIndex.size();i++){
             int index = collusionIndex.get(i);
@@ -317,13 +310,13 @@ public class Collusion{
         }
         level.setNormalBlocks(normalBlocks);
     }
-    private void coinBlocksResolveCollusionY(Level level, Collusion collusion){
+    private void coinBlocksResolveCollusionY(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<CoinBlock> coinBlocks = level.getCoinBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < coinBlocks.size();i++){
             CoinBlock thisBlock = coinBlocks.get(i);
-            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -332,8 +325,8 @@ public class Collusion{
             }
             character.setCurrentSpeed_y(0);
             character.setUpperLeftY(maxHeight - character.getHeight());
-            collusion.setDownCollusion(true);
-            collusion.setUpCollusion(false);
+            character.setDownCollusion(true);
+            character.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
             int minHeight = 100000;
@@ -342,8 +335,8 @@ public class Collusion{
             }
             character.setUpperLeftY(minHeight);
             character.setCurrentSpeed_y(0);
-            collusion.setDownCollusion(false);
-            collusion.setUpCollusion(true);
+            character.setDownCollusion(false);
+            character.setUpCollusion(true);
         }
         for (int i = 0 ; i < collusionIndex.size();i++){
             int index = collusionIndex.get(i);
@@ -356,13 +349,52 @@ public class Collusion{
         }
         level.setCoinBlocks(coinBlocks);
     }
-    private void multiCoinBlocksResolveCollusionY(Level level, Collusion collusion){
+
+    private void giftBlocksResolveCollusionY(){
+        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        ArrayList<GiftBlock> giftBlocks = level.getGiftBlocks();
+        for (int i = 0 ; i < giftBlocks.size();i++){
+            GiftBlock thisBlock = giftBlocks.get(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+        }
+        if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
+            int maxHeight = - 1;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                if (giftBlocks.get(collusionIndex.get(i)).getUpperLeftY() >= maxHeight) maxHeight = giftBlocks.get(collusionIndex.get(i)).getUpperLeftY();
+            }
+            character.setCurrentSpeed_y(0);
+            character.setUpperLeftY(maxHeight - character.getHeight());
+            character.setDownCollusion(true);
+            character.setUpCollusion(false);
+        }
+        else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
+            int minHeight = 100000;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                if (giftBlocks.get(collusionIndex.get(i)).getUpperLeftY() + giftBlocks.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = giftBlocks.get(collusionIndex.get(i)).getUpperLeftY() + giftBlocks.get(collusionIndex.get(i)).getHEIGHT();
+            }
+            character.setUpperLeftY(minHeight);
+            character.setCurrentSpeed_y(0);
+            character.setDownCollusion(false);
+            character.setUpCollusion(true);
+        }
+        for (int i = 0 ; i < collusionIndex.size();i++){
+            int index = collusionIndex.get(i);
+            GiftBlock thisBlock = giftBlocks.get(index);
+            if (character.getUpperLeftY() == thisBlock.getUpperLeftY() + thisBlock.getHEIGHT() && !thisBlock.getItemName().equals("")) {
+                thisBlock.gotHit(level);
+                gameEngine.updateCurrentSectionScores(1);
+                giftBlocks.set(index, thisBlock);
+            }
+        }
+        level.setGiftBlocks(giftBlocks);
+    }
+    private void multiCoinBlocksResolveCollusionY(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<MultiCoinBlock> multiCoinBlocks = level.getMultiCoinBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < multiCoinBlocks.size();i++){
             MultiCoinBlock thisBlock = multiCoinBlocks.get(i);
-            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -371,8 +403,8 @@ public class Collusion{
             }
             character.setCurrentSpeed_y(0);
             character.setUpperLeftY(maxHeight - character.getHeight());
-            collusion.setDownCollusion(true);
-            collusion.setUpCollusion(false);
+            character.setDownCollusion(true);
+            character.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
             int minHeight = 100000;
@@ -381,8 +413,8 @@ public class Collusion{
             }
             character.setUpperLeftY(minHeight);
             character.setCurrentSpeed_y(0);
-            collusion.setDownCollusion(false);
-            collusion.setUpCollusion(true);
+            character.setDownCollusion(false);
+            character.setUpCollusion(true);
         }
         for (int i = 0 ; i < collusionIndex.size();i++){
             int index = collusionIndex.get(i);
@@ -398,13 +430,13 @@ public class Collusion{
         }
         level.setMultiCoinBlocks(multiCoinBlocks);
     }
-    private void emptyBlocksResolveCollusionY(Level level, Collusion collusion){
+    private void emptyBlocksResolveCollusionY(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<EmptyBlock> emptyBlocks  = level.getEmptyBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < emptyBlocks.size();i++){
             EmptyBlock thisBlock = emptyBlocks.get(i);
-            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -413,8 +445,8 @@ public class Collusion{
             }
             character.setCurrentSpeed_y(0);
             character.setUpperLeftY(maxHeight - character.getHeight());
-            collusion.setDownCollusion(true);
-            collusion.setUpCollusion(false);
+            character.setDownCollusion(true);
+            character.setUpCollusion(false);
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
             int minHeight = 100000;
@@ -423,69 +455,78 @@ public class Collusion{
             }
             character.setUpperLeftY(minHeight);
             character.setCurrentSpeed_y(0);
-            collusion.setDownCollusion(false);
-            collusion.setUpCollusion(true);
+            character.setDownCollusion(false);
+            character.setUpCollusion(true);
         }
+
     }
-    public void resolveCollusionY() throws FileNotFoundException {
+
+
+
+    public void resolveCollusionY() throws IOException {
         //TODO : make it cleaner using collusion class functions. (like how it's implemented in resolveCollusionX. I fixed flowers collusion but no others)
 
         Collusion collusion = this;
-        collusion.setDownCollusion(false);
-        collusion.setUpCollusion(false);
+        character.setDownCollusion(false);
+        character.setUpCollusion(false);
 
-        endWallResolveCollusionY(level,collusion);
-        pipesResolveCollusionY(level,collusion);
+        endWallResolveCollusionY();
+        pipesResolveCollusionY();
         //checking enemies collusion//
         //flowers
-        flowersResolveCollusionY(level,collusion);
+        flowersResolveCollusionY();
 
-        //checking coin collusion//
-        coinsResolveCollusionY(level,collusion);
+        //checking Items collusion
+        //Checking coins collusion//
+        coinsResolveCollusionY();
+        //Checking MagicalFlowersCollusion
+        magicalFlowersResolveCollusionY();
 
         //checking floors collusion//
-        floorsResolveCollusionY(level,collusion);
+        floorsResolveCollusionY();
 
         //checking blocks collusion
         //normal blocks//
-        normalBlocksResolveCollusionY(level,collusion);
+        normalBlocksResolveCollusionY();
 
         //coinBlocks
-        coinBlocksResolveCollusionY(level,collusion);
+        coinBlocksResolveCollusionY();
 
         //EmptyBlocks
-        emptyBlocksResolveCollusionY(level,collusion);
+        emptyBlocksResolveCollusionY();
 
         //MultiCoinBlock
-        multiCoinBlocksResolveCollusionY(level,collusion);
+        multiCoinBlocksResolveCollusionY();
+
+        //GiftBlocks
+        giftBlocksResolveCollusionY();
     }
 
-    private void endWallResolveCollusionX(Level level, Collusion collusion) throws FileNotFoundException {
+    private void endWallResolveCollusionX() throws FileNotFoundException {
         EndWall endWalls = level.getEndWalls();
-        if (collusion.CheckCollusion(character,endWalls)){
+        if (CheckCollusion(character,endWalls)){
             gameEngine.sectionEnds();
-            return;
         }
     }
-    private void flowersResolveCollusionX(Level level, Collusion collusion) throws FileNotFoundException {
+    private void flowersResolveCollusionX() throws IOException {
         ArrayList<Flower> flowers = level.getFlowers();
 
         for (int i = 0 ; i < flowers.size();i++){
             Flower thisFlower = flowers.get(i);
-            if (collusion.CheckCollusion(character,thisFlower)){
+            if (CheckCollusion(character,thisFlower)){
                 gameEngine.death();
-                return;
             }
         }
     }
-    private void coinResolveCollusionX(Level level, Collusion collusion){
+    private void coinResolveCollusionX(){
         ArrayList<Coin> coins = level.getCoins();
 
         for (int i = 0 ; i < coins.size();i++){
             Coin thisCoin = coins.get(i);
-            if (collusion.CheckCollusion(character,thisCoin) && thisCoin.isCollected() == false){
+            if (CheckCollusion(character,thisCoin) && thisCoin.isCollected() == false){
                 thisCoin.setCollected(true);
                 gameEngine.updateCurrentSectionCoins(1);
+                gameEngine.updateCurrentSectionScores(10);
                 coins.set(i, thisCoin);
             }
         }
@@ -493,229 +534,283 @@ public class Collusion{
         newCoins = coins;
         level.setCoins(newCoins);
     }
-    private void floorsResolveCollusionX(Level level, Collusion collusion){
+
+    private void magicalFlowersResolveCollusionX(){
+        ArrayList<MagicalFlower> magicalFlowers = level.getMagicalFlowers();
+
+        for (int i = 0 ; i < magicalFlowers.size();i++){
+            MagicalFlower thisMagicalFlower = magicalFlowers.get(i);
+            if (CheckCollusion(character,thisMagicalFlower)){
+                thisMagicalFlower.gotHit();
+                character.levelUp();
+                gameEngine.updateCurrentSectionScores(20);
+                magicalFlowers.set(i, thisMagicalFlower);
+            }
+        }
+        level.setMagicalFlowers(magicalFlowers);
+    }
+    private void floorsResolveCollusionX(){
         ArrayList<Floor> floors = level.getFloors();
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < floors.size();i++){
             Floor thisFloor = floors.get(i);
-            if (collusion.CheckCollusion(character,thisFloor)){
+            if (CheckCollusion(character,thisFloor)){
                 collusionIndex.add(i);
             }
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int left = collusion.getLeftSide(floors.get(collusionIndex.get(i)));
+                int left = getLeftSide(floors.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
             }
             character.setCurrentSpeed_x(0);
             character.setUpperLeftX(min - character.getLength());
-            collusion.setLeftCollusion(true);
-            collusion.setRightCollusion(false);
+            character.setLeftCollusion(true);
+            character.setRightCollusion(false);
         }
         else if (character.getCurrentSpeed_x() < 0 && collusionIndex.size() > 0) {
             int max = -1;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int right = collusion.getRightSide(floors.get(collusionIndex.get(i)));
+                int right = getRightSide(floors.get(collusionIndex.get(i)));
                 if (right >= max) max = right;
             }
             character.setUpperLeftX(max);
             character.setCurrentSpeed_x(0);
-            collusion.setLeftCollusion(false);
-            collusion.setRightCollusion(true);
+            character.setLeftCollusion(false);
+            character.setRightCollusion(true);
         }
     }
 
-    private void normalBlocksResolveCollusionX(Level level, Collusion collusion){
+    private void normalBlocksResolveCollusionX(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<NormalBlock> normalBlocks = level.getNormalBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < normalBlocks.size();i++){
             NormalBlock thisBlock = normalBlocks.get(i);
-            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int left = collusion.getLeftSide(normalBlocks.get(collusionIndex.get(i)));
+                int left = getLeftSide(normalBlocks.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
             }
             character.setCurrentSpeed_x(0);
             character.setUpperLeftX(min - character.getLength());
-            collusion.setLeftCollusion(true);
-            collusion.setRightCollusion(false);
+            character.setLeftCollusion(true);
+            character.setRightCollusion(false);
         }
         else if (character.getCurrentSpeed_x() < 0 && collusionIndex.size() > 0) {
             int max = -1;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int right = collusion.getRightSide(normalBlocks.get(collusionIndex.get(i)));
+                int right = getRightSide(normalBlocks.get(collusionIndex.get(i)));
                 if (right >= max) max = right;
             }
             character.setUpperLeftX(max);
             character.setCurrentSpeed_x(0);
-            collusion.setLeftCollusion(false);
-            collusion.setRightCollusion(true);
+            character.setLeftCollusion(false);
+            character.setRightCollusion(true);
         }
     }
 
-    private void coinBlocksResolveCollusionX(Level level, Collusion collusion){
+    private void coinBlocksResolveCollusionX(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<CoinBlock> coinBlocks = level.getCoinBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < coinBlocks.size();i++){
             CoinBlock thisBlock = coinBlocks.get(i);
-            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int left = collusion.getLeftSide(coinBlocks.get(collusionIndex.get(i)));
+                int left = getLeftSide(coinBlocks.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
             }
             character.setCurrentSpeed_x(0);
             character.setUpperLeftX(min - character.getLength());
-            collusion.setLeftCollusion(true);
-            collusion.setRightCollusion(false);
+            character.setLeftCollusion(true);
+            character.setRightCollusion(false);
         }
         else if (character.getCurrentSpeed_x() < 0 && collusionIndex.size() > 0) {
             int max = -1;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int right = collusion.getRightSide(coinBlocks.get(collusionIndex.get(i)));
+                int right = getRightSide(coinBlocks.get(collusionIndex.get(i)));
                 if (right >= max) max = right;
             }
             character.setUpperLeftX(max);
             character.setCurrentSpeed_x(0);
-            collusion.setLeftCollusion(false);
-            collusion.setRightCollusion(true);
+            character.setLeftCollusion(false);
+            character.setRightCollusion(true);
         }
     }
-    private void pipesResolveCollusionX(Level level, Collusion collusion){
+    private void pipesResolveCollusionX(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<Pipe> pipes = level.getPipes();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < pipes.size();i++){
             Pipe thisPipe = pipes.get(i);
-            if (collusion.CheckCollusion(character,thisPipe)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisPipe)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 10000;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int left = collusion.getLeftSide(pipes.get(collusionIndex.get(i)));
+                int left = getLeftSide(pipes.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
             }
             character.setCurrentSpeed_x(0);
             character.setUpperLeftX(min - character.getLength());
-            collusion.setLeftCollusion(true);
-            collusion.setRightCollusion(false);
+            character.setLeftCollusion(true);
+            character.setRightCollusion(false);
         }
         else if (character.getCurrentSpeed_x() < 0 && collusionIndex.size() > 0) {
             int max = -1;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int right = collusion.getRightSide(pipes.get(collusionIndex.get(i)));
+                int right = getRightSide(pipes.get(collusionIndex.get(i)));
                 if (right >= max) max = right;
             }
             character.setUpperLeftX(max);
             character.setCurrentSpeed_x(0);
-            collusion.setLeftCollusion(false);
-            collusion.setRightCollusion(true);
+            character.setLeftCollusion(false);
+            character.setRightCollusion(true);
         }
     }
-    private void emptyBlocksResolveCollusionX(Level level, Collusion collusion){
+    private void emptyBlocksResolveCollusionX(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<EmptyBlock> emptyBlocks = level.getEmptyBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < emptyBlocks.size();i++){
             EmptyBlock thisBlock = emptyBlocks.get(i);
-            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int left = collusion.getLeftSide(emptyBlocks.get(collusionIndex.get(i)));
+                int left = getLeftSide(emptyBlocks.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
             }
             character.setCurrentSpeed_x(0);
             character.setUpperLeftX(min - character.getLength());
-            collusion.setLeftCollusion(true);
-            collusion.setRightCollusion(false);
+            character.setLeftCollusion(true);
+            character.setRightCollusion(false);
         }
         else if (character.getCurrentSpeed_x() < 0 && collusionIndex.size() > 0) {
             int max = -1;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int right = collusion.getRightSide(emptyBlocks.get(collusionIndex.get(i)));
+                int right = getRightSide(emptyBlocks.get(collusionIndex.get(i)));
                 if (right >= max) max = right;
             }
             character.setUpperLeftX(max);
             character.setCurrentSpeed_x(0);
-            collusion.setLeftCollusion(false);
-            collusion.setRightCollusion(true);
+            character.setLeftCollusion(false);
+            character.setRightCollusion(true);
         }
     }
 
-    public void multiCoinBlocksResolveCollusionX(Level level, Collusion collusion){
+    public void multiCoinBlocksResolveCollusionX(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<MultiCoinBlock> multiCoinBlocks = level.getMultiCoinBlocks();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < multiCoinBlocks.size();i++){
             MultiCoinBlock thisBlock = multiCoinBlocks.get(i);
-            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int left = collusion.getLeftSide(multiCoinBlocks.get(collusionIndex.get(i)));
+                int left = getLeftSide(multiCoinBlocks.get(collusionIndex.get(i)));
                 if (left <= min) min = left;
             }
             character.setCurrentSpeed_x(0);
             character.setUpperLeftX(min - character.getLength());
-            collusion.setLeftCollusion(true);
-            collusion.setRightCollusion(false);
+            character.setLeftCollusion(true);
+            character.setRightCollusion(false);
         }
         else if (character.getCurrentSpeed_x() < 0 && collusionIndex.size() > 0) {
             int max = -1;
             for (int i = 0 ; i < collusionIndex.size();i++){
-                int right = collusion.getRightSide(multiCoinBlocks.get(collusionIndex.get(i)));
+                int right = getRightSide(multiCoinBlocks.get(collusionIndex.get(i)));
                 if (right >= max) max = right;
             }
             character.setUpperLeftX(max);
             character.setCurrentSpeed_x(0);
-            collusion.setLeftCollusion(false);
-            collusion.setRightCollusion(true);
+            character.setLeftCollusion(false);
+            character.setRightCollusion(true);
         }
     }
-    public void resolveCollusionX() throws FileNotFoundException {
+
+    private void giftBlocksResolveCollusionX(){
+        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        ArrayList<GiftBlock> giftBlocks = level.getGiftBlocks();
+        for (int i = 0 ; i < giftBlocks.size();i++){
+            GiftBlock thisBlock = giftBlocks.get(i);
+            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+        }
+        if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
+            int min = 100000;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                int left = getLeftSide(giftBlocks.get(collusionIndex.get(i)));
+                if (left <= min) min = left;
+            }
+            character.setCurrentSpeed_x(0);
+            character.setUpperLeftX(min - character.getLength());
+            character.setLeftCollusion(true);
+            character.setRightCollusion(false);
+        }
+        else if (character.getCurrentSpeed_x() < 0 && collusionIndex.size() > 0) {
+            int max = -1;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                int right = getRightSide(giftBlocks.get(collusionIndex.get(i)));
+                if (right >= max) max = right;
+            }
+            character.setUpperLeftX(max);
+            character.setCurrentSpeed_x(0);
+            character.setLeftCollusion(false);
+            character.setRightCollusion(true);
+        }
+    }
+    public void resolveCollusionX() throws IOException {
 
         Collusion collusion = this;
-        collusion.setRightCollusion(false);
-        collusion.setLeftCollusion(false);
+        character.setRightCollusion(false);
+        character.setLeftCollusion(false);
 
 
         //checking EndWall collusion
-        endWallResolveCollusionX(level,collusion);
+        endWallResolveCollusionX();
 
         //checking enemies collusion//
         //flowers
-        flowersResolveCollusionX(level,collusion);
+        flowersResolveCollusionX();
+
+        //Items
         //checking coin collusion//
-        coinResolveCollusionX(level,collusion);
+        coinResolveCollusionX();
+
+        //checking MagicalFlower collusion//
+        magicalFlowersResolveCollusionX();
 
         //checking floors collusion//
-        floorsResolveCollusionX(level,collusion);
+        floorsResolveCollusionX();
 
         //checking blocks collusion
         //normal blocks//
-        normalBlocksResolveCollusionX(level,collusion);
+        normalBlocksResolveCollusionX();
 
         //coinBlocks
-        coinBlocksResolveCollusionX(level,collusion);
+        coinBlocksResolveCollusionX();
 
         //emptyBlocks
-        emptyBlocksResolveCollusionX(level,collusion);
+        emptyBlocksResolveCollusionX();
 
         //multiCoinBlocks
-        multiCoinBlocksResolveCollusionX(level,collusion);
+        multiCoinBlocksResolveCollusionX();
+
+        //GiftBlocks
+        giftBlocksResolveCollusionX();
         //Pipes
-        pipesResolveCollusionX(level,collusion);
+        pipesResolveCollusionX();
 
     }
 }

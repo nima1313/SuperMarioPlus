@@ -8,21 +8,21 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class CoinBlock extends Block {
-    String item;
+    String myItem;
     public CoinBlock(int upperLeftX, int upperLeftY,String item){
         super(upperLeftX,upperLeftY);
-        this.item = item;
+        this.myItem = item;
         setType("CoinBlock");
     }
 
     public void gotHit(Level level){
-        if (item.equals("Coin")){
+        if (myItem.equals("Coin")){
             //it still has a coin
             Coin coin = new Coin(getUpperLeftX() + 4,getUpperLeftY()-32);
             ArrayList<Coin> newCoins = level.getCoins();
             newCoins.add(coin);
             level.setCoins(newCoins);
-            item = "";
+            myItem = "";
         }
         else {
             this.disappear();
@@ -30,7 +30,7 @@ public class CoinBlock extends Block {
     }
 
     public boolean isCollected() {
-        if (item.equals(""))return true;
+        if (myItem.equals(""))return true;
         else return false;
     }
 

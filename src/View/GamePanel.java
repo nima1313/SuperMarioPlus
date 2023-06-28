@@ -1,12 +1,12 @@
 package View;
 
-import Model.Block.CoinBlock;
-import Model.Block.EmptyBlock;
-import Model.Block.MultiCoinBlock;
-import Model.Block.NormalBlock;
+import Model.Block.*;
 import Model.Characters.Character;
 import Model.Enemies.Flower;
 import Model.Items.Coin;
+import Model.Items.MagicalFlower;
+import Model.Items.MagicalMushroom;
+import Model.Items.MagicalStar;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
 import Model.Pipes.Pipe;
@@ -65,6 +65,16 @@ public class GamePanel extends JPanel {
             }
         }
 
+        ArrayList<GiftBlock> giftBlocks = gameFrame.gameEngine.getLevel().getGiftBlocks();
+        if (giftBlocks != null) {
+            for (int i = 0; i < giftBlocks.size(); i++) {
+                GiftBlock thisBlock = giftBlocks.get(i);
+                g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(),40,40, this);
+            }
+        }
+
+
+
 
         //drawing floors
         ArrayList<Floor> floors = gameFrame.gameEngine.getLevel().getFloors();
@@ -97,9 +107,12 @@ public class GamePanel extends JPanel {
         if (character != null) {
             g.drawImage(character.getTexture().getImage(), character.getUpperLeftX() - theHolyIllusion, character.getUpperLeftY(), this);
         }
-        //drawing coins
+
+        //drawing Items
+
+            //drawing coins
         ArrayList<Coin> coins = gameFrame.gameEngine.getLevel().getCoins();
-        if (pipes != null) {
+        if (coins != null) {
             for (int i = 0; i < coins.size(); i++) {
                 Coin thisCoin = coins.get(i);
                 if(thisCoin.isCollected() == false){
@@ -107,6 +120,24 @@ public class GamePanel extends JPanel {
                 }
             }
         }
+            //drawing MagicalFlowers
+        ArrayList<MagicalFlower> magicalFlowers = gameFrame.gameEngine.getLevel().getMagicalFlowers();
+        if (magicalFlowers != null) {
+            for (int i = 0; i < magicalFlowers.size(); i++) {
+                MagicalFlower thisMagicalFlower = magicalFlowers.get(i);
+                g.drawImage(thisMagicalFlower.getTexture().getImage(), thisMagicalFlower.getUpperLeftX() - theHolyIllusion, thisMagicalFlower.getUpperLeftY(),32,32, this);
+            }
+        }
+            //drawing magicalMushrooms
+        ArrayList<MagicalMushroom> magicalMushrooms = gameFrame.gameEngine.getLevel().getMagicalMushrooms();
+        if (magicalMushrooms != null) {
+            for (int i = 0; i < magicalMushrooms.size(); i++) {
+                MagicalMushroom thisMagicalMushroom = magicalMushrooms.get(i);
+                g.drawImage(thisMagicalMushroom.getTexture().getImage(), thisMagicalMushroom.getUpperLeftX() - theHolyIllusion, thisMagicalMushroom.getUpperLeftY(),32,32, this);
+            }
+        }
+
+
         //drawing endWalls
         EndWall endWalls = gameFrame.gameEngine.getLevel().getEndWalls();
         if (endWalls != null){

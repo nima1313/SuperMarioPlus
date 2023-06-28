@@ -11,7 +11,11 @@ public class Flower extends Enemy {
         setUpperLeftY(upperLeftY);
         setLength(40);
         setHeight(60);
-        setTexture(new ImageIcon("Flower.png"));
         setType("Flower");
+    }
+
+    @Override
+    public ImageIcon getTexture(){
+        return new ImageIcon("Flower.png");
     }
 }
