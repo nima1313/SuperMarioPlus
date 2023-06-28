@@ -457,7 +457,7 @@ public class Collusion{
         emptyBlocksResolveCollusionY(level,collusion);
 
         //MultiCoinBlock
-
+        multiCoinBlocksResolveCollusionY(level,collusion);
     }
 
     private void endWallResolveCollusionX(Level level, Collusion collusion) throws FileNotFoundException {
@@ -526,7 +526,7 @@ public class Collusion{
         }
     }
 
-    private void blocksResolveCollusionX(Level level, Collusion collusion){
+    private void normalBlocksResolveCollusionX(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<NormalBlock> normalBlocks = level.getNormalBlocks();
         collusionIndex = new ArrayList<>();
@@ -651,6 +651,38 @@ public class Collusion{
             collusion.setRightCollusion(true);
         }
     }
+
+    public void multiCoinBlocksResolveCollusionX(Level level, Collusion collusion){
+        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        ArrayList<MultiCoinBlock> multiCoinBlocks = level.getMultiCoinBlocks();
+        collusionIndex = new ArrayList<>();
+        for (int i = 0 ; i < multiCoinBlocks.size();i++){
+            MultiCoinBlock thisBlock = multiCoinBlocks.get(i);
+            if (collusion.CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+        }
+        if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
+            int min = 100000;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                int left = collusion.getLeftSide(multiCoinBlocks.get(collusionIndex.get(i)));
+                if (left <= min) min = left;
+            }
+            character.setCurrentSpeed_x(0);
+            character.setUpperLeftX(min - character.getLength());
+            collusion.setLeftCollusion(true);
+            collusion.setRightCollusion(false);
+        }
+        else if (character.getCurrentSpeed_x() < 0 && collusionIndex.size() > 0) {
+            int max = -1;
+            for (int i = 0 ; i < collusionIndex.size();i++){
+                int right = collusion.getRightSide(multiCoinBlocks.get(collusionIndex.get(i)));
+                if (right >= max) max = right;
+            }
+            character.setUpperLeftX(max);
+            character.setCurrentSpeed_x(0);
+            collusion.setLeftCollusion(false);
+            collusion.setRightCollusion(true);
+        }
+    }
     public void resolveCollusionX() throws FileNotFoundException {
 
         Collusion collusion = this;
@@ -679,6 +711,9 @@ public class Collusion{
 
         //emptyBlocks
         emptyBlocksResolveCollusionX(level,collusion);
+
+        //multiCoinBlocks
+        multiCoinBlocksResolveCollusionX(level,collusion);
         //Pipes
         pipesResolveCollusionX(level,collusion);
 

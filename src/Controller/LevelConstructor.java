@@ -181,7 +181,8 @@ public class LevelConstructor
             newLevel.setMagicalStars(magicalStars);
             newLevel.setFloors(floors);
             newLevel.setEndWalls(endWalls);
-
+            newLevel.setLevelNumber(_level + 1);
+            newLevel.setSectionNumber(_section + 1);
             newLevel.setLength((int) length);
             newLevel.setTime((int) time);
             newLevel.setHearts((int)hearts);
