@@ -2,6 +2,7 @@ package View;
 
 import Model.Block.CoinBlock;
 import Model.Block.EmptyBlock;
+import Model.Block.MultiCoinBlock;
 import Model.Block.NormalBlock;
 import Model.Characters.Character;
 import Model.Enemies.Flower;
@@ -52,6 +53,14 @@ public class GamePanel extends JPanel {
         if (emptyBlocks != null) {
             for (int i = 0; i < emptyBlocks.size(); i++) {
                 EmptyBlock thisBlock = emptyBlocks.get(i);
+                g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(),40,40, this);
+            }
+        }
+
+        ArrayList<MultiCoinBlock> multiCoinBlocks = gameFrame.gameEngine.getLevel().getMultiCoinBlocks();
+        if (multiCoinBlocks != null) {
+            for (int i = 0; i < multiCoinBlocks.size(); i++) {
+                MultiCoinBlock thisBlock = multiCoinBlocks.get(i);
                 g.drawImage(thisBlock.getTexture().getImage(), thisBlock.getUpperLeftX() - theHolyIllusion, thisBlock.getUpperLeftY(),40,40, this);
             }
         }

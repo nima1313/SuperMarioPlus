@@ -6,7 +6,7 @@ public class Cario extends Hero {
     public Cario(){
         super();
         setCharacterName("Cario");
-        setCurrentPhase(1);
+        setCurrentPhase(0);
         setCoinCollectCoefficient(2);
         setCharacterJumpSpeed(getJumpConstant());
         setCharacterSpeed((int)((double)getSpeedConstant() * 1));
@@ -18,7 +18,7 @@ public class Cario extends Hero {
         super();
         setUnlocked(unlocked);
         setCharacterName("Cario");
-        setCurrentPhase(1);
+        setCurrentPhase(0);
         setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpRange);
         setCharacterSpeed(speed);

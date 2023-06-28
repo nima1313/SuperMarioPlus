@@ -23,6 +23,7 @@ public class Collusion{
     public Collusion(Level level, Character character, GameEngine gameEngine) {
         this.level = level;
         this.character = character;
+        this.gameEngine = gameEngine;
     }
 
     boolean upCollusion = false; //THESE ARE IN RESPECT TO THE CHARACTER (down -> bottom of the character)
@@ -355,7 +356,7 @@ public class Collusion{
         }
         level.setCoinBlocks(coinBlocks);
     }
-    private void MultiCoinBlocksResolveCollusionY(Level level, Collusion collusion){
+    private void multiCoinBlocksResolveCollusionY(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<MultiCoinBlock> multiCoinBlocks = level.getMultiCoinBlocks();
         collusionIndex = new ArrayList<>();
@@ -454,6 +455,9 @@ public class Collusion{
 
         //EmptyBlocks
         emptyBlocksResolveCollusionY(level,collusion);
+
+        //MultiCoinBlock
+
     }
 
     private void endWallResolveCollusionX(Level level, Collusion collusion) throws FileNotFoundException {
@@ -522,7 +526,7 @@ public class Collusion{
         }
     }
 
-    private void normalBlocksResolveCollusionX(Level level, Collusion collusion){
+    private void blocksResolveCollusionX(Level level, Collusion collusion){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<NormalBlock> normalBlocks = level.getNormalBlocks();
         collusionIndex = new ArrayList<>();

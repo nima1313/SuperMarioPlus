@@ -8,7 +8,7 @@ public class Mario extends Hero {
     public Mario(){
         super();
         setCharacterName("Mario");
-        setCurrentPhase(1);
+        setCurrentPhase(0);
         setCoinCollectCoefficient(1);
         setCharacterJumpSpeed(getJumpConstant());
         setCharacterSpeed((int)((double)getSpeedConstant() * 1.25));
@@ -20,7 +20,7 @@ public class Mario extends Hero {
         super();
         setCharacterName("Mario");
         setUnlocked(unlocked);
-        setCurrentPhase(1);
+        setCurrentPhase(0);
         setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpRange);
         setCharacterSpeed(speed);

@@ -8,20 +8,21 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class CoinBlock extends Block {
-    boolean collected = false;
-    public CoinBlock(int upperLeftX, int upperLeftY){
+    String item;
+    public CoinBlock(int upperLeftX, int upperLeftY,String item){
         super(upperLeftX,upperLeftY);
+        this.item = item;
         setType("CoinBlock");
     }
 
     public void gotHit(Level level){
-        if (collected == false){
+        if (item.equals("Coin")){
             //it still has a coin
             Coin coin = new Coin(getUpperLeftX() + 4,getUpperLeftY()-32);
             ArrayList<Coin> newCoins = level.getCoins();
             newCoins.add(coin);
             level.setCoins(newCoins);
-            collected = true;
+            item = "";
         }
         else {
             this.disappear();
@@ -29,15 +30,13 @@ public class CoinBlock extends Block {
     }
 
     public boolean isCollected() {
-        return collected;
+        if (item.equals(""))return true;
+        else return false;
     }
 
     @Override
     public ImageIcon getTexture(){
-        if (!collected) return new ImageIcon("Textures/Blocks/CoinBlock.png");
+        if (!isCollected()) return new ImageIcon("Textures/Blocks/CoinBlock.png");
         else return new ImageIcon("Textures/Blocks/NormalBlock.png");
-    }
-    public void setCollected(boolean collected) {
-        this.collected = collected;
     }
 }

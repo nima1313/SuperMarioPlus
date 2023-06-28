@@ -8,7 +8,7 @@ public class Rario extends Hero {
     public Rario(){
         super();
         setCharacterName("Rario");
-        setCurrentPhase(1);
+        setCurrentPhase(0);
         setCoinCollectCoefficient(1);
         setCharacterJumpSpeed(getJumpConstant());
         setCharacterSpeed((int)((double)getSpeedConstant() * 1));
@@ -20,7 +20,7 @@ public class Rario extends Hero {
         super();
         setCharacterName("Rario");
         setUnlocked(unlocked);
-        setCurrentPhase(1);
+        setCurrentPhase(0);
         setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpRange);
         setCharacterSpeed(speed);

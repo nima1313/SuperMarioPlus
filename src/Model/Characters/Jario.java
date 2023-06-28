@@ -8,7 +8,7 @@ public class Jario extends Hero {
     public Jario(){
         super();
         setCharacterName("Jario");
-        setCurrentPhase(1);
+        setCurrentPhase(0);
         setCoinCollectCoefficient(1);
         setCharacterJumpSpeed((int)(getJumpConstant() * 1.25));
         setCharacterSpeed((int)((double)getSpeedConstant() * 1));
@@ -20,7 +20,7 @@ public class Jario extends Hero {
         super();
         setUnlocked(unlocked);
         setCharacterName("Jario");
-        setCurrentPhase(1);
+        setCurrentPhase(0);
         setCoinCollectCoefficient(coinCollectCoefficient);
         setCharacterJumpSpeed(jumpSpeed);
         setCharacterSpeed(speed);

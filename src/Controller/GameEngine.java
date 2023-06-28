@@ -40,7 +40,7 @@ public class GameEngine implements Runnable {
         this.thisSave = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()];
         this.character = thisSave.getCharacter();
         int currentLevel = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastLevel();
-        int currentSection = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastSection();
+        int currentSection = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastSection()+1; //TODO : FIX +1
         this.level = LevelConstructor.construct(currentLevel,currentSection);
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());

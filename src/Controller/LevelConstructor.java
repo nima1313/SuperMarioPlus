@@ -41,7 +41,8 @@ public class LevelConstructor
             hearts = (long) data.get("hearts");
             marioState = (long) data.get("marioState");
             JSONArray levels = (JSONArray) data.get("levels");
-            JSONArray sections = (JSONArray) levels.get(_level);
+            JSONObject sectionsData = (JSONObject) levels.get(_level);
+            JSONArray sections = (JSONArray) sectionsData.get("sections");
             JSONObject currentSection = (JSONObject) sections.get(_section);
             long length = (long) currentSection.get("length");
             long time = (long) currentSection.get("time");
@@ -68,8 +69,8 @@ public class LevelConstructor
                 long upperLeftY = (long)ourBlock.get("y");
                 if (type.equals("CoinBlock")){
                     String myItem = (String) ourBlock.get("item");
-                    CoinBlock myCoinBlock = new CoinBlock((int)upperLeftX,(int)upperLeftY);
-                    if (myItem.equals("")) myCoinBlock.setCollected(true);
+                    CoinBlock myCoinBlock = new CoinBlock((int)upperLeftX,(int)upperLeftY,myItem);
+                    coinBlocks.add(myCoinBlock);
                 } else if (type.equals("EmptyBlock")) {
                     emptyBlocks.add(new EmptyBlock((int)upperLeftX,(int)upperLeftY));
                 } else if (type.equals("GiftBlock")) {
