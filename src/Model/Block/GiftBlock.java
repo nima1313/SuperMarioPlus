@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class GiftBlock extends Block{
 
-    //TODO : do it all :))
     private String itemName;
 
     public GiftBlock(int upperLeftX, int upperLeftY, String item) {

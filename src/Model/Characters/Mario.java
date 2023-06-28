@@ -30,26 +30,26 @@ public class Mario extends Hero {
     public ImageIcon getTexture(){
         if (getDirection().equals("Right")){
             if (isSeating()) {
-                if (getCurrentPhase() == 0) return new ImageIcon("MarioPhaseOneRight.png");
-                else if (getCurrentPhase() == 1) return new ImageIcon("MarioPhaseTwoRightSeated.png");
-                else return new ImageIcon("MarioPhaseThreeRightSeated.png");
+                if (getCurrentPhase() == 0) return new ImageIcon("Textures/Characters/MarioPhaseOneRight.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("Textures/Characters/MarioPhaseTwoRightSeated.png");
+                else return new ImageIcon("Textures/Characters/MarioPhaseThreeRightSeated.png");
             }
             else {
-                if (getCurrentPhase() == 0) return new ImageIcon("MarioPhaseOneRight.png");
-                else if (getCurrentPhase() == 1) return new ImageIcon("MarioPhaseTwoRight.png");
-                else return new ImageIcon("MarioPhaseThreeRight.png");
+                if (getCurrentPhase() == 0) return new ImageIcon("Textures/Characters/MarioPhaseOneRight.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("Textures/Characters/MarioPhaseTwoRight.png");
+                else return new ImageIcon("Textures/Characters/MarioPhaseThreeRight.png");
             }
         }
         else {
             if (isSeating()) {
-                if (getCurrentPhase() == 0) return new ImageIcon("MarioPhaseOneLeft.png");
-                else if (getCurrentPhase() == 1) return new ImageIcon("MarioPhaseTwoLeftSeated.png");
-                else return new ImageIcon("MarioPhaseThreeLeftSeated.png");
+                if (getCurrentPhase() == 0) return new ImageIcon("Textures/Characters/MarioPhaseOneLeft.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("Textures/Characters/MarioPhaseTwoLeftSeated.png");
+                else return new ImageIcon("Textures/Characters/MarioPhaseThreeLeftSeated.png");
             }
             else {
-                if (getCurrentPhase() == 0) return new ImageIcon("MarioPhaseOneLeft.png");
-                else if (getCurrentPhase() == 1) return new ImageIcon("MarioPhaseTwoLeft.png");
-                else return new ImageIcon("MarioPhaseThreeLeft.png");
+                if (getCurrentPhase() == 0) return new ImageIcon("Textures/Characters/MarioPhaseOneLeft.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("Textures/Characters/MarioPhaseTwoLeft.png");
+                else return new ImageIcon("Textures/Characters/MarioPhaseThreeLeft.png");
             }
         }
 

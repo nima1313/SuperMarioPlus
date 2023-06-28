@@ -14,7 +14,6 @@ public class MultiCoinBlock extends Block{
     public void gotHit(){
         if (coins != 0){
             coins--;
-            //TODO : make the character score go up by one coin and one score
         }
     }
 

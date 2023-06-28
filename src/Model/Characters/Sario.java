@@ -30,26 +30,26 @@ public class Sario extends Hero {
     public ImageIcon getTexture(){
         if (getDirection().equals("Right")){
             if (isSeating()) {
-                if (getCurrentPhase() == 0) return new ImageIcon("SarioPhaseOneRight.png");
-                else if (getCurrentPhase() == 1) return new ImageIcon("SarioPhaseTwoRightSeated.png");
-                else return new ImageIcon("SarioPhaseThreeRightSeated.png");
+                if (getCurrentPhase() == 0) return new ImageIcon("Textures/Characters/SarioPhaseOneRight.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("Textures/Characters/SarioPhaseTwoRightSeated.png");
+                else return new ImageIcon("Textures/Characters/SarioPhaseThreeRightSeated.png");
             }
             else {
-                if (getCurrentPhase() == 0) return new ImageIcon("SarioPhaseOneRight.png");
-                else if (getCurrentPhase() == 1) return new ImageIcon("SarioPhaseTwoRight.png");
-                else return new ImageIcon("SarioPhaseThreeRight.png");
+                if (getCurrentPhase() == 0) return new ImageIcon("Textures/Characters/SarioPhaseOneRight.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("Textures/Characters/SarioPhaseTwoRight.png");
+                else return new ImageIcon("Textures/Characters/SarioPhaseThreeRight.png");
             }
         }
         else {
             if (isSeating()) {
-                if (getCurrentPhase() == 0) return new ImageIcon("SarioPhaseOneLeft.png");
-                else if (getCurrentPhase() == 1) return new ImageIcon("SarioPhaseTwoLeftSeated.png");
-                else return new ImageIcon("SarioPhaseThreeLeftSeated.png");
+                if (getCurrentPhase() == 0) return new ImageIcon("Textures/Characters/SarioPhaseOneLeft.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("Textures/Characters/SarioPhaseTwoLeftSeated.png");
+                else return new ImageIcon("Textures/Characters/SarioPhaseThreeLeftSeated.png");
             }
             else {
-                if (getCurrentPhase() == 0) return new ImageIcon("SarioPhaseOneLeft.png");
-                else if (getCurrentPhase() == 1) return new ImageIcon("SarioPhaseTwoLeft.png");
-                else return new ImageIcon("SarioPhaseThreeLeft.png");
+                if (getCurrentPhase() == 0) return new ImageIcon("Textures/Characters/SarioPhaseOneLeft.png");
+                else if (getCurrentPhase() == 1) return new ImageIcon("Textures/Characters/SarioPhaseTwoLeft.png");
+                else return new ImageIcon("Textures/Characters/SarioPhaseThreeLeft.png");
             }
         }
 

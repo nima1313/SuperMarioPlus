@@ -11,7 +11,6 @@ public class NormalBlock extends Block {
     }
     public void gotHit(){
         this.disappear();
-        //TODO:add one point
     }
     @Override
     public ImageIcon getTexture(){
