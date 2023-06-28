@@ -80,7 +80,9 @@ public class LevelConstructor
                     normalBlocks.add(new NormalBlock((int)upperLeftX,(int)upperLeftY));
                 }
                 else {
-                    multiCoinBlocks.add(new MultiCoinBlock((int)upperLeftX,(int)upperLeftY));
+                    String myItem = (String) ourBlock.get("item");
+                    MultiCoinBlock myMultiCoinBlock = new MultiCoinBlock((int)upperLeftX,(int)upperLeftY,myItem);
+                    multiCoinBlocks.add(myMultiCoinBlock);
                 }
             }
 
