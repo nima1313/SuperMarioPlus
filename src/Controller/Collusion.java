@@ -2,8 +2,7 @@ package Controller;
 
 import Model.Block.*;
 import Model.Characters.Character;
-import Model.Enemies.Enemy;
-import Model.Enemies.Flower;
+import Model.Enemies.*;
 import Model.Items.*;
 import Model.Levels.Level;
 import Model.PhysicalObjects.EndWall;
@@ -94,6 +93,8 @@ public class Collusion{
         return enemy.getUpperLeftY();
     }
     int getUpSide(Item item){ return item.getUpperLeftY();}
+    int getUpSide(Goomba goomba){ return goomba.getUpperLeftY();}
+
 
 
 
@@ -225,6 +226,80 @@ public class Collusion{
         }
         level.setFlowers(flowers);
     }
+    private void goombasResolveCollusionY() throws IOException {
+        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        ArrayList<Goomba> goombas = level.getGoombas();
+        collusionIndex = new ArrayList<>();
+        for (int i = 0 ; i < goombas.size();i++){
+            Goomba thisGoomba = goombas.get(i);
+            if (checkCollusion(character,thisGoomba)){
+                if (getUpSide(character) < getUpSide(thisGoomba)) {
+                    thisGoomba.die();
+                    gameEngine.updateCurrentSectionScores(1);
+                }
+                else {
+                    if (character.isInvincible()){
+                        thisGoomba.die();
+                        goombas.set(i,thisGoomba);
+                    }
+                    else {
+                        gameEngine.characterGotHit();
+                    }
+                }
+            }
+        }
+        level.setGoombas(goombas);
+    }
+    private void spiniesResolveCollusionY() throws IOException {
+        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        ArrayList<Spiny> spinies = level.getSpinies();
+        collusionIndex = new ArrayList<>();
+        for (int i = 0 ; i < spinies.size();i++){
+            Spiny thisSpiny = spinies.get(i);
+            if (checkCollusion(character,thisSpiny)){
+                if (character.isInvincible()){
+                    thisSpiny.die();
+                    spinies.set(i,thisSpiny);
+                }
+                else gameEngine.characterGotHit();
+
+                }
+        }
+        level.setSpinies(spinies);
+    }
+
+    private void koopasResolveCollusionY() throws IOException {
+        ArrayList<Integer> collusionIndex = new ArrayList<>();
+        ArrayList<Koopa> koopas = level.getKoopas();
+        collusionIndex = new ArrayList<>();
+        for (int i = 0 ; i < koopas.size();i++){
+            Koopa thisKoopa = koopas.get(i);
+            if (checkCollusion(character,thisKoopa)){
+                if (character.isInvincible()){
+                    thisKoopa.die();
+                }
+                else if (getUpSide(character) < getUpSide(thisKoopa)) {
+                    if (thisKoopa.isHit()) {
+                        thisKoopa.die();
+                        gameEngine.updateCurrentSectionScores(2);
+                    }
+                    else {
+                        //TODO: FIX THIS TOF
+                        character.setUpperLeftY(character.getUpperLeftY() - 40);
+                        character.setCurrentPhase(character.getCurrentPhase()+1);
+                        gameEngine.characterGotHit();
+                        //
+
+                        thisKoopa.setHit(true);
+                    }
+                }
+                else {
+                    gameEngine.characterGotHit();
+                }
+            }
+        }
+        level.setKoopas(koopas);
+    }
     private void itemResolveCollusionY(){
 
         for (Item item : level.getItems()) {
@@ -338,9 +413,7 @@ public class Collusion{
                 coins.set(i, thisCoin);
             }
         }
-        ArrayList<Coin> newCoins = level.getCoins();
-        newCoins = coins;
-        level.setCoins(newCoins);
+        level.setCoins(coins);
     }
 
     private void magicalFlowersResolveCollusionY(){
@@ -636,6 +709,12 @@ public class Collusion{
         //checking enemies collusion//
         //flowers
         flowersResolveCollusionY();
+        //goombas
+        goombasResolveCollusionY();
+        //koopas
+        koopasResolveCollusionY();
+        //spinies
+        spiniesResolveCollusionY();
 
         //checking Items collusion
         //Checking coins collusion//
@@ -674,6 +753,8 @@ public class Collusion{
             gameEngine.sectionEnds();
         }
     }
+
+    //Enemies collusion
     private void flowersResolveCollusionX() throws IOException {
         ArrayList<Flower> flowers = level.getFlowers();
         for (int i = 0 ; i < flowers.size();i++){
@@ -690,7 +771,40 @@ public class Collusion{
         }
         level.setFlowers(flowers);
     }
+    private void goombasResolveCollusionX() throws IOException {
+        ArrayList<Goomba> goombas = level.getGoombas();
+        for (int i = 0 ; i < goombas.size();i++){
+            Goomba thisGoomba = goombas.get(i);
+            if (checkCollusion(character,thisGoomba)){
+                if (character.isInvincible()){
+                    thisGoomba.die();
+                    goombas.set(i,thisGoomba);
+                }
+                else {
+                    gameEngine.characterGotHit();
+                }
+            }
 
+        }
+        level.setGoombas(goombas);
+    }
+    private void koopasResolveCollusionX() throws IOException {
+        ArrayList<Koopa> koopas = level.getKoopas();
+        for (int i = 0 ; i < koopas.size();i++){
+            Koopa thisKoopa = koopas.get(i);
+            if (checkCollusion(character,thisKoopa)){
+                if (character.isInvincible()){
+                    thisKoopa.die();
+                    koopas.set(i,thisKoopa);
+                }
+                else {
+                    gameEngine.characterGotHit();
+                }
+            }
+
+        }
+        level.setKoopas(koopas);
+    }
     private void itemResolveCollusionX(){
         for (Item item : level.getItems()){
             for (Block block : level.getBlocks()) {
@@ -1120,6 +1234,11 @@ public class Collusion{
         //checking enemies collusion//
         //flowers
         flowersResolveCollusionX();
+        //goombas
+        goombasResolveCollusionX();
+        //koopas
+        koopasResolveCollusionX();
+
 
         //Items
         //checking coin collusion//

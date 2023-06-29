@@ -47,6 +47,23 @@ public class GameEngine implements Runnable {
         collusion = new Collusion(level,character,this);
         gameThread.start();
     }
+    public GameEngine(User user, GameFrame gameFrame,int phase) throws FileNotFoundException {
+        setUser(user);
+        this.gameFrame = gameFrame;
+        gameThread = new Thread(this);
+        this.thisSave = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()];
+        this.character = thisSave.getCharacter();
+        int currentLevel = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastLevel();
+        int currentSection = user.getCurrentSavedGames()[user.getSelectedSavedGameIndex()].getLastSection()+1; //TODO : FIX +1
+        this.level = LevelConstructor.construct(currentLevel,currentSection);
+        this.level.setMarioState(phase);
+        character.setUpperLeftX(level.getCharacterInitialX());
+        character.setUpperLeftY(level.getCharacterInitialY());
+        character.setCurrentPhase(level.getMarioState());
+        collusion = new Collusion(level,character,this);
+        gameThread.start();
+    }
+
 
     public void moveX(){
         characterMoveX();
@@ -260,11 +277,9 @@ public class GameEngine implements Runnable {
 //        } catch (FileNotFoundException e) {
 //            throw new RuntimeException(e);
 //        }
+        character = thisSave.getCharacter();
         character.setUpperLeftX(level.getCharacterInitialX());
         character.setUpperLeftY(level.getCharacterInitialY());
-        character.setCurrentSpeed_x(0);
-        character.setCurrentSpeed_y(0);
-        character.setCurrentPhase(0);
         //collusion = new Collusion(level,character,this);
         //flowersFrameCount = 0;
         //decreasing hearts
@@ -280,8 +295,9 @@ public class GameEngine implements Runnable {
     }
     public void sectionEnds() throws FileNotFoundException {
         stopChecking = true;
+        int phase = character.getCurrentPhase();
         updateCurrentLevelScores();//don't forget that this exists :))
-        if (LevelConstructor.numberOfSections(level.getLevelNumber()) - 1 == level.getSectionNumber()){
+        if (LevelConstructor.numberOfSections(level.getLevelNumber()-1) - 1 == level.getSectionNumber()){
             thisSave.setTotalScore(thisSave.getTotalScore()+thisSave.getCurrentLevelScore());
             if (user.getHighScore() < thisSave.getTotalScore()){
                 user.setHighScore(thisSave.getTotalScore());
@@ -307,13 +323,12 @@ public class GameEngine implements Runnable {
         }
         else {
             thisSave.setLastSection(thisSave.getLastSection()+1);
-            level = LevelConstructor.construct(level.getLevelNumber(),level.getSectionNumber()+1);
             user.setTotalCoins(user.getTotalCoins() + thisSave.getCurrentSectionCoins());
             thisSave.setCurrentSectionCoins(0);
             saveThisSave();
             gameEngineIsOn = false;
             gameFrame.dispose();
-            new GameFrame(user);
+            new GameFrame(user,phase);
         }
         saveThisSave();
     }
@@ -337,6 +352,51 @@ public class GameEngine implements Runnable {
             character.setInvincibleFrameCount(character.getInvincibleFrameCount()+1);
             if (character.getInvincibleFrameCount() > 40 * 15){
                 character.setInvincible(false);
+            }
+        }
+    }
+
+    public void koopasGettingHitProcessor(){
+        for (Koopa koopa : level.getKoopas()){
+            if (koopa.isHit()){
+                if (koopa.getHitFrameCount() == 0){
+                    koopa.setCurrentSpeed_x(5);
+                    koopa.setUpperLeftX(koopa.getUpperLeftX() + 20);
+                }
+                koopa.setHitFrameCount(koopa.getHitFrameCount()+1);
+                 if (koopa.getHitFrameCount() > 20) {
+                    koopa.setCurrentSpeed_x(0);
+                }
+
+                if (koopa.getHitFrameCount() == 40 * 3 + 20){
+                    koopa.setHit(false);
+                    koopa.setCurrentSpeed_x(1);
+                }
+            }
+            else koopa.setHitFrameCount(0);
+        }
+    }
+    public void spiniesMechanism(){
+        for (Spiny spiny : level.getSpinies()){
+            if (Math.abs(spiny.getUpperLeftY() - character.getUpperLeftY()) < 80){
+                if (Math.abs(collusion.getRightSide(character) - collusion.getLeftSide(spiny)) < 4 * 40 || Math.abs(collusion.getLeftSide(character) - collusion.getRightSide(spiny)) < 4 * 40){
+                    if (collusion.getRightSide(character) > collusion.getRightSide(spiny)){
+                        spiny.setAccelerationPerFrame(spiny.getAccelerationPerFrame()+0.25);
+                        spiny.setCurrentSpeed_x(1);
+                        spiny.setUpperLeftX(spiny.getUpperLeftX() + spiny.getCurrentSpeed_x() + (int)spiny.getAccelerationPerFrame());
+                    }
+                    else {
+                        spiny.setAccelerationPerFrame(spiny.getAccelerationPerFrame()+0.25);
+                        spiny.setCurrentSpeed_x(-1);
+                        spiny.setUpperLeftX(spiny.getUpperLeftX() + spiny.getCurrentSpeed_x() - (int)spiny.getAccelerationPerFrame());
+                    }
+                }
+                else {
+                    spiny.setAccelerationPerFrame(0);
+                }
+            }
+            else {
+                spiny.setAccelerationPerFrame(0);
             }
         }
     }
@@ -366,6 +426,8 @@ public class GameEngine implements Runnable {
                         throw new RuntimeException(e);
                     }
                 }
+                if (stopChecking == false) spiniesMechanism();
+                if (stopChecking == false) koopasGettingHitProcessor();
                 if (stopChecking == false){
                     characterInvincibility();
                 }

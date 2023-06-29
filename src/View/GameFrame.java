@@ -60,6 +60,42 @@ public class GameFrame extends JFrame {
         setLayout(null);
         setVisible(true);
     }
+    public GameFrame(User user, int phase) throws FileNotFoundException {
+        super("HI");
+        setSize(1000,1000);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.user = user;
+        this.controller = new Controller();
+        addKeyListener(new ActionListener());
+        gameEngine = new GameEngine(user,this,phase);
+        gamePanel = new GamePanel(this);
+        gamePanel.setBounds(0,100,1000,600);
+        scorePanel = new ScorePanel(250,100,gameEngine);
+        scorePanel.setBounds(0,0,250,100);
+        heartsPanel = new HeartsPanel(200,100,gameEngine);
+        heartsPanel.setBounds(250,0,200,100);
+        timerPanel = new TimerPanel(200,100,gameEngine);
+        timerPanel.setBounds(450,0,200,100);
+        coinPanel = new CoinPanel(150,100,gameEngine);
+        coinPanel.setBounds(650,0,150,100);
+        levelNamePanel = new LevelNamePanel(200,100,gameEngine);
+        levelNamePanel.setBounds(800,0,200,100);
+        gameExitPanel = new GameExitPanel(gameEngine,this);
+        gameExitPanel.setBounds(0,700,1000,300);
+        add(gamePanel);
+        add(scorePanel);
+        add(heartsPanel);
+        add(timerPanel);
+        add(coinPanel);
+        add(levelNamePanel);
+        add(gameExitPanel);
+
+        //timerPanel = new TimerPanel(100,100,level.getRemainingTime());
+        setBackground(Color.white);
+        setResizable(false);
+        setLayout(null);
+        setVisible(true);
+    }
 
     public class ActionListener extends KeyAdapter {
         public void keyPressed(KeyEvent e){

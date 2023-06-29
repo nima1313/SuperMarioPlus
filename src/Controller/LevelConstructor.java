@@ -31,6 +31,11 @@ public class LevelConstructor
     {
         _level--;
         _section--; //making level and section not 0 based
+
+        //
+        _level = 0;
+        _section = 4;
+        //
         long hearts;
         long marioState;
         JSONParser jsonParser = new JSONParser();
@@ -203,7 +208,9 @@ public class LevelConstructor
             Object obj = jsonParser.parse(reader);
             JSONObject data = (JSONObject) obj;
             JSONArray levels = (JSONArray) data.get("levels");
-            JSONArray sections = (JSONArray) levels.get(_level);
+            JSONObject sectionsData = (JSONObject) levels.get(_level);
+            JSONArray sections = (JSONArray) sectionsData.get("sections");
+
             return sections.size();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
