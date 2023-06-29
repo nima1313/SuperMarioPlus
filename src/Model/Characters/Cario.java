@@ -11,7 +11,7 @@ public class Cario extends Hero {
         setCharacterJumpSpeed(getJumpConstant());
         setCharacterSpeed((int)((double)getSpeedConstant() * 1));
         setUnlocked(false);
-        setReloadDelay(1);  //based on seconds
+        setReloadDelay(3);  //based on seconds
     }
 
     public Cario(int coinCollectCoefficient, int jumpRange, int speed, double reloadDelay,boolean unlocked){

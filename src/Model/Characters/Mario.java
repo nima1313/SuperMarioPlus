@@ -13,7 +13,7 @@ public class Mario extends Hero {
         setCharacterJumpSpeed(getJumpConstant());
         setCharacterSpeed((int)((double)getSpeedConstant() * 1.25));
         setUnlocked(true);
-        setReloadDelay(0.8);  //based on seconds
+        setReloadDelay(3);  //based on seconds
     }
 
     public Mario(int coinCollectCoefficient, int jumpRange, int speed, double reloadDelay,boolean unlocked){

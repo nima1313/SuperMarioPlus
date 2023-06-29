@@ -13,6 +13,9 @@ public class Pipe extends PhysicalObject {
         setUpperLeftX(upperLeftX);
         setUpperLeftY(upperLeftY);
         setType(type);
+
+        setHeight(HEIGHT);
+        setLength(LENGTH);
     }
 
 

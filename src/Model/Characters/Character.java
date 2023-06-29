@@ -9,7 +9,7 @@ public class Character {
 
     protected final int speedConstant = 4; //edit this when you want to know how much speed is enough
     //this is the speed only for the x access;
-    protected final int jumpConstant = 16;
+    protected final int jumpConstant = 20;
     private int characterSpeed;
     private int characterJumpSpeed;
 
@@ -36,6 +36,9 @@ public class Character {
     boolean leftCollusion = false;
     boolean rightCollusion = false;
 
+    boolean invincible = false;
+    int invincibleFrameCount = 0; //0 -> not invincible.
+
     public void levelUp(){
         if (currentPhase < 2) currentPhase++;
         if (currentPhase == 1){
@@ -44,18 +47,46 @@ public class Character {
     }
     public void levelDown(){
         if (currentPhase > 0) currentPhase--;
+        if (currentPhase == 0){
+            setUpperLeftY(getUpperLeftY() + 40);
+        }
+    }
+
+    public void seat(){
+        setSeating(true);
+        setUpperLeftY(getUpperLeftY() + 40);
+    }
+    public void standUp(){
+        setSeating(false);
+        setUpperLeftY(getUpperLeftY() - 40);
+    }
+    public int getUpperLeftY(){
+        return upperLeftY;
     }
 
     public int getLength() {
         if (getCurrentPhase() == 0) return getPhaseOneLength();
-        else if (getCurrentPhase() == 1) return getPhaseTwoLength();
-        else return getPhaseThreeLength();
+        else if (getCurrentPhase() == 1){
+            if(!isSeating()) return getPhaseTwoLength();
+            else return getPhaseOneLength();
+        }
+        else {
+            if(!isSeating()) return getPhaseThreeLength();
+            else return getPhaseOneLength();
+        }
     }
 
     public int getHeight() {
         if (getCurrentPhase() == 0) return getPhaseOneHeight();
-        else if (getCurrentPhase() == 1) return getPhaseTwoHeight();
-        else return getPhaseThreeHeight();
+        else if (getCurrentPhase() == 1){
+            if (!isSeating()) return getPhaseTwoHeight();
+            else return getPhaseOneHeight();
+        }
+
+        else{
+            if(!isSeating()) return getPhaseThreeHeight();
+            else return getPhaseOneHeight();
+        }
     }
 
     public ImageIcon getTexture() {
@@ -148,9 +179,6 @@ public class Character {
         this.upperLeftX = upperLeftX;
     }
 
-    public int getUpperLeftY() {
-        return upperLeftY;
-    }
 
     public void setUpperLeftY(int upperLeftY) {
         this.upperLeftY = upperLeftY;
@@ -255,5 +283,27 @@ public class Character {
 
     public void setRightCollusion(boolean rightCollusion) {
         this.rightCollusion = rightCollusion;
+    }
+
+    public boolean isInvincible() {
+        return invincible;
+    }
+
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
+        if (invincible == true){
+            setInvincibleFrameCount(1);
+        }
+        else {
+            setInvincibleFrameCount(0);
+        }
+    }
+
+    public int getInvincibleFrameCount() {
+        return invincibleFrameCount;
+    }
+
+    public void setInvincibleFrameCount(int invincibleFrameCount) {
+        this.invincibleFrameCount = invincibleFrameCount;
     }
 }

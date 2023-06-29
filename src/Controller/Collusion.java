@@ -4,15 +4,12 @@ import Model.Block.*;
 import Model.Characters.Character;
 import Model.Enemies.Enemy;
 import Model.Enemies.Flower;
-import Model.Items.Coin;
-import Model.Items.Item;
-import Model.Items.MagicalFlower;
+import Model.Items.*;
 import Model.Levels.Level;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
 import Model.PhysicalObjects.PhysicalObject;
 import Model.Pipes.Pipe;
-import View.GameFrame;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -100,61 +97,85 @@ public class Collusion{
 
 
 
-
-    boolean CheckCollusion(Character character,Block block){
+    boolean checkCollusion(Item item, Block block){
         boolean yCollusion = false;
-        boolean xCollusion = false;
-        if (getLeftSide(character) < getRightSide(block) && getRightSide(character) > getLeftSide(block)) xCollusion = true;
+        boolean xCollusion = getLeftSide(item) < getRightSide(block) && getRightSide(item) > getLeftSide(block);
+        if (getUpSide(item) < getDownSide(block) && getDownSide(item) > getUpSide(block)) yCollusion = true;
+        return xCollusion && yCollusion;
+    }
+    boolean checkCollusion(Item item, PhysicalObject physicalObject){
+        boolean yCollusion = false;
+        boolean xCollusion = getLeftSide(item) < getRightSide(physicalObject) && getRightSide(item) > getLeftSide(physicalObject);
+        if (getUpSide(item) < getDownSide(physicalObject) && getDownSide(item) > getUpSide(physicalObject)) yCollusion = true;
+        return xCollusion && yCollusion;
+    }
+    boolean checkCollusion(Character character, Block block){
+        boolean yCollusion = false;
+        boolean xCollusion = getLeftSide(character) < getRightSide(block) && getRightSide(character) > getLeftSide(block);
         if (getUpSide(character) < getDownSide(block) && getDownSide(character) > getUpSide(block)) yCollusion = true;
-        if (xCollusion && yCollusion) return true;
-        else return false;
+        return xCollusion && yCollusion;
     }
-    boolean CheckCollusion(Character character, PhysicalObject physicalObject){
+    boolean checkCollusion(Character character, PhysicalObject physicalObject){
         boolean yCollusion = false;
-        boolean xCollusion = false;
-        if (getLeftSide(character) < getRightSide(physicalObject) && getRightSide(character) > getLeftSide(physicalObject)) xCollusion = true;
+        boolean xCollusion = getLeftSide(character) < getRightSide(physicalObject) && getRightSide(character) > getLeftSide(physicalObject);
         if (getUpSide(character) < getDownSide(physicalObject) && getDownSide(character) > getUpSide(physicalObject)) yCollusion = true;
-        if (xCollusion && yCollusion) return true;
-        else return false;
+        return xCollusion && yCollusion;
     }
-    boolean CheckCollusion(Character character, Pipe pipe){
+    boolean checkCollusion(Character character, Pipe pipe){
         boolean yCollusion = false;
-        boolean xCollusion = false;
-        if (getLeftSide(character) < getRightSide(pipe) && getRightSide(character) > getLeftSide(pipe)) xCollusion = true;
+        boolean xCollusion = getLeftSide(character) < getRightSide(pipe) && getRightSide(character) > getLeftSide(pipe);
         if (getUpSide(character) < getDownSide(pipe) && getDownSide(character) > getUpSide(pipe)) yCollusion = true;
-        if (xCollusion && yCollusion) return true;
-        else return false;
+        return xCollusion && yCollusion;
     }
-    boolean CheckCollusion(Character player, Character enemy){
+    boolean checkCollusion(Character player, Character enemy){
         boolean yCollusion = false;
-        boolean xCollusion = false;
-        if (getLeftSide(player) < getRightSide(enemy) && getRightSide(player) > getLeftSide(enemy)) xCollusion = true;
+        boolean xCollusion = getLeftSide(player) < getRightSide(enemy) && getRightSide(player) > getLeftSide(enemy);
         if (getUpSide(player) < getDownSide(enemy) && getDownSide(player) >  getUpSide(enemy)) yCollusion = true;
-        if (xCollusion && yCollusion) return true;
-        else return false;
+        return xCollusion && yCollusion;
     }
-    boolean CheckCollusion(Character character,Enemy enemy){
+    boolean checkCollusion(Character character, Enemy enemy){
         boolean yCollusion = false;
-        boolean xCollusion = false;
-        if (getLeftSide(character) < getRightSide(enemy) && getRightSide(character) > getLeftSide(enemy)) xCollusion = true;
+        boolean xCollusion = getLeftSide(character) < getRightSide(enemy) && getRightSide(character) > getLeftSide(enemy);
         if (getUpSide(character) < getDownSide(enemy) && getDownSide(character) > getUpSide(enemy)) yCollusion = true;
-        if (xCollusion && yCollusion) return true;
-        else return false;
+        return xCollusion && yCollusion;
     }
-    boolean CheckCollusion(Character character,Item item){
+    boolean checkCollusion(Character character, Item item){
         boolean yCollusion = false;
-        boolean xCollusion = false;
-        if (getLeftSide(character) < getRightSide(item) && getRightSide(character) > getLeftSide(item)) xCollusion = true;
+        boolean xCollusion = getLeftSide(character) < getRightSide(item) && getRightSide(character) > getLeftSide(item);
         if (getUpSide(character) < getDownSide(item) && getDownSide(character) > getUpSide(item)) yCollusion = true;
-        if (xCollusion && yCollusion) return true;
-        else return false;
+        return xCollusion && yCollusion;
+    }
+    boolean checkCollusion(Enemy enemy, Block block){
+        boolean yCollusion = false;
+        boolean xCollusion = getLeftSide(block) < getRightSide(enemy) && getRightSide(block) > getLeftSide(enemy);
+        if (getUpSide(block) < getDownSide(enemy) && getDownSide(block) > getUpSide(enemy)) yCollusion = true;
+        return xCollusion && yCollusion;
+    }
+    boolean checkCollusion(Enemy enemy, PhysicalObject physicalObject){
+        boolean yCollusion = false;
+        boolean xCollusion = getLeftSide(physicalObject) < getRightSide(enemy) && getRightSide(physicalObject) > getLeftSide(enemy);
+        if (getUpSide(physicalObject) < getDownSide(enemy) && getDownSide(physicalObject) > getUpSide(enemy)) yCollusion = true;
+        return xCollusion && yCollusion;
     }
 
+    private boolean isSomethingThere(int x, int y){
+        for (Block block : level.getBlocks()){
+            if (getLeftSide(block) <= x && getRightSide(block) >= x && getUpSide(block) <= y && getDownSide(block) >= y){
+                return true;
+            }
+        }
+        for (PhysicalObject physicalObject : level.getPhysicalObjects()){
+            if (getLeftSide(physicalObject) <= x && getRightSide(physicalObject) >= x && getUpSide(physicalObject) <= y && getDownSide(physicalObject) >= y){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void endWallResolveCollusionY() throws FileNotFoundException {
         //checking EndWall collusion
         EndWall endWalls = level.getEndWalls();
-        if (CheckCollusion(character,endWalls)){
+        if (checkCollusion(character,endWalls)){
             gameEngine.sectionEnds();
         }
     }
@@ -164,12 +185,12 @@ public class Collusion{
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < pipes.size();i++){
             Pipe thisPipe = pipes.get(i);
-            if (CheckCollusion(character,thisPipe)) collusionIndex.add(i);
+            if (checkCollusion(character,thisPipe)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
-            for (int i = 0 ; i < collusionIndex.size();i++){
-                if (pipes.get(collusionIndex.get(i)).getUpperLeftY() >= maxHeight) maxHeight = pipes.get(collusionIndex.get(i)).getUpperLeftY();
+            for (Integer index : collusionIndex) {
+                if (pipes.get(index).getUpperLeftY() >= maxHeight) maxHeight = pipes.get(index).getUpperLeftY();
             }
             character.setCurrentSpeed_y(0);
             character.setUpperLeftY(maxHeight - character.getHeight());
@@ -178,8 +199,9 @@ public class Collusion{
         }
         else if (character.getCurrentSpeed_y() < 0 && collusionIndex.size() > 0) {
             int minHeight = 100000;
-            for (int i = 0 ; i < collusionIndex.size();i++){
-                if (pipes.get(collusionIndex.get(i)).getUpperLeftY() + pipes.get(collusionIndex.get(i)).getHEIGHT()<= minHeight) minHeight = pipes.get(collusionIndex.get(i)).getUpperLeftY() + pipes.get(collusionIndex.get(i)).getHEIGHT();
+            for (Integer index : collusionIndex) {
+                if (pipes.get(index).getUpperLeftY() + pipes.get(index).getHEIGHT() <= minHeight)
+                    minHeight = pipes.get(index).getUpperLeftY() + pipes.get(index).getHEIGHT();
             }
             character.setUpperLeftY(minHeight);
             character.setCurrentSpeed_y(0);
@@ -191,27 +213,125 @@ public class Collusion{
         ArrayList<Flower> flowers = level.getFlowers();
         for (int i = 0 ; i < flowers.size();i++){
             Flower thisFlower = flowers.get(i);
-            if (CheckCollusion(character,thisFlower)){
-                gameEngine.death();
+            if (checkCollusion(character,thisFlower)){
+                if (character.isInvincible()){
+                    thisFlower.die();
+                    flowers.set(i,thisFlower);
+                }
+                else {
+                    gameEngine.characterGotHit();
+                }
             }
         }
+        level.setFlowers(flowers);
     }
-    private void itemResolveCollusionY(Item item){
-        ArrayList<NormalBlock>normalBlocks = level.getNormalBlocks();
-        ArrayList<CoinBlock>coinBlocks = level.getCoinBlocks();
-        ArrayList<EmptyBlock>emptyBlocks = level.getEmptyBlocks();
-        ArrayList<GiftBlock>giftBlocks = level.getGiftBlocks();
-        ArrayList<MultiCoinBlock> multiCoinBlocks = level.getMultiCoinBlocks();
+    private void itemResolveCollusionY(){
 
-        ArrayList<Pipe> pipes = level.getPipes();
-        ArrayList<Floor> floors = level.getFloors();
+        for (Item item : level.getItems()) {
+
+            for (Block block : level.getBlocks()) {
+                if (checkCollusion(item, block)) {
+                    if (item.getCurrentSpeed_y() > 0) {
+                        int maxHeight = -1;
+                        if (block.getUpperLeftY() >= maxHeight) maxHeight = block.getUpperLeftY();
+                        item.setCurrentSpeed_y(0);
+                        item.setUpperLeftY(maxHeight - item.getHeight());
+                        item.setDownCollusion(true);
+                        item.setUpCollusion(false);
+                    } else if (item.getCurrentSpeed_y() < 0) {
+                        int minHeight = 100000;
+                        if (block.getUpperLeftY() + block.getHEIGHT() <= minHeight)
+                            minHeight = block.getUpperLeftY() + block.getHEIGHT();
+                        item.setUpperLeftY(minHeight);
+                        item.setCurrentSpeed_y(0);
+                        item.setDownCollusion(false);
+                        item.setUpCollusion(true);
+                    }
+                }
+
+            }
+
+            for (PhysicalObject physicalObject : level.getPhysicalObjects()) {
+                if (checkCollusion(item, physicalObject)) {
+                    if (item.getCurrentSpeed_y() > 0) {
+                        int maxHeight = -1;
+                        if (physicalObject.getUpperLeftY() >= maxHeight) maxHeight = physicalObject.getUpperLeftY();
+
+                        item.setCurrentSpeed_y(0);
+                        item.setUpperLeftY(maxHeight - item.getHeight());
+                        item.setDownCollusion(true);
+                        item.setUpCollusion(false);
+                    } else if (item.getCurrentSpeed_y() < 0) {
+                        int minHeight = 100000;
+                        if (physicalObject.getUpperLeftY() + physicalObject.getHeight() <= minHeight)
+                            minHeight = physicalObject.getUpperLeftY() + physicalObject.getHeight();
+                        item.setUpperLeftY(minHeight);
+                        item.setCurrentSpeed_y(0);
+                        item.setDownCollusion(false);
+                        item.setUpCollusion(true);
+
+                    }
+                }
+            }
+        }
+
+    }
+
+    private void enemiesResolveCollusionY(){
+        for (Enemy enemy : level.getEnemies_withoutFlower()) {
+
+            for (Block block : level.getBlocks()) {
+                if (checkCollusion(enemy, block)) {
+                    if (enemy.getCurrentSpeed_y() > 0) {
+                        int maxHeight = -1;
+                        if (block.getUpperLeftY() >= maxHeight) maxHeight = block.getUpperLeftY();
+                        enemy.setCurrentSpeed_y(0);
+                        enemy.setUpperLeftY(maxHeight - enemy.getHeight());
+                        enemy.setDownCollusion(true);
+                        enemy.setUpCollusion(false);
+                    } else if (enemy.getCurrentSpeed_y() < 0) {
+                        int minHeight = 100000;
+                        if (block.getUpperLeftY() + block.getHEIGHT() <= minHeight)
+                            minHeight = block.getUpperLeftY() + block.getHEIGHT();
+                        enemy.setUpperLeftY(minHeight);
+                        enemy.setCurrentSpeed_y(0);
+                        enemy.setDownCollusion(false);
+                        enemy.setUpCollusion(true);
+                    }
+                }
+
+            }
+
+            for (PhysicalObject physicalObject : level.getPhysicalObjects()) {
+                if (checkCollusion(enemy, physicalObject)) {
+                    if (enemy.getCurrentSpeed_y() > 0) {
+                        int maxHeight = -1;
+                        if (physicalObject.getUpperLeftY() >= maxHeight) maxHeight = physicalObject.getUpperLeftY();
+
+                        enemy.setCurrentSpeed_y(0);
+                        enemy.setUpperLeftY(maxHeight - enemy.getHeight());
+                        enemy.setDownCollusion(true);
+                        enemy.setUpCollusion(false);
+                    } else if (enemy.getCurrentSpeed_y() < 0) {
+                        int minHeight = 100000;
+                        if (physicalObject.getUpperLeftY() + physicalObject.getHeight() <= minHeight)
+                            minHeight = physicalObject.getUpperLeftY() + physicalObject.getHeight();
+                        enemy.setUpperLeftY(minHeight);
+                        enemy.setCurrentSpeed_y(0);
+                        enemy.setDownCollusion(false);
+                        enemy.setUpCollusion(true);
+
+                    }
+                }
+            }
+        }
     }
     private void coinsResolveCollusionY(){
         ArrayList<Coin> coins = level.getCoins();
 
         for (int i = 0 ; i < coins.size();i++){
             Coin thisCoin = coins.get(i);
-            if (CheckCollusion(character,thisCoin) && thisCoin.isCollected() == false){
+            if (checkCollusion(character,thisCoin) && thisCoin.isCollected() == false){
                 thisCoin.setCollected(true);
                 gameEngine.updateCurrentSectionCoins(1);
                 gameEngine.updateCurrentSectionScores(10);
@@ -228,7 +348,7 @@ public class Collusion{
 
         for (int i = 0 ; i < magicalFlowers.size();i++){
             MagicalFlower thisMagicalFlower = magicalFlowers.get(i);
-            if (CheckCollusion(character,thisMagicalFlower)){
+            if (checkCollusion(character,thisMagicalFlower)){
                 thisMagicalFlower.gotHit();
                 gameEngine.updateCurrentSectionScores(20);
                 character.levelUp();
@@ -237,13 +357,44 @@ public class Collusion{
         }
         level.setMagicalFlowers(magicalFlowers);
     }
+
+    private void magicalMushroomsResolveCollusionY(){
+        ArrayList<MagicalMushroom> magicalMushrooms = level.getMagicalMushrooms();
+
+        for (int i = 0 ; i < magicalMushrooms.size();i++){
+            MagicalMushroom thisMagicalMushroom = magicalMushrooms.get(i);
+            if (checkCollusion(character,thisMagicalMushroom)){
+                thisMagicalMushroom.gotHit();
+                gameEngine.updateCurrentSectionScores(30);
+                character.levelUp();
+                magicalMushrooms.set(i, thisMagicalMushroom);
+            }
+        }
+        level.setMagicalMushrooms(magicalMushrooms);
+    }
+
+    private void magicalStarsResolveCollusionY(){
+        ArrayList<MagicalStar> magicalStars = level.getMagicalStars();
+
+        for (int i = 0 ; i < magicalStars.size();i++){
+            MagicalStar thisMagicalStar = magicalStars.get(i);
+            if (checkCollusion(character,thisMagicalStar)){
+                thisMagicalStar.gotHit();
+                character.levelUp();
+                character.setInvincible(true);
+                gameEngine.updateCurrentSectionScores(40);
+                magicalStars.set(i, thisMagicalStar);
+            }
+        }
+        level.setMagicalStars(magicalStars);
+    }
     private void floorsResolveCollusionY(){
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<Floor> floors = level.getFloors();
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < floors.size();i++){
             Floor thisFloor = floors.get(i);
-            if (CheckCollusion(character,thisFloor)){
+            if (checkCollusion(character,thisFloor)){
                 collusionIndex.add(i);
             }
         }
@@ -277,7 +428,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < normalBlocks.size();i++){
             NormalBlock thisBlock = normalBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -316,7 +467,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < coinBlocks.size();i++){
             CoinBlock thisBlock = coinBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -355,7 +506,7 @@ public class Collusion{
         ArrayList<GiftBlock> giftBlocks = level.getGiftBlocks();
         for (int i = 0 ; i < giftBlocks.size();i++){
             GiftBlock thisBlock = giftBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -394,7 +545,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < multiCoinBlocks.size();i++){
             MultiCoinBlock thisBlock = multiCoinBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -436,7 +587,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < emptyBlocks.size();i++){
             EmptyBlock thisBlock = emptyBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_y() > 0 && collusionIndex.size() > 0){
             int maxHeight = - 1;
@@ -469,6 +620,16 @@ public class Collusion{
         Collusion collusion = this;
         character.setDownCollusion(false);
         character.setUpCollusion(false);
+        for (Item item : level.getItems()){
+            item.setDownCollusion(false);
+            item.setUpCollusion(false);
+        }
+
+        //ITEMS COLLUSION WITH BLOCKS AND PHYSICALOBJECTS//
+        itemResolveCollusionY();
+
+        //ENEMIES COLLUSION WITH BLOCKS AND PHYSICALOBJECTS//
+        enemiesResolveCollusionY();
 
         endWallResolveCollusionY();
         pipesResolveCollusionY();
@@ -481,6 +642,11 @@ public class Collusion{
         coinsResolveCollusionY();
         //Checking MagicalFlowersCollusion
         magicalFlowersResolveCollusionY();
+        //checking MagicalMushroomsCollusion
+        magicalMushroomsResolveCollusionY();
+        //checking MagicalStarsCollusion
+        magicalStarsResolveCollusionY();
+
 
         //checking floors collusion//
         floorsResolveCollusionY();
@@ -504,17 +670,150 @@ public class Collusion{
 
     private void endWallResolveCollusionX() throws FileNotFoundException {
         EndWall endWalls = level.getEndWalls();
-        if (CheckCollusion(character,endWalls)){
+        if (checkCollusion(character,endWalls)){
             gameEngine.sectionEnds();
         }
     }
     private void flowersResolveCollusionX() throws IOException {
         ArrayList<Flower> flowers = level.getFlowers();
-
         for (int i = 0 ; i < flowers.size();i++){
             Flower thisFlower = flowers.get(i);
-            if (CheckCollusion(character,thisFlower)){
-                gameEngine.death();
+            if (checkCollusion(character,thisFlower)){
+                if (character.isInvincible()){
+                    thisFlower.die();
+                    flowers.set(i,thisFlower);
+                }
+                else {
+                    gameEngine.characterGotHit();
+                }
+            }
+        }
+        level.setFlowers(flowers);
+    }
+
+    private void itemResolveCollusionX(){
+        for (Item item : level.getItems()){
+            for (Block block : level.getBlocks()) {
+
+                if (checkCollusion(item,block)){
+                    if (item.getCurrentSpeed_x() > 0){
+                        int min = 100000;
+                        int left = getLeftSide(block);
+                        if (left <= min) min = left;
+                        item.setCurrentSpeed_x(-item.getCurrentSpeed_x());
+                        item.setUpperLeftX(min - item.getLength());
+                        item.setLeftCollusion(true);
+                        item.setRightCollusion(false);
+                    }
+                    else if (item.getCurrentSpeed_x() < 0) {
+                        int max = -1;
+                        int right = getRightSide(block);
+                        if (right >= max) max = right;
+                        item.setUpperLeftX(max);
+                        item.setCurrentSpeed_x(-item.getCurrentSpeed_x());
+                        item.setLeftCollusion(false);
+                        item.setRightCollusion(true);
+                    }
+                }
+
+
+            }
+
+            for (PhysicalObject physicalObject : level.getPhysicalObjects()) {
+                if (checkCollusion(item,physicalObject)){
+                    if (item.getCurrentSpeed_x() > 0){
+                        int min = 100000;
+                        int left = getLeftSide(physicalObject);
+                        if (left <= min) min = left;
+                        item.setCurrentSpeed_x(-item.getCurrentSpeed_x());
+                        item.setUpperLeftX(min - item.getLength());
+                        item.setLeftCollusion(true);
+                        item.setRightCollusion(false);
+                    }
+                    else if (item.getCurrentSpeed_x() < 0) {
+                        int max = -1;
+                        int right = getRightSide(physicalObject);
+                        if (right >= max) max = right;
+                        item.setUpperLeftX(max);
+                        item.setCurrentSpeed_x(-item.getCurrentSpeed_x());
+                        item.setLeftCollusion(false);
+                        item.setRightCollusion(true);
+                    }
+                }
+
+            }
+        }
+    }
+
+    private void enemiesResolveCollusionX(){
+        for (Enemy enemy : level.getEnemies_withoutFlower()){
+
+
+            for (Block block : level.getBlocks()) {
+
+                if (checkCollusion(enemy,block)){
+                    if (enemy.getCurrentSpeed_x() > 0){
+                        int min = 100000;
+                        int left = getLeftSide(block);
+                        if (left <= min) min = left;
+                        enemy.setCurrentSpeed_x(-enemy.getCurrentSpeed_x());
+                        enemy.setUpperLeftX(min - enemy.getLength());
+                        enemy.setLeftCollusion(true);
+                        enemy.setRightCollusion(false);
+                    }
+                    else if (enemy.getCurrentSpeed_x() < 0) {
+                        int max = -1;
+                        int right = getRightSide(block);
+                        if (right >= max) max = right;
+                        enemy.setUpperLeftX(max);
+                        enemy.setCurrentSpeed_x(-enemy.getCurrentSpeed_x());
+                        enemy.setLeftCollusion(false);
+                        enemy.setRightCollusion(true);
+                    }
+                }
+
+
+            }
+
+            for (PhysicalObject physicalObject : level.getPhysicalObjects()) {
+                if (checkCollusion(enemy,physicalObject)){
+                    if (enemy.getCurrentSpeed_x() > 0){
+                        int min = 100000;
+                        int left = getLeftSide(physicalObject);
+                        if (left <= min) min = left;
+                        enemy.setCurrentSpeed_x(-enemy.getCurrentSpeed_x());
+                        enemy.setUpperLeftX(min - enemy.getLength());
+                        enemy.setLeftCollusion(true);
+                        enemy.setRightCollusion(false);
+                    }
+                    else if (enemy.getCurrentSpeed_x() < 0) {
+                        int max = -1;
+                        int right = getRightSide(physicalObject);
+                        if (right >= max) max = right;
+                        enemy.setUpperLeftX(max);
+                        enemy.setCurrentSpeed_x(-enemy.getCurrentSpeed_x());
+                        enemy.setLeftCollusion(false);
+                        enemy.setRightCollusion(true);
+                    }
+                }
+
+
+            }
+
+
+            //now checking if there is a block or physical objects for the enemy to move to. (enemy not falling)
+            //but we have to consider that if it's already falling like the times blocks get broken, it should fall. so
+            if (enemy.isDownCollusion() == true){
+                if (enemy.getCurrentSpeed_x() > 0){
+                    if (!isSomethingThere(enemy.getCurrentSpeed_x() + getRightSide(enemy),enemy.getCurrentSpeed_y() + getDownSide(enemy))){
+                        enemy.setCurrentSpeed_x(-enemy.getCurrentSpeed_x());
+                    }
+                }
+                else {
+                    if (!isSomethingThere(enemy.getCurrentSpeed_x() + getLeftSide(enemy),enemy.getCurrentSpeed_y()+getDownSide(enemy))){
+                        enemy.setCurrentSpeed_x(-enemy.getCurrentSpeed_x());
+                    }
+                }
             }
         }
     }
@@ -523,7 +822,7 @@ public class Collusion{
 
         for (int i = 0 ; i < coins.size();i++){
             Coin thisCoin = coins.get(i);
-            if (CheckCollusion(character,thisCoin) && thisCoin.isCollected() == false){
+            if (checkCollusion(character,thisCoin) && thisCoin.isCollected() == false){
                 thisCoin.setCollected(true);
                 gameEngine.updateCurrentSectionCoins(1);
                 gameEngine.updateCurrentSectionScores(10);
@@ -540,7 +839,7 @@ public class Collusion{
 
         for (int i = 0 ; i < magicalFlowers.size();i++){
             MagicalFlower thisMagicalFlower = magicalFlowers.get(i);
-            if (CheckCollusion(character,thisMagicalFlower)){
+            if (checkCollusion(character,thisMagicalFlower)){
                 thisMagicalFlower.gotHit();
                 character.levelUp();
                 gameEngine.updateCurrentSectionScores(20);
@@ -549,12 +848,42 @@ public class Collusion{
         }
         level.setMagicalFlowers(magicalFlowers);
     }
+
+    private void magicalMushroomsResolveCollusionX(){
+        ArrayList<MagicalMushroom> magicalMushrooms = level.getMagicalMushrooms();
+
+        for (int i = 0 ; i < magicalMushrooms.size();i++){
+            MagicalMushroom thisMagicalMushroom = magicalMushrooms.get(i);
+            if (checkCollusion(character,thisMagicalMushroom)){
+                thisMagicalMushroom.gotHit();
+                character.levelUp();
+                gameEngine.updateCurrentSectionScores(30);
+                magicalMushrooms.set(i, thisMagicalMushroom);
+            }
+        }
+        level.setMagicalMushrooms(magicalMushrooms);
+    }
+    public void magicalStarsResolveCollusionX(){
+        ArrayList<MagicalStar> magicalStars = level.getMagicalStars();
+
+        for (int i = 0 ; i < magicalStars.size();i++){
+            MagicalStar thisMagicalStar = magicalStars.get(i);
+            if (checkCollusion(character,thisMagicalStar)){
+                thisMagicalStar.gotHit();
+                character.levelUp();
+                character.setInvincible(true);
+                gameEngine.updateCurrentSectionScores(40);
+                magicalStars.set(i, thisMagicalStar);
+            }
+        }
+        level.setMagicalStars(magicalStars);
+    }
     private void floorsResolveCollusionX(){
         ArrayList<Floor> floors = level.getFloors();
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < floors.size();i++){
             Floor thisFloor = floors.get(i);
-            if (CheckCollusion(character,thisFloor)){
+            if (checkCollusion(character,thisFloor)){
                 collusionIndex.add(i);
             }
         }
@@ -588,7 +917,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < normalBlocks.size();i++){
             NormalBlock thisBlock = normalBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
@@ -620,7 +949,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < coinBlocks.size();i++){
             CoinBlock thisBlock = coinBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
@@ -651,7 +980,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < pipes.size();i++){
             Pipe thisPipe = pipes.get(i);
-            if (CheckCollusion(character,thisPipe)) collusionIndex.add(i);
+            if (checkCollusion(character,thisPipe)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 10000;
@@ -682,7 +1011,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < emptyBlocks.size();i++){
             EmptyBlock thisBlock = emptyBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
@@ -714,7 +1043,7 @@ public class Collusion{
         collusionIndex = new ArrayList<>();
         for (int i = 0 ; i < multiCoinBlocks.size();i++){
             MultiCoinBlock thisBlock = multiCoinBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
@@ -745,7 +1074,7 @@ public class Collusion{
         ArrayList<GiftBlock> giftBlocks = level.getGiftBlocks();
         for (int i = 0 ; i < giftBlocks.size();i++){
             GiftBlock thisBlock = giftBlocks.get(i);
-            if (CheckCollusion(character,thisBlock)) collusionIndex.add(i);
+            if (checkCollusion(character,thisBlock)) collusionIndex.add(i);
         }
         if (character.getCurrentSpeed_x() > 0 && collusionIndex.size() > 0){
             int min = 100000;
@@ -776,6 +1105,14 @@ public class Collusion{
         character.setRightCollusion(false);
         character.setLeftCollusion(false);
 
+        for (Item item : level.getItems()){
+            item.setRightCollusion(false);
+            item.setLeftCollusion(false);
+        }
+        //ITEMS COLLUSION WITH BLOCKS AND PHYSICALOBJECTS//
+        itemResolveCollusionX();
+        //Enemies COLLUSION WITH BLOCKS AND PHYSICALOBJECTS//
+        enemiesResolveCollusionX();
 
         //checking EndWall collusion
         endWallResolveCollusionX();
@@ -790,6 +1127,12 @@ public class Collusion{
 
         //checking MagicalFlower collusion//
         magicalFlowersResolveCollusionX();
+
+        //checking MagicalMushrooms collusion//
+        magicalMushroomsResolveCollusionX();
+
+        //checking MagicalStars Collusion
+        magicalStarsResolveCollusionX();
 
         //checking floors collusion//
         floorsResolveCollusionX();

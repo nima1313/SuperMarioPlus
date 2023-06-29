@@ -1,13 +1,11 @@
 package Model.Levels;
 
 import Model.Block.*;
-import Model.Enemies.Flower;
-import Model.Enemies.Goomba;
-import Model.Enemies.Koopa;
-import Model.Enemies.Spiny;
+import Model.Enemies.*;
 import Model.Items.*;
 import Model.PhysicalObjects.EndWall;
 import Model.PhysicalObjects.Floor;
+import Model.PhysicalObjects.PhysicalObject;
 import Model.Pipes.Pipe;
 import View.MainMenuPage;
 
@@ -62,7 +60,43 @@ public class Level {
     private ArrayList<Floor> floors;
     private EndWall endWalls;
 
+    public ArrayList<Block> getBlocks(){
+        ArrayList<Block> blocks = new ArrayList<>();
+        blocks.addAll(normalBlocks);
+        blocks.addAll(coinBlocks);
+        blocks.addAll(emptyBlocks);
+        blocks.addAll(giftBlocks);
+        blocks.addAll(multiCoinBlocks);
 
+        return blocks;
+    }
+
+    public ArrayList<PhysicalObject> getPhysicalObjects(){
+        ArrayList<PhysicalObject> physicalObjects = new ArrayList<>();
+        physicalObjects.addAll(floors);
+        physicalObjects.addAll(pipes);
+        physicalObjects.add(endWalls);
+
+        return physicalObjects;
+    }
+
+    public ArrayList<Item> getItems(){
+        ArrayList<Item> items = new ArrayList<>();
+        items.addAll(coins);
+        items.addAll(magicalFlowers);
+        items.addAll(magicalStars);
+        items.addAll(magicalMushrooms);
+
+        return items;
+    }
+
+    public ArrayList<Enemy> getEnemies_withoutFlower(){
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.addAll(goombas);
+        enemies.addAll(koopas);
+        enemies.addAll(spinies);
+        return enemies;
+    }
     public int getTime() {
         return time;
     }
@@ -254,4 +288,5 @@ public class Level {
     public void setMarioState(int marioState) {
         this.marioState = marioState;
     }
+
 }

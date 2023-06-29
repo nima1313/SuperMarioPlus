@@ -3,8 +3,6 @@ package Model.Items;
 import javax.swing.*;
 
 public class MagicalMushroom extends Item{
-    private int currentSpeed_x = 0;
-    private int currentSpeed_y = 0;
 
     private int FrameCount = 0;
     public MagicalMushroom(int upperLeftX,int upperLeftY){

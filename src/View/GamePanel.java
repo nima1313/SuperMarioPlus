@@ -3,6 +3,9 @@ package View;
 import Model.Block.*;
 import Model.Characters.Character;
 import Model.Enemies.Flower;
+import Model.Enemies.Goomba;
+import Model.Enemies.Koopa;
+import Model.Enemies.Spiny;
 import Model.Items.Coin;
 import Model.Items.MagicalFlower;
 import Model.Items.MagicalMushroom;
@@ -85,6 +88,32 @@ public class GamePanel extends JPanel {
                 g.fillRect(thisFloor.getUpperLeftX() - theHolyIllusion, thisFloor.getUpperLeftY(), thisFloor.getLength(), thisFloor.getHeight());
             }
         }
+
+        //DRAWING ENEMIES//
+        ArrayList<Goomba> goombas = gameFrame.gameEngine.getLevel().getGoombas();
+        if (goombas != null){
+            for (int i = 0 ; i < goombas.size();i++){
+                Goomba thisGoomba = goombas.get(i);
+                g.drawImage(thisGoomba.getTexture().getImage(), thisGoomba.getUpperLeftX() - theHolyIllusion, thisGoomba.getUpperLeftY(),40,40,this);
+            }
+        }
+
+        ArrayList<Koopa> koopas = gameFrame.gameEngine.getLevel().getKoopas();
+        if (koopas != null){
+            for (int i = 0 ; i < koopas.size();i++){
+                Koopa thisKoopa = koopas.get(i);
+                g.drawImage(thisKoopa.getTexture().getImage(), thisKoopa.getUpperLeftX() - theHolyIllusion, thisKoopa.getUpperLeftY(),40,40,this);
+            }
+        }
+
+        ArrayList<Spiny> spinies = gameFrame.gameEngine.getLevel().getSpinies();
+        if (spinies != null){
+            for (int i = 0 ; i < spinies.size();i++){
+                Spiny thisSpiny = spinies.get(i);
+                g.drawImage(thisSpiny.getTexture().getImage(), thisSpiny.getUpperLeftX() - theHolyIllusion, thisSpiny.getUpperLeftY(),40,40,this);
+            }
+        }
+
         //drawing flowers
         ArrayList<Flower> flowers = gameFrame.gameEngine.getLevel().getFlowers();
         if (flowers != null){
@@ -134,6 +163,14 @@ public class GamePanel extends JPanel {
             for (int i = 0; i < magicalMushrooms.size(); i++) {
                 MagicalMushroom thisMagicalMushroom = magicalMushrooms.get(i);
                 g.drawImage(thisMagicalMushroom.getTexture().getImage(), thisMagicalMushroom.getUpperLeftX() - theHolyIllusion, thisMagicalMushroom.getUpperLeftY(),32,32, this);
+            }
+        }
+            //drawing magicalStars
+        ArrayList<MagicalStar> magicalStars = gameFrame.gameEngine.getLevel().getMagicalStars();
+        if (magicalStars != null) {
+            for (int i = 0; i < magicalStars.size(); i++) {
+                MagicalStar thisMagicalStar = magicalStars.get(i);
+                g.drawImage(thisMagicalStar.getTexture().getImage(), thisMagicalStar.getUpperLeftX() - theHolyIllusion, thisMagicalStar.getUpperLeftY(),32,32, this);
             }
         }
 

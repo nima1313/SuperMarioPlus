@@ -5,7 +5,6 @@ import Model.Characters.Character;
 import javax.swing.*;
 
 public class MagicalFlower extends Item{
-
     public MagicalFlower(int upperLeftX,int upperLeftY){
         super(32,32);
         setUpperLeftX(upperLeftX);
@@ -21,4 +20,5 @@ public class MagicalFlower extends Item{
         setUpperLeftX(-1000);
         setUpperLeftY(-1000);
     }
+
 }

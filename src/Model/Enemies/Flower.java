@@ -16,6 +16,6 @@ public class Flower extends Enemy {
 
     @Override
     public ImageIcon getTexture(){
-        return new ImageIcon("Flower.png");
+        return new ImageIcon("Textures/Enemies/Flower.png");
     }
 }

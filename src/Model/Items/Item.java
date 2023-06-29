@@ -11,6 +11,10 @@ public class Item {
         setLength(length);
         setHeight(height);
     }
+    boolean upCollusion = false;
+    boolean downCollusion = false;
+    boolean leftCollusion = false;
+    boolean rightCollusion = false;
 
     public int getUpperLeftX() {
         return upperLeftX;
@@ -62,5 +66,37 @@ public class Item {
 
     public void setCurrentSpeed_y(int currentSpeed_y) {
         this.currentSpeed_y = currentSpeed_y;
+    }
+
+    public boolean isUpCollusion() {
+        return upCollusion;
+    }
+
+    public void setUpCollusion(boolean upCollusion) {
+        this.upCollusion = upCollusion;
+    }
+
+    public boolean isDownCollusion() {
+        return downCollusion;
+    }
+
+    public void setDownCollusion(boolean downCollusion) {
+        this.downCollusion = downCollusion;
+    }
+
+    public boolean isLeftCollusion() {
+        return leftCollusion;
+    }
+
+    public void setLeftCollusion(boolean leftCollusion) {
+        this.leftCollusion = leftCollusion;
+    }
+
+    public boolean isRightCollusion() {
+        return rightCollusion;
+    }
+
+    public void setRightCollusion(boolean rightCollusion) {
+        this.rightCollusion = rightCollusion;
     }
 }

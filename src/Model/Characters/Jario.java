@@ -13,7 +13,7 @@ public class Jario extends Hero {
         setCharacterJumpSpeed((int)(getJumpConstant() * 1.25));
         setCharacterSpeed((int)((double)getSpeedConstant() * 1));
         setUnlocked(false);
-        setReloadDelay(1);  //based on seconds
+        setReloadDelay(3);  //based on seconds
     }
 
     public Jario(int coinCollectCoefficient, int jumpSpeed, int speed, double reloadDelay,boolean unlocked){

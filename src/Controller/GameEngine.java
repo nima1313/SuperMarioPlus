@@ -1,22 +1,17 @@
 package Controller;
-import Model.Block.*;
+import Model.Block.Block;
 import Model.Characters.Character;
-import Model.Enemies.Enemy;
-import Model.Enemies.Flower;
+import Model.Enemies.*;
 import Model.Items.Coin;
 import Model.Items.Item;
 import Model.Items.MagicalMushroom;
+import Model.Items.MagicalStar;
 import Model.Levels.Level;
-import Model.PhysicalObjects.EndWall;
-import Model.PhysicalObjects.Floor;
-import Model.PhysicalObjects.PhysicalObject;
-import Model.Pipes.Pipe;
 import Model.SavedGame;
 import Model.User;
 import View.GameFrame;
 import View.MainMenuPage;
 
-import java.awt.font.FontRenderContext;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,21 +50,66 @@ public class GameEngine implements Runnable {
 
     public void moveX(){
         characterMoveX();
-        magicalMushroomMoveX();
+        magicalMushroosmMoveX();
+        magicalStarsMoveX();
+        goombasMoveX();
+        koopasMoveX();
+        spiniesMoveX();
     }
-    public void moveY(){
+    public void moveY() throws IOException {
         characterMoveY();
-        magicalMushroomMoveY();
+        magicalMushroomsMoveY();
+        magicalStarsMoveY();
         flowersMove();
+        coinsMoveY();
+        goombasMoveY();
+        koopasMoveY();
+        spiniesMoveY();
+
     }
 
+    public void goombasMoveX(){
+        for (Goomba goomba : level.getGoombas()){
+            goomba.setUpperLeftX(goomba.getUpperLeftX() + goomba.getCurrentSpeed_x());
+        }
+    }
+    public void goombasMoveY(){
+        for (Goomba goomba : level.getGoombas()){
+            goomba.setUpperLeftY(goomba.getUpperLeftY() + goomba.getCurrentSpeed_y());
+        }
+    }
+
+    public void koopasMoveX(){
+        for (Koopa koopa : level.getKoopas()){
+            koopa.setUpperLeftX(koopa.getUpperLeftX() + koopa.getCurrentSpeed_x());
+        }
+        //TODO : finish it
+    }
+    public void koopasMoveY(){
+        for (Koopa koopa : level.getKoopas()){
+            koopa.setUpperLeftY(koopa.getUpperLeftY() + koopa.getCurrentSpeed_y());
+        }
+    }
+    public void spiniesMoveX(){
+        for (Spiny spiny : level.getSpinies()){
+            spiny.setUpperLeftX(spiny.getUpperLeftX() + spiny.getCurrentSpeed_x());
+        }
+        //TODO:finish it
+    }
+    public void spiniesMoveY(){
+        for (Spiny spiny : level.getSpinies()){
+            spiny.setUpperLeftY(spiny.getUpperLeftY() + spiny.getCurrentSpeed_y());
+        }
+    }
     public void characterMoveX(){
         character.setCurrentSpeed_x(0);
         if (gameFrame.getController().isGoingRight()){
             character.setCurrentSpeed_x(character.getCharacterSpeed());
+            character.setDirection("Right");
         }
         if (gameFrame.getController().isGoingLeft()) {
             character.setCurrentSpeed_x(-character.getCharacterSpeed());
+            character.setDirection("Left");
         }
         if (gameFrame.getController().isGoingRight() && gameFrame.getController().isGoingLeft()){
             character.setCurrentSpeed_x(0);
@@ -77,14 +117,26 @@ public class GameEngine implements Runnable {
         character.setUpperLeftX(character.getUpperLeftX() + character.getCurrentSpeed_x());
 
     }
-    public void characterMoveY(){
+    public void characterMoveY() throws IOException {
         if (gameFrame.getController().isGoingUp() && character.isDownCollusion() == true){
             character.setCurrentSpeed_y(-character.getCharacterJumpSpeed() + character.getCurrentSpeed_y());
         }
+        if (gameFrame.getController().isGoingDown() && character.isDownCollusion() == true && character.getCurrentPhase() > 0 && character.isSeating() == false){
+            character.seat();
+        }
+        else if(character.isSeating() == true && !gameFrame.getController().isGoingDown()){
+            character.standUp();
+            boolean canStand = true;
+            for (Block block : level.getBlocks() ){
+                if (collusion.checkCollusion(character,block)) canStand = false;
+            }
+            if (!canStand) character.seat();
+        }
+
         character.setUpperLeftY(character.getUpperLeftY() + character.getCurrentSpeed_y());
 
     }
-    public void magicalMushroomMoveX(){
+    public void magicalMushroosmMoveX(){
 
         ArrayList<MagicalMushroom> magicalMushrooms = level.getMagicalMushrooms();
         for (MagicalMushroom mushroom : magicalMushrooms){
@@ -100,10 +152,47 @@ public class GameEngine implements Runnable {
             mushroom.setUpperLeftX(mushroom.getUpperLeftX() + mushroom.getCurrentSpeed_x());
         }
     }
-    public void magicalMushroomMoveY(){
+    public void magicalMushroomsMoveY(){
         ArrayList<MagicalMushroom> magicalMushrooms = level.getMagicalMushrooms();
         for (MagicalMushroom mushroom : magicalMushrooms){
             mushroom.setUpperLeftY(mushroom.getUpperLeftY() + mushroom.getCurrentSpeed_y());
+        }
+    }
+    public void magicalStarsMoveX(){
+        ArrayList<MagicalStar> magicalStars = level.getMagicalStars();
+        for (MagicalStar magicalStar : magicalStars){
+            magicalStar.setFrameCount(magicalStar.getFrameCount()+1);
+            //we only do this in x to not count each frame twice and the mushrooms won't move in Y until they move in X;
+        }
+        for (MagicalStar magicalStar : magicalStars){
+            if (magicalStar.getFrameCount() == 40 * 3){
+                magicalStar.setCurrentSpeed_x(2);
+            }
+        }
+        for (MagicalStar magicalStar : magicalStars){
+            magicalStar.setUpperLeftX(magicalStar.getUpperLeftX() + magicalStar.getCurrentSpeed_x());
+        }
+    }
+    public void magicalStarsMoveY(){
+        for (MagicalStar magicalStar : level.getMagicalStars()){
+            if (magicalStar.getFrameCount() >= 40 * 4 && magicalStar.getFrameCount()%40 == 0 && magicalStar.isDownCollusion()){
+                magicalStar.setCurrentSpeed_y(-14);
+            }
+            magicalStar.setUpperLeftY(magicalStar.getUpperLeftY() + magicalStar.getCurrentSpeed_y());
+        }
+    }
+    public void coinsMoveY(){
+        for (Coin coin : level.getCoins()){
+            coin.setUpperLeftY(coin.getUpperLeftY() + coin.getCurrentSpeed_y());
+        }
+    }
+
+    public void characterGotHit() throws IOException {
+        if (character.getCurrentPhase() == 0) death();
+        else {
+            character.levelDown();
+            character.setCurrentSpeed_y(character.getCurrentSpeed_y() - 10);
+            character.setUpperLeftY(character.getUpperLeftY() - 60);
         }
     }
     public void flowersMove(){
@@ -140,6 +229,7 @@ public class GameEngine implements Runnable {
 
     public void checkFallDeath() throws IOException {
         if (character.getUpperLeftY() >= 600){
+            updateCurrentSectionScores(-10); //-10 + -20 in death
             death();
         }
     }
@@ -150,6 +240,7 @@ public class GameEngine implements Runnable {
     public void updateCurrentSectionScores(int amount){
         // this is for coins and enemies cuz it depends on the character phase in that moment
         thisSave.setCurrentLevelScore(thisSave.getCurrentLevelScore() + amount);
+        if (thisSave.getCurrentLevelScore() < 0) thisSave.setCurrentLevelScore(0);
     }
     public void updateCurrentLevelScores(){
         int totalScore = 0;
@@ -161,6 +252,7 @@ public class GameEngine implements Runnable {
     }
     public void death() throws IOException {
         //if hearts == 0, reset the save
+        updateCurrentSectionScores(-20);
         totalPassedTime = 0;
         stopChecking = true;
 //        try {
@@ -233,9 +325,19 @@ public class GameEngine implements Runnable {
 
     public void gravity(){
         character.setCurrentSpeed_y(character.getCurrentSpeed_y() + gravity);
-        ArrayList<MagicalMushroom> magicalMushrooms = level.getMagicalMushrooms();
-        for (MagicalMushroom mushroom : magicalMushrooms){
-            mushroom.setCurrentSpeed_y(mushroom.getCurrentSpeed_y() + gravity);
+        for (Item item : level.getItems()){
+            item.setCurrentSpeed_y(item.getCurrentSpeed_y() + gravity);
+        }
+        for (Enemy enemy : level.getEnemies_withoutFlower()){
+            enemy.setCurrentSpeed_y(enemy.getCurrentSpeed_y() +gravity);
+        }
+    }
+    public void characterInvincibility(){
+        if (character.getInvincibleFrameCount() != 0){
+            character.setInvincibleFrameCount(character.getInvincibleFrameCount()+1);
+            if (character.getInvincibleFrameCount() > 40 * 15){
+                character.setInvincible(false);
+            }
         }
     }
     @Override
@@ -265,9 +367,18 @@ public class GameEngine implements Runnable {
                     }
                 }
                 if (stopChecking == false){
+                    characterInvincibility();
+                }
+                if (stopChecking == false){
                     gravity();
                 }
-                if (stopChecking == false)moveY();
+                if (stopChecking == false) {
+                    try {
+                        moveY();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if (stopChecking == false) {
                     try {
                         collusion.resolveCollusionY();
