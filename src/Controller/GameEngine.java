@@ -12,9 +12,12 @@ import Model.User;
 import View.GameFrame;
 import View.MainMenuPage;
 
+import javax.sound.sampled.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameEngine implements Runnable {
     private int gravity = 1;
@@ -31,8 +34,8 @@ public class GameEngine implements Runnable {
     boolean stopChecking = false;
 
     int theHolyIllusion; //the illusion of movement
-
-    public GameEngine(User user, GameFrame gameFrame) throws FileNotFoundException {
+    public Clip clip;
+    public GameEngine(User user, GameFrame gameFrame) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         setUser(user);
         this.gameFrame = gameFrame;
         gameThread = new Thread(this);
@@ -45,9 +48,16 @@ public class GameEngine implements Runnable {
         character.setUpperLeftY(level.getCharacterInitialY());
         character.setCurrentPhase(level.getMarioState());
         collusion = new Collusion(level,character,this);
+        File file = new File("Soundtracks/1.wav");
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.loop(10);
+        clip.start();
+        //Scanner scanner = new Scanner(System.in);
         gameThread.start();
     }
-    public GameEngine(User user, GameFrame gameFrame,int phase) throws FileNotFoundException {
+    public GameEngine(User user, GameFrame gameFrame,int phase) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         setUser(user);
         this.gameFrame = gameFrame;
         gameThread = new Thread(this);
@@ -61,6 +71,13 @@ public class GameEngine implements Runnable {
         character.setUpperLeftY(level.getCharacterInitialY());
         character.setCurrentPhase(level.getMarioState());
         collusion = new Collusion(level,character,this);
+        File file = new File("Soundtracks/1.wav");
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.loop(10);
+        clip.start();
+        //Scanner scanner = new Scanner(System.in);
         gameThread.start();
     }
 
@@ -204,7 +221,7 @@ public class GameEngine implements Runnable {
         }
     }
 
-    public void characterGotHit() throws IOException {
+    public void characterGotHit() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         if (character.getCurrentPhase() == 0) death();
         else {
             character.levelDown();
@@ -244,7 +261,7 @@ public class GameEngine implements Runnable {
     }
 
 
-    public void checkFallDeath() throws IOException {
+    public void checkFallDeath() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         if (character.getUpperLeftY() >= 600){
             updateCurrentSectionScores(-10); //-10 + -20 in death
             death();
@@ -267,7 +284,7 @@ public class GameEngine implements Runnable {
         totalScore *= character.getCurrentPhase();
         thisSave.setCurrentLevelScore(thisSave.getCurrentLevelScore() + totalScore);
     }
-    public void death() throws IOException {
+    public void death() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         //if hearts == 0, reset the save
         updateCurrentSectionScores(-20);
         totalPassedTime = 0;
@@ -285,20 +302,23 @@ public class GameEngine implements Runnable {
         //decreasing hearts
         thisSave.setRemainingHearts(thisSave.getRemainingHearts() - 1);
         if (thisSave.getRemainingHearts() == 0){
+            clip.stop();
             SavedGame[] newSavedGames = user.getCurrentSavedGames();
-            newSavedGames[user.getSelectedSavedGameIndex()] = new SavedGame(user);
+            newSavedGames[user.getSelectedSavedGameIndex()].setLastSection(1);
             user.setCurrentSavedGames(newSavedGames);
             gameFrame.dispose();
             gameEngineIsOn = false;
             new GameFrame(user);
         }
     }
-    public void sectionEnds() throws FileNotFoundException {
+    public void sectionEnds() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        clip.stop();
         stopChecking = true;
         int phase = character.getCurrentPhase();
         updateCurrentLevelScores();//don't forget that this exists :))
-        if (LevelConstructor.numberOfSections(level.getLevelNumber()-1) - 1 == level.getSectionNumber()){
+        if (LevelConstructor.numberOfSections(level.getLevelNumber()-1) == level.getSectionNumber()){
             thisSave.setTotalScore(thisSave.getTotalScore()+thisSave.getCurrentLevelScore());
+
             if (user.getHighScore() < thisSave.getTotalScore()){
                 user.setHighScore(thisSave.getTotalScore());
             }
@@ -314,7 +334,7 @@ public class GameEngine implements Runnable {
             }
             else{
                 thisSave.setLastLevel(thisSave.getLastLevel()+1);
-                thisSave.setLastSection(1);
+                thisSave.setLastSection(0);
                 saveThisSave();
                 new GameFrame(user);
             }
@@ -424,6 +444,10 @@ public class GameEngine implements Runnable {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
                     }
                 }
                 if (stopChecking == false) spiniesMechanism();
@@ -448,6 +472,10 @@ public class GameEngine implements Runnable {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
                     }
                 }
                 if (stopChecking == false) moveX();
@@ -465,7 +493,7 @@ public class GameEngine implements Runnable {
                         checkFallDeath();
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException(e);
-                    } catch (IOException e) {
+                    } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
                         throw new RuntimeException(e);
                     }
                 }

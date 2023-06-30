@@ -33,8 +33,8 @@ public class LevelConstructor
         _section--; //making level and section not 0 based
 
         //
-        _level = 0;
-        _section = 4;
+//        _level = 2;
+//        _section = 2;
         //
         long hearts;
         long marioState;

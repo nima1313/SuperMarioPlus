@@ -17,6 +17,7 @@ public class GameExitPanel extends JPanel {
         backButton.setVisible(true);
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                gameEngine.clip.stop();
                 gameEngine.setGameEngineIsOn(false);
                 gameEngine.setStopChecking(true);
                 gameFrame.dispose();

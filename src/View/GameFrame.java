@@ -5,11 +5,14 @@ import Controller.GameEngine;
 import Model.Levels.Level;
 import Model.User;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class GameFrame extends JFrame {
 
@@ -24,7 +27,7 @@ public class GameFrame extends JFrame {
     CoinPanel coinPanel;
     LevelNamePanel levelNamePanel;
     GameExitPanel gameExitPanel;
-    public GameFrame(User user) throws FileNotFoundException {
+    public GameFrame(User user) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         super("HI");
         setSize(1000,1000);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +63,7 @@ public class GameFrame extends JFrame {
         setLayout(null);
         setVisible(true);
     }
-    public GameFrame(User user, int phase) throws FileNotFoundException {
+    public GameFrame(User user, int phase) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         super("HI");
         setSize(1000,1000);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

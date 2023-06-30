@@ -3,11 +3,14 @@ package View;
 import Model.SavedGame;
 import Model.User;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class NewGamePage extends JFrame {
     User user;
@@ -88,6 +91,12 @@ public class NewGamePage extends JFrame {
                 try {
                     new GameFrame(user);
                 } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                } catch (UnsupportedAudioFileException ex) {
+                    throw new RuntimeException(ex);
+                } catch (LineUnavailableException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
                 dispose();

@@ -7,7 +7,7 @@
         {
           "length": 4000,
           "time": 60,
-          "blocks": [ { "x": 2480, "y": 300, "type": "NormalBlock", "item": "" }, { "x": 500, "y": 300, "type": "GiftBlock", "item": "MagicalMushroom" }, { "x": 560, "y": 300, "type": "NormalBlock", "item": "" }, { "x": 440, "y": 300, "type": "CoinBlock", "item": "Coin" }, { "x": 800, "y": 300, "type": "EmptyBlock", "item": "" } ],
+          "blocks": [ { "x": 2480, "y": 300, "type": "MultiCoinBlock", "item": "" }, { "x": 500, "y": 300, "type": "GiftBlock", "item": "MagicalMushroom" }, { "x": 560, "y": 300, "type": "NormalBlock", "item": "" }, { "x": 440, "y": 300, "type": "CoinBlock", "item": "Coin" }, { "x": 800, "y": 300, "type": "EmptyBlock", "item": "" } ],
           "enemies": [ { "x": 1310, "y": 320, "type": "Flower" }, { "x": 1610, "y": 320, "type": "Flower" }, { "x": 3480, "y": 220, "type": "Flower" }, {"x" : 660 , "y" : 300, "type" :  "Spiny"} ],
           "pipes": [ { "x": 1300, "y": 300, "type": "WithFlower", "section": "" }, { "x": 1450, "y": 300, "type": "Simple", "section": "" }, { "x": 1600, "y": 300, "type": "WithFlower", "section": "" }, { "x": 3470, "y": 200, "type": "WithFlower", "section": "" } ],
           "spawnPipe": {"x": 300, "y": 500, "type": "Simple", "section": "" },
@@ -45,28 +45,105 @@
           "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1000, "height": 200, "type": "Floor" },{ "x": 1800, "y": 400, "length": 1000, "height": 200, "type": "Floor" } , { "x": 2900, "y": 400, "length": 500, "height": 200, "type": "Floor" },{ "x": 3500, "y": 400, "length": 500, "height": 200, "type": "Floor" }, { "x": 4000, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
         },
         {
-          "length": 4000,
+          "length": 3000,
           "time": 60,
-          "blocks": [ { "x": 500, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 540, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 580, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 620, "y": 260, "type": "NormalBlock", "item": "" },{ "x": 660, "y": 220, "type": "NormalBlock", "item": "" },{ "x": 660, "y": 100, "type": "GiftBlock", "item": "MagicalStar" } ],
-          "enemies": [ {"x" : 520 ,"y" : 200, "type" :  "Goomba"},{"x" : 800 ,"y" : 200, "type" :  "Spiny"} ],
+          "blocks": [ { "x": 500, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 540, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 580, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 620, "y": 260, "type": "NormalBlock", "item": "" },{ "x": 660, "y": 220, "type": "NormalBlock", "item": "" },{ "x": 660, "y": 100, "type": "GiftBlock", "item": "MagicalStar" },{ "x": 2700, "y": 160, "type": "CoinBlock", "item": "Coin" },{ "x": 2740, "y": 160, "type": "CoinBlock", "item": "Coin" } ],
+          "enemies": [ {"x" : 520 ,"y" : 200, "type" :  "Goomba"},{"x" : 800 ,"y" : 200, "type" :  "Spiny"},{"x" : 2010 ,"y" : 320, "type" :  "Flower"}, {"x" : 2300 ,"y" : 250, "type" :  "Spiny"},{"x" : 2500 ,"y" : 250, "type" :  "Goomba"},{"x" : 2800 ,"y" : 250, "type" :  "Spiny"} ],
           "pipes": [ { "x": 2000, "y": 300, "type": "WithFlower", "section": "" } ],
           "spawnPipe": {"x": 300, "y": 500, "type": "Simple", "section": "" },
           "items": [  ],
-          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1500, "height": 200, "type": "Floor" } ,{ "x": 0, "y": 1600, "length": 2400, "height": 200, "type": "Floor" }, { "x": 4000, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1500, "height": 200, "type": "Floor" } ,{ "x": 1600, "y": 400, "length": 1400, "height": 200, "type": "Floor" }, { "x": 3000, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
         }
       ]
     },
     {
       "sections": [
         {
-          "length": 4000,
+          "length": 3000,
           "time": 60,
-          "blocks": [  ],
-          "enemies": [  ],
+          "blocks": [ { "x": 2480, "y": 300, "type": "EmptyBlock", "item": "" }, { "x": 300, "y": 300, "type": "GiftBlock", "item": "MagicalStar" }, { "x": 520, "y": 300, "type": "NormalBlock", "item": "" }, { "x": 440, "y": 300, "type": "CoinBlock", "item": "Coin" },{ "x": 440, "y": 220, "type": "CoinBlock", "item": "Coin" }, { "x": 800, "y": 300, "type": "EmptyBlock", "item": "" } , { "x": 3800, "y": 300, "type": "EmptyBlock", "item": "" } ],
+          "enemies": [ { "x": 1460, "y": 320, "type": "Flower" }, { "x": 3480, "y": 220, "type": "Flower" }, {"x" : 660 , "y" : 300, "type" :  "Spiny"},{"x" : 2000 , "y" : 300, "type" :  "Koopa"},{"x" : 2400 , "y" : 300, "type" :  "Goomba"},{"x" : 2700 , "y" : 300, "type" :  "Spiny"},{"x" : 3200 , "y" : 300, "type" :  "Goomba"} ],
+          "pipes": [ { "x": 1450, "y": 300, "type": "WithFlower", "section": "" }, { "x": 3470, "y": 200, "type": "WithFlower", "section": "" } ],
+          "spawnPipe": {"x": 300, "y": 500, "type": "Simple", "section": "" },
+          "items": [  ],
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1000, "height": 200, "type": "Floor" }, { "x": 1000, "y": 400, "length": 1000, "height": 200, "type": "Floor" }, { "x": 2000, "y": 400, "length": 1350, "height": 200, "type": "Floor" }, { "x": 3400, "y": 300, "length": 200, "height": 100, "type": "Floor" }, { "x": 4000, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+        },
+
+
+        {
+          "length": 2500,
+          "time": 60,
+          "blocks": [{ "x": 600, "y": 300, "type": "CoinBlock", "item": "" }, { "x": 640, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 680, "y": 300, "type": "MultiCoinBlock", "item": "" },{ "x": 720, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 760, "y": 300, "type": "NormalBlock", "item": "" } ],
+          "enemies": [{"x" : 660 ,"y" :  200, "type" :  "Koopa"},{"x" : 700 ,"y" :  200, "type" :  "Goomba"}, {"x" : 1000 ,"y" :  200, "type" :  "Spiny"},{"x" : 1250 ,"y" :  200, "type" :  "Goomba"},{"x" : 1500 ,"y" :  200, "type" :  "Spiny"},{"x" : 1700 ,"y" :  200, "type" :  "Goomba"},{"x" : 2000 ,"y" :  200, "type" :  "Spiny"},{"x" : 2300 ,"y" :  200, "type" :  "Koompa"}],
           "pipes": [  ],
           "spawnPipe": {"x": 300, "y": 500, "type": "Simple", "section": "" },
           "items": [  ],
-          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 4000, "height": 200, "type": "Floor" }, { "x": 4000, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 2500, "height": 200, "type": "Floor" }, { "x": 2500, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+        },
+        {
+          "length": 3000,
+          "time": 60,
+          "blocks": [ { "x": 500, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 540, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 580, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 620, "y": 260, "type": "NormalBlock", "item": "" },{ "x": 660, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 620, "y": 160, "type": "GiftBlock", "item": "MagicalStar" },{ "x": 2700, "y": 160, "type": "CoinBlock", "item": "Coin" },{ "x": 2740, "y": 160, "type": "CoinBlock", "item": "Coin" } ],
+          "enemies": [ {"x" : 520 ,"y" : 200, "type" :  "Goomba"},{"x" : 800 ,"y" : 200, "type" :  "Spiny"},{"x" : 2010 ,"y" : 320, "type" :  "Flower"}, {"x" : 2300 ,"y" : 250, "type" :  "Goomba"},{"x" : 2500 ,"y" : 250, "type" :  "Goomba"},{"x" : 2800 ,"y" : 250, "type" :  "Spiny"} ],
+          "pipes": [ { "x": 2000, "y": 300, "type": "WithFlower", "section": "" },{ "x": 2200, "y": 300, "type": "Simple", "section": "" } ],
+          "spawnPipe": {"x": 300, "y": 500, "type": "Simple", "section": "" },
+          "items": [  ],
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1500, "height": 200, "type": "Floor" } ,{ "x": 1600, "y": 400, "length": 1400, "height": 200, "type": "Floor" }, { "x": 3000, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+        },
+        {
+          "length": 4000,
+          "time": 60,
+          "blocks": [ { "x": 2480, "y": 300, "type": "NormalBlock", "item": "" }, { "x": 560, "y": 300, "type": "GiftBlock", "item": "Coin" }, { "x": 500, "y": 300, "type": "NormalBlock", "item": "" }, { "x": 440, "y": 300, "type": "CoinBlock", "item": "Coin" }, { "x": 800, "y": 300, "type": "EmptyBlock", "item": "" } ],
+          "enemies": [ { "x": 1310, "y": 320, "type": "Flower" }, { "x": 1610, "y": 320, "type": "Flower" }, { "x": 3480, "y": 220, "type": "Flower" }, {"x" : 660 , "y" : 300, "type" :  "Koopa"} ],
+          "pipes": [ { "x": 1300, "y": 300, "type": "WithFlower", "section": "" }, { "x": 1450, "y": 300, "type": "Simple", "section": "" }, { "x": 1600, "y": 300, "type": "WithFlower", "section": "" }, { "x": 3470, "y": 200, "type": "WithFlower", "section": "" } ],
+          "spawnPipe": {"x": 300, "y": 500, "type": "Simple", "section": "" },
+          "items": [ { "x": 350, "y": 368, "type": "Coin" }, { "x": 650, "y": 368, "type": "Coin" }, { "x": 2484, "y": 268, "type": "Coin" }, { "x": 2368, "y": 368, "type": "Coin" }, { "x": 2600, "y": 368, "type": "Coin" }, { "x": 3068, "y": 368, "type": "Coin" }, { "x": 3168, "y": 368, "type": "Coin" }, { "x": 3268, "y": 368, "type": "Coin" } ],
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1000, "height": 200, "type": "Floor" }, { "x": 1000, "y": 400, "length": 1000, "height": 200, "type": "Floor" }, { "x": 2000, "y": 400, "length": 400, "height": 200, "type": "Floor" }, { "x": 2600, "y": 400, "length": 400, "height": 200, "type": "Floor" }, { "x": 3000, "y": 400, "length": 1000, "height": 200, "type": "Floor" }, { "x": 3400, "y": 300, "length": 200, "height": 100, "type": "Floor" }, { "x": 4000, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+        },
+        {
+          "length": 4000,
+          "time": 60,
+          "blocks": [ { "x": 600, "y": 300, "type": "GiftBlock", "item": "MagicalFlower" } , { "x": 1100, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 1250, "y": 300, "type": "EmptyBlock", "item": "" },{ "x": 1500, "y": 300, "type": "NormalBlock", "item": "" },{ "x": 1600, "y": 300, "type": "NormalBlock", "item": "" }],
+          "enemies": [ {"x" : 660 ,"y" : 400, "type" :  "Goomba"},{"x" : 400 ,"y" :  400, "type" :  "Spiny"}, {"x" : 1620 ,"y" :  200, "type" :  "Goomba"},{"x" : 2010 ,"y" : 320, "type" :  "Flower"},{"x" : 3200 ,"y" : 200, "type" :  "Spiny"},{"x" : 3600 ,"y" : 200, "type" :  "Spiny"}],
+          "pipes": [ { "x": 2000, "y": 300, "type": "WithFlower", "section": "" } ,{ "x": 2200, "y": 300, "type": "Simple", "section": "" } ],
+          "spawnPipe": {"x": 300, "y": 500, "type": "Simple", "section": "" },
+          "items": [  ],
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1000, "height": 200, "type": "Floor" },{ "x": 1800, "y": 400, "length": 1000, "height": 200, "type": "Floor" } , { "x": 2900, "y": 400, "length": 500, "height": 200, "type": "Floor" },{ "x": 3500, "y": 400, "length": 500, "height": 200, "type": "Floor" }, { "x": 4000, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+        }
+      ]
+    },
+    {
+      "sections": [
+        {
+          "length": 1040,
+          "time": 100,
+          "blocks": [ { "x": 400, "y": 240, "type": "GiftBlock", "item": "Coin" },{ "x": 440, "y": 240, "type": "GiftBlock", "item": "MagicalStar" },{ "x": 480, "y": 240, "type": "NormalBlock", "item": "" },{ "x": 520, "y": 240, "type": "NormalBlock", "item": "" } ],
+          "enemies": [ {"x" : 400 ,"y" : 200, "type" :  "Goomba"},{"x" : 640 ,"y" : 360, "type" :  "Goomba"} ],
+          "pipes": [ { "x": 240, "y": 300, "type": "Simple", "section": "" },{ "x": 800, "y": 300, "type": "Simple", "section": "" } ],
+          "spawnPipe": {"x": 10, "y": 0, "type": "Simple", "section": "" },
+          "items": [  ],
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1040, "height": 200, "type": "Floor" }, { "x": 1040, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+        },
+        {
+          "length": 920,
+          "time": 80  ,
+          "blocks": [ { "x": 160, "y": 240, "type": "NormalBlock", "item": "" },{ "x": 200, "y": 240, "type": "NormalBlock", "item": "" },{ "x": 240, "y": 240, "type": "GiftBlock", "item": "Coin" },{ "x": 320, "y": 120, "type": "NormalBlock", "item": "" },{ "x": 480, "y": 120, "type": "NormalBlock", "item": "" },{ "x": 520, "y": 120, "type": "NormalBlock", "item": "" },{ "x": 520, "y": 120, "type": "NormalBlock", "item": "" } ],
+          "enemies": [ {"x" : 160 ,"y" : 200, "type" :  "Goomba"},{"x" : 280 ,"y" : 80, "type" :  "Koopa"},{"x" : 560 ,"y" : 80, "type" :  "Spiny"} ],
+          "pipes": [ { "x": 920, "y": 300, "type": "Simple", "section": "" } ],
+          "spawnPipe": {"x": 10, "y": 0, "type": "Simple", "section": "" },
+          "items": [  ],
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 920, "height": 200, "type": "Floor" }, { "x": 920, "y": 0, "length": 1000, "height": 1000, "type": "EndWall" } ]
+        },
+        {
+          "length": 1000,
+          "time": 1000,
+          "blocks": [ { "x": 80, "y": 280, "type": "NormalBlock", "item": "" },{ "x": 120, "y": 280, "type": "NormalBlock", "item": "" },{ "x": 160, "y": 280, "type": "NormalBlock", "item": "" },{ "x": 200, "y": 280, "type": "NormalBlock", "item": "" },{ "x": 840, "y": 280, "type": "NormalBlock", "item": "" },{ "x": 280, "y": 160, "type": "GiftBlock", "item": "MagicalStar" },],
+          "enemies": [  ],
+          "pipes": [  ],
+          "spawnPipe": {"x": 10, "y": 10, "type": "Simple", "section": "" },
+          "items": [  ],
+          "physicalObjects": [ { "x": -200, "y": 0, "length": 200, "height": 600, "type": "Floor" }, { "x": 0, "y": 400, "length": 1000, "height": 200, "type": "Floor" }, { "x": 1000, "y": 0, "length": 1000, "height": 1000, "type": "Floor" },{ "x": -1000, "y": 0, "length": 1, "height": 1000, "type": "EndWall" } ]
+
         }
       ]
     }

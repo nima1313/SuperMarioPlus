@@ -10,6 +10,8 @@ import Model.PhysicalObjects.Floor;
 import Model.PhysicalObjects.PhysicalObject;
 import Model.Pipes.Pipe;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -173,9 +175,10 @@ public class Collusion{
         return false;
     }
 
-    private void endWallResolveCollusionY() throws FileNotFoundException {
+    private void endWallResolveCollusionY() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         //checking EndWall collusion
         EndWall endWalls = level.getEndWalls();
+        if (endWalls != null)
         if (checkCollusion(character,endWalls)){
             gameEngine.sectionEnds();
         }
@@ -210,7 +213,7 @@ public class Collusion{
             character.setUpCollusion(true);
         }
     }
-    private void flowersResolveCollusionY() throws IOException {
+    private void flowersResolveCollusionY() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         ArrayList<Flower> flowers = level.getFlowers();
         for (int i = 0 ; i < flowers.size();i++){
             Flower thisFlower = flowers.get(i);
@@ -226,7 +229,7 @@ public class Collusion{
         }
         level.setFlowers(flowers);
     }
-    private void goombasResolveCollusionY() throws IOException {
+    private void goombasResolveCollusionY() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<Goomba> goombas = level.getGoombas();
         collusionIndex = new ArrayList<>();
@@ -250,7 +253,7 @@ public class Collusion{
         }
         level.setGoombas(goombas);
     }
-    private void spiniesResolveCollusionY() throws IOException {
+    private void spiniesResolveCollusionY() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<Spiny> spinies = level.getSpinies();
         collusionIndex = new ArrayList<>();
@@ -268,7 +271,7 @@ public class Collusion{
         level.setSpinies(spinies);
     }
 
-    private void koopasResolveCollusionY() throws IOException {
+    private void koopasResolveCollusionY() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         ArrayList<Integer> collusionIndex = new ArrayList<>();
         ArrayList<Koopa> koopas = level.getKoopas();
         collusionIndex = new ArrayList<>();
@@ -687,7 +690,7 @@ public class Collusion{
 
 
 
-    public void resolveCollusionY() throws IOException {
+    public void resolveCollusionY() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         //TODO : make it cleaner using collusion class functions. (like how it's implemented in resolveCollusionX. I fixed flowers collusion but no others)
 
         Collusion collusion = this;
@@ -747,9 +750,10 @@ public class Collusion{
         giftBlocksResolveCollusionY();
     }
 
-    private void endWallResolveCollusionX() throws FileNotFoundException {
+    private void endWallResolveCollusionX() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         EndWall endWalls = level.getEndWalls();
-        if (checkCollusion(character,endWalls)){
+        if (endWalls != null)
+            if (checkCollusion(character,endWalls)){
             gameEngine.sectionEnds();
         }
     }
@@ -765,7 +769,13 @@ public class Collusion{
                     flowers.set(i,thisFlower);
                 }
                 else {
-                    gameEngine.characterGotHit();
+                    try {
+                        gameEngine.characterGotHit();
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
@@ -781,7 +791,13 @@ public class Collusion{
                     goombas.set(i,thisGoomba);
                 }
                 else {
-                    gameEngine.characterGotHit();
+                    try {
+                        gameEngine.characterGotHit();
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
@@ -798,7 +814,13 @@ public class Collusion{
                     koopas.set(i,thisKoopa);
                 }
                 else {
-                    gameEngine.characterGotHit();
+                    try {
+                        gameEngine.characterGotHit();
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
@@ -1229,7 +1251,13 @@ public class Collusion{
         enemiesResolveCollusionX();
 
         //checking EndWall collusion
-        endWallResolveCollusionX();
+        try {
+            endWallResolveCollusionX();
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
 
         //checking enemies collusion//
         //flowers
