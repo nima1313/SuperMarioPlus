@@ -1,4 +1,4 @@
-# AP_Project
+# SuperMarioPlus
 note : blocks with + signs on them are powerUpBlocks and their logic hasn't been implemented yet
 users and passwrods :
 
